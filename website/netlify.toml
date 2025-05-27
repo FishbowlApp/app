@@ -1,0 +1,19 @@
+[[redirects]]
+  from = "/inclusivity"
+  to = "https://blog.octocon.app/private/778164614321029120/tumblr_UsEWNmLTyLp1fzpky"
+  status = 301
+
+[[redirects]]
+  from = "/community"
+  to = "https://discord.gg/xa3xnfgPvB"
+  status = 301
+
+[[redirects]]
+  from = "/discord"
+  to = "https://discord.gg/octocon"
+  status = 301
+
+[[redirects]]
+  from = "/invite"
+  to = "https://discord.com/oauth2/authorize?client_id=1162755699433029723&permissions=9090969500736&integration_type=0&scope=bot+applications.commands"
+  status = 301
