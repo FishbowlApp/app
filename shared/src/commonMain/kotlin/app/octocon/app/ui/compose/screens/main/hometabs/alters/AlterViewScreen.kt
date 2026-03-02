@@ -110,7 +110,8 @@ fun AlterViewScreen(
     colorMode = colorMode,
     dynamicColorType = dynamicColorType,
     colorContrastLevel = colorContrastLevel,
-    amoledMode = amoledMode
+    amoledMode = amoledMode,
+    reduceMotion = settings.reduceMotion
   ) {
     OctoScaffold(
       hasHoistedBottomBar = true,

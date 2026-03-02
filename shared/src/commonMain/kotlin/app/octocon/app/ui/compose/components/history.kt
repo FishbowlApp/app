@@ -13,8 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Notes
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -74,16 +74,17 @@ fun FrontHistoryItemCard(
     colorMode = settings.colorMode,
     dynamicColorType = settings.dynamicColorType,
     colorContrastLevel = settings.colorContrastLevel,
-    amoledMode = settings.amoledMode
+    amoledMode = settings.amoledMode,
+    reduceMotion = settings.reduceMotion
   ) {
     Column(
       modifier = Modifier.padding(horizontal = GLOBAL_PADDING, vertical = 4.dp)
     ) {
-      ElevatedCard(
+      Card(
         modifier = Modifier.height(frontHistoryItemCardHeight)
           .fillMaxWidth(),
-        colors = CardDefaults.elevatedCardColors(
-          containerColor = MaterialTheme.colorScheme.surfaceContainer
+        colors = CardDefaults.cardColors(
+          containerColor = MaterialTheme.colorScheme.surfaceContainerLow
         ),
         onClick = onClick
       ) {

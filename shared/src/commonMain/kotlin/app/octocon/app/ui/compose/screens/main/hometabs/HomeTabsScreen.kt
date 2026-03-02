@@ -232,7 +232,8 @@ fun NavigationRail(
     colorMode = settings.colorMode,
     dynamicColorType = settings.dynamicColorType,
     colorContrastLevel = settings.colorContrastLevel,
-    amoledMode = settings.amoledMode
+    amoledMode = settings.amoledMode,
+    reduceMotion = settings.reduceMotion
   ) {
     NavigationRail(
       modifier = modifier,
@@ -301,7 +302,8 @@ fun BottomBar(
     colorMode = settings.colorMode,
     dynamicColorType = settings.dynamicColorType,
     colorContrastLevel = settings.colorContrastLevel,
-    amoledMode = settings.amoledMode
+    amoledMode = settings.amoledMode,
+    reduceMotion = settings.reduceMotion
   ) {
     NavigationBar(
       // windowInsets = WindowInsets.navigationBars

@@ -29,6 +29,7 @@ import androidx.compose.material.icons.rounded.PushPin
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
@@ -319,12 +320,13 @@ fun LazyItemScope.GlobalJournalEntryCard(
     colorMode = settings.colorMode,
     dynamicColorType = settings.dynamicColorType,
     colorContrastLevel = settings.colorContrastLevel,
-    amoledMode = settings.amoledMode
+    amoledMode = settings.amoledMode,
+    reduceMotion = settings.reduceMotion
   ) {
-    ElevatedCard(
+    Card(
       modifier = modifier.fillMaxWidth().animateItem(),
-      colors = CardDefaults.elevatedCardColors(
-        containerColor = MaterialTheme.colorScheme.surfaceContainer
+      colors = CardDefaults.cardColors(
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLow
       )
     ) {
       Box(
@@ -371,7 +373,8 @@ fun LazyItemScope.GlobalJournalEntryCard(
                     colorMode = settings.colorMode,
                     dynamicColorType = settings.dynamicColorType,
                     colorContrastLevel = settings.colorContrastLevel,
-                    amoledMode = settings.amoledMode
+                    amoledMode = settings.amoledMode,
+                    reduceMotion = settings.reduceMotion
                   ) {
                     if (alter.avatarUrl == null || alter.avatarUrl == "") {
                       GlobalJournalCardPlaceholderImage(placeholderPainter)

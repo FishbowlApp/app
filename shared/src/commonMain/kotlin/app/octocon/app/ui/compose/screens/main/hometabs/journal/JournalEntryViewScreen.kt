@@ -184,7 +184,8 @@ fun JournalEntryViewScreen(
     colorMode = settings.colorMode,
     dynamicColorType = settings.dynamicColorType,
     colorContrastLevel = settings.colorContrastLevel,
-    amoledMode = settings.amoledMode
+    amoledMode = settings.amoledMode,
+    reduceMotion = settings.reduceMotion
   ) {
     val markdownColors = markdownColor()
 
@@ -277,7 +278,8 @@ fun JournalEntryViewScreen(
                       colorMode = settings.colorMode,
                       dynamicColorType = settings.dynamicColorType,
                       colorContrastLevel = settings.colorContrastLevel,
-                      amoledMode = settings.amoledMode
+                      amoledMode = settings.amoledMode,
+                      reduceMotion = settings.reduceMotion
                     ) {
                       if (alter.avatarUrl.isNullOrBlank()) {
                         GlobalJournalCardPlaceholderImage(placeholderPainter, onClick = {

@@ -238,6 +238,7 @@ fun UpdateColorDialog(
     dynamicColorType = settings.dynamicColorType,
     colorContrastLevel = settings.colorContrastLevel,
     amoledMode = settings.amoledMode,
+    reduceMotion = settings.reduceMotion,
     shouldCache = false
   ) {
     AlertDialog(

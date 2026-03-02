@@ -1,11 +1,16 @@
 package app.octocon.app.ui.compose.theme
 
 import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MotionScheme
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
@@ -30,6 +35,7 @@ import app.octocon.app.ThemeColor
 import app.octocon.app.utils.isGrayscale
 import com.materialkolor.PaletteStyle
 import com.materialkolor.dynamicColorScheme
+import com.materialkolor.dynamiccolor.ColorSpec
 
 private object OctoTypefaceTokens {
   val Plain = FontFamily.SansSerif
@@ -380,6 +386,7 @@ val LocalOctoShapes = staticCompositionLocalOf<Shapes> {
   error("No OctoShapes provided")
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun OctoconTheme(
   fontChoice: FontChoice,
@@ -390,6 +397,7 @@ fun OctoconTheme(
   dynamicColorType: DynamicColorType,
   colorContrastLevel: ColorContrastLevel,
   amoledMode: Boolean,
+  reduceMotion: Boolean,
   content: @Composable () -> Unit
 ) {
   val typography = generateTypography(fontChoice, fontSizeScalar)
@@ -441,14 +449,26 @@ fun OctoconTheme(
     inverseOnSurface = colorScheme.inverseOnSurface.animate(animationSpec),
     outline = colorScheme.outline.animate(animationSpec),
     outlineVariant = colorScheme.outlineVariant.animate(animationSpec),
-    scrim = colorScheme.scrim.animate(animationSpec)
+    scrim = colorScheme.scrim.animate(animationSpec),
+    primaryFixed = colorScheme.primaryFixed.animate(animationSpec),
+    primaryFixedDim = colorScheme.primaryFixedDim.animate(animationSpec),
+    onPrimaryFixed = colorScheme.onPrimaryFixed.animate(animationSpec),
+    onPrimaryFixedVariant = colorScheme.onPrimaryFixedVariant.animate(animationSpec),
+    secondaryFixed = colorScheme.secondaryFixed.animate(animationSpec),
+    secondaryFixedDim = colorScheme.secondaryFixedDim.animate(animationSpec),
+    onSecondaryFixed = colorScheme.onSecondaryFixed.animate(animationSpec),
+    onSecondaryFixedVariant = colorScheme.onSecondaryFixedVariant.animate(animationSpec),
+    tertiaryFixed = colorScheme.tertiaryFixed.animate(animationSpec),
+    tertiaryFixedDim = colorScheme.tertiaryFixedDim.animate(animationSpec),
+    onTertiaryFixed = colorScheme.onTertiaryFixed.animate(animationSpec),
+    onTertiaryFixedVariant = colorScheme.onTertiaryFixedVariant.animate(animationSpec)
   )
 
   CompositionLocalProvider(
     LocalOctoTypography provides typography,
     LocalOctoShapes provides shapes
   ) {
-    MaterialTheme(
+    MaterialExpressiveTheme(
       colorScheme = scheme,
       /*if (colorMode.shouldUseDarkTheme())
         themeColor.themeColors.darkColors
@@ -459,6 +479,7 @@ fun OctoconTheme(
         isAmoled = true
       ),*/
       typography = typography,
+      motionScheme = if(reduceMotion) ReducedMotionScheme else null,
       shapes = shapes,
       content = content
     )
@@ -506,14 +527,16 @@ object SchemeCache {
         isDark = false,
         isAmoled = isAmoled,
         contrastLevel = colorContrastLevel.doubleValue,
-        style = paletteStyle
+        style = paletteStyle,
+        specVersion = ColorSpec.SpecVersion.SPEC_2025
       ),
       dynamicColorScheme(
         Color(intColor),
         isDark = true,
         isAmoled = isAmoled,
         contrastLevel = colorContrastLevel.doubleValue,
-        style = paletteStyle
+        style = paletteStyle,
+        specVersion = ColorSpec.SpecVersion.SPEC_2025
       )
     )
   }
@@ -543,6 +566,7 @@ object SchemeCache {
     }
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ThemeFromColor(
   color: String?,
@@ -550,6 +574,7 @@ fun ThemeFromColor(
   dynamicColorType: DynamicColorType,
   colorContrastLevel: ColorContrastLevel,
   amoledMode: Boolean,
+  reduceMotion: Boolean,
   shouldCache: Boolean = true,
   content: @Composable () -> Unit
 ) {
@@ -614,9 +639,10 @@ fun ThemeFromColor(
     scrim = colorScheme.scrim.animate(animationSpec),
     )
 
-  MaterialTheme(
+  MaterialExpressiveTheme(
     colorScheme = scheme,
     shapes = shapes,
+    motionScheme = if(reduceMotion) ReducedMotionScheme else null,
     typography = typography,
     content = content
   )
@@ -639,5 +665,51 @@ fun hexStringToARGBInt(hex: String): Int {
     6 -> color.toInt(16) or 0xFF000000.toInt()
     8 -> color.toInt(16)
     else -> throw IllegalArgumentException("Invalid color string: $hex")
+  }
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Suppress("UNCHECKED_CAST")
+private object ReducedMotionScheme : MotionScheme {
+  private val defaultSpatialSpec =
+    tween<Any>(0)
+
+  private val fastSpatialSpec =
+    tween<Any>(0)
+
+  private val slowSpatialSpec =
+    tween<Any>(0)
+
+  private val defaultEffectsSpec =
+    tween<Any>(0)
+
+  private val fastEffectsSpec =
+    tween<Any>(0)
+
+  private val slowEffectsSpec =
+    tween<Any>(0)
+
+  override fun <T> defaultSpatialSpec(): FiniteAnimationSpec<T> {
+    return defaultSpatialSpec as FiniteAnimationSpec<T>
+  }
+
+  override fun <T> fastSpatialSpec(): FiniteAnimationSpec<T> {
+    return fastSpatialSpec as FiniteAnimationSpec<T>
+  }
+
+  override fun <T> slowSpatialSpec(): FiniteAnimationSpec<T> {
+    return slowSpatialSpec as FiniteAnimationSpec<T>
+  }
+
+  override fun <T> defaultEffectsSpec(): FiniteAnimationSpec<T> {
+    return defaultEffectsSpec as FiniteAnimationSpec<T>
+  }
+
+  override fun <T> fastEffectsSpec(): FiniteAnimationSpec<T> {
+    return fastEffectsSpec as FiniteAnimationSpec<T>
+  }
+
+  override fun <T> slowEffectsSpec(): FiniteAnimationSpec<T> {
+    return slowEffectsSpec as FiniteAnimationSpec<T>
   }
 }

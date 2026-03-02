@@ -38,8 +38,8 @@ import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -301,13 +301,13 @@ fun FriendCard(
       .build()
   ) else null*/
 
-  ElevatedCard(
+  Card(
     modifier = Modifier
       .fillMaxWidth()
       .clip(CardDefaults.elevatedShape)
       .animateContentSize(),
-    colors = CardDefaults.elevatedCardColors(
-      containerColor = MaterialTheme.colorScheme.surfaceContainer
+    colors = CardDefaults.cardColors(
+      containerColor = MaterialTheme.colorScheme.surfaceContainerLow
     )
   ) {
     Row(
@@ -414,7 +414,7 @@ fun FriendCard(
       HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
     }
 
-    if (fronting.isEmpty()) return@ElevatedCard
+    if (fronting.isEmpty()) return@Card
 
     AnimatedVisibility(frontingExpanded) {
       Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
@@ -503,12 +503,12 @@ fun IncomingFriendRequestCard(
 ) {
   val displayName = system.username ?: system.id
 
-  ElevatedCard(
+  Card(
     modifier = Modifier
       .fillMaxWidth()
       .clip(CardDefaults.elevatedShape),
-    colors = CardDefaults.elevatedCardColors(
-      containerColor = MaterialTheme.colorScheme.surfaceContainer
+    colors = CardDefaults.cardColors(
+      containerColor = MaterialTheme.colorScheme.surfaceContainerLow
     )
   ) {
     Row(
@@ -616,12 +616,12 @@ fun OutgoingFriendRequestCard(
 ) {
   val displayName = system.username ?: system.id
 
-  ElevatedCard(
+  Card(
     modifier = Modifier
       .fillMaxWidth()
       .clip(CardDefaults.elevatedShape),
-    colors = CardDefaults.elevatedCardColors(
-      containerColor = MaterialTheme.colorScheme.surfaceContainer
+    colors = CardDefaults.cardColors(
+      containerColor = MaterialTheme.colorScheme.surfaceContainerLow
     )
   ) {
     Row(

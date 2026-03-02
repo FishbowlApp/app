@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.PushPin
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
@@ -55,12 +56,13 @@ fun LazyItemScope.AlterJournalEntryCard(
     colorMode = settings.colorMode,
     dynamicColorType = settings.dynamicColorType,
     colorContrastLevel = settings.colorContrastLevel,
-    amoledMode = settings.amoledMode
+    amoledMode = settings.amoledMode,
+    reduceMotion = settings.reduceMotion
   ) {
-    ElevatedCard(
+    Card(
       modifier = Modifier.fillMaxWidth().animateItem(),
-      colors = CardDefaults.elevatedCardColors(
-        containerColor = MaterialTheme.colorScheme.surfaceContainer
+      colors = CardDefaults.cardColors(
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLow
       )
     ) {
       Box(

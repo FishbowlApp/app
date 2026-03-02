@@ -1,6 +1,7 @@
 package app.octocon.app.ui.compose.components
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -8,12 +9,15 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -53,16 +57,14 @@ import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Surface
-import androidx.compose.material3.SwipeToDismissBox
-import androidx.compose.material3.SwipeToDismissBoxState
-import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -73,6 +75,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
@@ -91,6 +94,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.semantics.Role
@@ -100,8 +104,10 @@ import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.octocon.app.ChangeFrontMode
@@ -123,6 +129,7 @@ import app.octocon.app.utils.DevicePlatform
 import app.octocon.app.utils.compose
 import app.octocon.app.utils.derive
 import app.octocon.app.utils.fuse.Fuse
+import app.octocon.app.utils.platformLog
 import app.octocon.app.utils.savedState
 import app.octocon.app.utils.sortBySimilarity
 import app.octocon.app.utils.state
@@ -149,7 +156,6 @@ import octoconapp.shared.generated.resources.permanent_tip_alters_bidirectional_
 import octoconapp.shared.generated.resources.permanent_tip_alters_button
 import octoconapp.shared.generated.resources.permanent_tip_alters_swipe
 import octoconapp.shared.generated.resources.pin_alter
-import octoconapp.shared.generated.resources.pinned_alters
 import octoconapp.shared.generated.resources.remove_from_front
 import octoconapp.shared.generated.resources.search_alters
 import octoconapp.shared.generated.resources.set_as_front
@@ -171,7 +177,9 @@ import octoconapp.shared.generated.resources.unpin_alter
 import octoconapp.shared.generated.resources.unset_main_front
 import org.jetbrains.compose.resources.stringResource
 import kotlin.coroutines.CoroutineContext
+import kotlin.math.abs
 import kotlin.math.max
+import kotlin.math.roundToInt
 
 private val alterCardHeight = 64.dp
 const val swipeThreshold = 0.20f
@@ -232,9 +240,9 @@ private fun InnerAlterCard(
     }
   }
 
-  ElevatedCard(
+  Card(
     modifier = modifier.height(alterCardHeight).fillMaxWidth(),
-    colors = CardDefaults.elevatedCardColors(
+    colors = CardDefaults.cardColors(
       containerColor = containerColor
     )
   ) {
@@ -286,8 +294,8 @@ private fun InnerAlterCard(
             Text(
               subtext,
               style =
-              if (isFronting) MaterialTheme.typography.labelSmall.merge(color = MaterialTheme.colorScheme.onSecondaryContainer)
-              else MaterialTheme.typography.labelSmall.merge(color = MaterialTheme.colorScheme.onSurface),
+                if (isFronting) MaterialTheme.typography.labelSmall.merge(color = MaterialTheme.colorScheme.onSecondaryContainer)
+                else MaterialTheme.typography.labelSmall.merge(color = MaterialTheme.colorScheme.onSurface),
               overflow = TextOverflow.Ellipsis,
               maxLines = 1
             )
@@ -384,7 +392,8 @@ internal fun InertAlterCard(
     colorMode = settings.colorMode,
     dynamicColorType = settings.dynamicColorType,
     colorContrastLevel = settings.colorContrastLevel,
-    amoledMode = settings.amoledMode
+    amoledMode = settings.amoledMode,
+    reduceMotion = settings.reduceMotion
   ) {
     Column(
       modifier = modifier
@@ -425,54 +434,60 @@ private fun SwipeAlterCardWrapper(
   launchSetPrimaryFront: (Int?) -> Unit,
   imageModifier: Modifier = Modifier
 ) {
+  val scope = rememberCoroutineScope()
   val haptics = LocalHapticFeedback.current
 
   var currentProgress by state(0.0f)
+  var willDismissType: DismissType by state(DismissType.NONE)
 
-  var dismissType: DismissType by state(DismissType.NONE)
-  val density = LocalDensity.current
+  var dragEnabled by state(true)
+  val dragOffset = remember { Animatable(0f) }
+  var width: Int? by state(null)
 
-  val dismissState = remember(isFronting, isPrimary) {
-    SwipeToDismissBoxState(
-      initialValue = SwipeToDismissBoxValue.Settled,
-      density = density,
-      confirmValueChange = {
-        if (it == SwipeToDismissBoxValue.EndToStart) {
-          when (dismissType) {
-            DismissType.NONE -> {}
-
-            DismissType.NORMAL -> {
-              if (isFronting) {
-                launchEndFront(alter.id)
-              } else {
-                launchStartFront(alter.id)
-              }
-            }
-
-            DismissType.EXTENDED -> {
-              launchSetPrimaryFront(if (isPrimary) null else alter.id)
-            }
-          }
-        }
-        return@SwipeToDismissBoxState false
-      },
-      positionalThreshold = { 0F })
-  }
-
-  LaunchedEffect(dismissState.progress) {
-    currentProgress = dismissState.progress
-    dismissType = dismissState.progress.let {
+  val dragState = rememberDraggableState { delta ->
+    if (width == null) return@rememberDraggableState
+    val newValue = (dragOffset.value + delta).coerceIn(-width!!.toFloat(), 0f)
+    scope.launch {
+      dragOffset.snapTo(newValue)
+    }
+    currentProgress = abs(dragOffset.value) / width!!
+    willDismissType = currentProgress.let {
       when {
         isFronting && it >= extendedSwipeThreshold && it != 1.0F -> DismissType.EXTENDED
         it >= swipeThreshold && it != 1.0F -> DismissType.NORMAL
         else -> DismissType.NONE
       }
-      // it >= swipeThreshold && it != 1.0F
     }
   }
 
-  LaunchedEffect(dismissType) {
-    if (dismissType == DismissType.NONE) return@LaunchedEffect
+  fun processDrag() {
+    dragEnabled = false
+    scope.launch {
+      dragOffset.animateTo(0f)
+      dragEnabled = true
+    }
+
+    when (willDismissType) {
+      DismissType.NONE -> {}
+
+      DismissType.NORMAL -> {
+        if (isFronting) {
+          launchEndFront(alter.id)
+        } else {
+          launchStartFront(alter.id)
+        }
+      }
+
+      DismissType.EXTENDED -> {
+        if (isFronting) {
+          launchSetPrimaryFront(if (isPrimary) null else alter.id)
+        }
+      }
+    }
+  }
+
+  LaunchedEffect(willDismissType) {
+    if (willDismissType == DismissType.NONE) return@LaunchedEffect
     haptics.performHapticFeedback(HapticFeedbackType.LongPress)
   }
 
@@ -481,63 +496,59 @@ private fun SwipeAlterCardWrapper(
       .coerceAtMost(1.0f)
   )
 
-  SwipeToDismissBox(
-    state = dismissState,
-    enableDismissFromStartToEnd = false,
-    enableDismissFromEndToStart = true,
-    backgroundContent = {
-      Box(
-        modifier = Modifier.height(alterCardHeight).padding(vertical = 6.dp).fillMaxWidth()
+  Box(propagateMinConstraints = true) {
+    Box(
+      modifier = Modifier.height(alterCardHeight).padding(vertical = 6.dp).fillMaxWidth()
+    ) {
+      OutlinedCard(
+        modifier = Modifier.fillMaxSize(),
+        shape = MaterialTheme.shapes.small,
+        colors = CardDefaults.outlinedCardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)
       ) {
-        Surface(
+        Row(
           modifier = Modifier
             .fillMaxSize()
-            .clip(CardDefaults.elevatedShape)
-            .border(
-              1.dp,
-              MaterialTheme.colorScheme.outlineVariant,
-              CardDefaults.elevatedShape
-            ),
-          color = MaterialTheme.colorScheme.surfaceContainerLow
+            .padding(12.dp),
+          verticalAlignment = Alignment.CenterVertically,
+          horizontalArrangement = Arrangement.End
         ) {
-          Row(
-            modifier = Modifier
-              .fillMaxSize()
-              .padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.End
-          ) {
-            val imageVector = when {
-              dismissType == DismissType.EXTENDED -> if (isPrimary) Icons.Rounded.KeyboardDoubleArrowDown else Icons.Rounded.KeyboardDoubleArrowUp
-              isFronting -> Icons.Rounded.ArrowDownward
-              else -> Icons.Rounded.ArrowUpward
-            }
-            Icon(
-              imageVector = imageVector,
-              // tint = swipeIconColor.value,
-              contentDescription = null,
-              modifier = Modifier.size(24.dp).scale(iconScale)
-                .offset(x = (24 * (1.0F - iconScale)).dp)
-            )
+          val imageVector = when {
+            willDismissType == DismissType.EXTENDED -> if (isPrimary) Icons.Rounded.KeyboardDoubleArrowDown else Icons.Rounded.KeyboardDoubleArrowUp
+            isFronting -> Icons.Rounded.ArrowDownward
+            else -> Icons.Rounded.ArrowUpward
           }
+          Icon(
+            imageVector = imageVector,
+            // tint = swipeIconColor.value,
+            contentDescription = null,
+            modifier = Modifier.size(24.dp).scale(iconScale)
+              .offset(x = (24 * (1.0F - iconScale)).dp)
+          )
         }
-
       }
-    },
-    content = {
-      InnerAlterCard(
-        imageContext = imageContext,
-        placeholderPainter = placeholderPainter,
-        alter = alter,
-        isFronting = isFronting,
-        isPrimary = isPrimary,
-        onClick = onClick,
-        onLongClick = onLongClick,
-        settings = settings,
-        imageModifier = imageModifier
-      )
     }
-  )
+
+    InnerAlterCard(
+      imageContext = imageContext,
+      placeholderPainter = placeholderPainter,
+      alter = alter,
+      isFronting = isFronting,
+      isPrimary = isPrimary,
+      onClick = onClick,
+      onLongClick = onLongClick,
+      settings = settings,
+      imageModifier = imageModifier,
+      modifier = Modifier.onSizeChanged {
+        width = it.width
+      }.draggable(
+        orientation = Orientation.Horizontal,
+        state = dragState,
+        enabled = dragEnabled,
+        onDragStarted = { platformLog("Drag started") },
+        onDragStopped = { processDrag() }
+      ).offset { IntOffset(dragOffset.value.roundToInt(), 0) }
+    )
+  }
 }
 
 @Composable
@@ -555,51 +566,56 @@ private fun BidirectionalSwipeAlterCardWrapper(
   launchSetPrimaryFront: (Int?) -> Unit,
   imageModifier: Modifier = Modifier
 ) {
+  val scope = rememberCoroutineScope()
   val haptics = LocalHapticFeedback.current
 
   var currentProgress by state(0.0f)
+  var willDismiss by state(false)
 
-  var willDismiss: Boolean by state(false)
-  val density = LocalDensity.current
+  var dragEnabled by state(true)
+  val dragOffset = remember { Animatable(0f) }
+  var width: Int? by state(null)
 
-  val dismissState = remember(isFronting, isPrimary) {
-    SwipeToDismissBoxState(
-      initialValue = SwipeToDismissBoxValue.Settled,
-      density = density,
-      confirmValueChange = {
-        when (it) {
-          SwipeToDismissBoxValue.EndToStart -> {
-            if (currentProgress < swipeThreshold) return@SwipeToDismissBoxState false
-            if (isFronting) {
-              launchEndFront(alter.id)
-            } else {
-              launchStartFront(alter.id)
-            }
-            return@SwipeToDismissBoxState false
-          }
-
-          SwipeToDismissBoxValue.StartToEnd -> {
-            if (!isFronting || currentProgress < swipeThreshold) return@SwipeToDismissBoxState false
-            launchSetPrimaryFront(if (isPrimary) null else alter.id)
-            return@SwipeToDismissBoxState false
-          }
-
-          SwipeToDismissBoxValue.Settled -> {
-            return@SwipeToDismissBoxState false
-          }
-        }
-      },
-      positionalThreshold = { 0F })
+  val dragState = rememberDraggableState { delta ->
+    if (width == null) return@rememberDraggableState
+    val newValue = if (isFronting) {
+      dragOffset.value + delta
+    } else {
+      (dragOffset.value + delta).coerceIn(-width!!.toFloat(), 0f)
+    }
+    scope.launch {
+      dragOffset.snapTo(newValue)
+    }
+    currentProgress = abs(dragOffset.value) / width!!
+    willDismiss = currentProgress >= swipeThreshold && currentProgress != 1.0F
   }
 
-  LaunchedEffect(dismissState.progress) {
-    currentProgress = dismissState.progress
-    willDismiss = dismissState.progress.let { it >= swipeThreshold && it != 1.0F }
+  fun processDrag() {
+    dragEnabled = false
+    scope.launch {
+      dragOffset.animateTo(0f)
+      dragEnabled = true
+    }
+
+    if (willDismiss) {
+      if (dragOffset.value < 0) {
+        if (isFronting) {
+          launchEndFront(alter.id)
+        } else {
+          launchStartFront(alter.id)
+        }
+      } else {
+        if (isFronting) {
+          launchSetPrimaryFront(if (isPrimary) null else alter.id)
+        }
+      }
+    }
   }
 
   LaunchedEffect(willDismiss) {
-    if (!willDismiss) return@LaunchedEffect
-    haptics.performHapticFeedback(HapticFeedbackType.GestureThresholdActivate)
+    if (willDismiss) {
+      haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+    }
   }
 
   val iconScale = FastOutSlowInEasing.transform(
@@ -607,69 +623,65 @@ private fun BidirectionalSwipeAlterCardWrapper(
       .coerceAtMost(1.0f)
   )
 
-  SwipeToDismissBox(
-    state = dismissState,
-    enableDismissFromStartToEnd = isFronting,
-    enableDismissFromEndToStart = true,
-    backgroundContent = {
-      Box(
-        modifier = Modifier.height(alterCardHeight).padding(vertical = 6.dp).fillMaxWidth()
+  Box(propagateMinConstraints = true) {
+    Box(
+      modifier = Modifier.height(alterCardHeight).padding(vertical = 6.dp).fillMaxWidth()
+    ) {
+      OutlinedCard(
+        modifier = Modifier.fillMaxSize(),
+        shape = MaterialTheme.shapes.small,
+        colors = CardDefaults.outlinedCardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)
       ) {
-        Surface(
+        Row(
           modifier = Modifier
             .fillMaxSize()
-            .clip(CardDefaults.elevatedShape)
-            .border(
-              1.dp,
-              MaterialTheme.colorScheme.outlineVariant,
-              CardDefaults.elevatedShape
-            ),
-          color = MaterialTheme.colorScheme.surfaceContainerLow
+            .padding(12.dp),
+          verticalAlignment = Alignment.CenterVertically,
+          horizontalArrangement = Arrangement.SpaceBetween
         ) {
-          Row(
-            modifier = Modifier
-              .fillMaxSize()
-              .padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-          ) {
-            Icon(
-              imageVector = if (isPrimary)
-                Icons.Rounded.KeyboardDoubleArrowDown
-              else
-                Icons.Rounded.KeyboardDoubleArrowUp,
-              // tint = swipeIconColor.value,
-              contentDescription = null,
-              modifier = Modifier.size(24.dp).scale(if (isFronting) iconScale else 0f)
-                .offset(x = (-24 * (1.0F - iconScale)).dp)
-            )
-            Icon(
-              imageVector = if (isFronting) Icons.Rounded.ArrowDownward
-              else
-                Icons.Rounded.ArrowUpward,
-              // tint = swipeIconColor.value,
-              contentDescription = null,
-              modifier = Modifier.size(24.dp).scale(iconScale)
-                .offset(x = (24 * (1.0F - iconScale)).dp)
-            )
-          }
+          Icon(
+            imageVector = if (isPrimary)
+              Icons.Rounded.KeyboardDoubleArrowDown
+            else
+              Icons.Rounded.KeyboardDoubleArrowUp,
+            // tint = swipeIconColor.value,
+            contentDescription = null,
+            modifier = Modifier.size(24.dp).scale(if (isFronting) iconScale else 0f)
+              .offset(x = (-24 * (1.0F - iconScale)).dp)
+          )
+          Icon(
+            imageVector = if (isFronting) Icons.Rounded.ArrowDownward
+            else
+              Icons.Rounded.ArrowUpward,
+            // tint = swipeIconColor.value,
+            contentDescription = null,
+            modifier = Modifier.size(24.dp).scale(iconScale)
+              .offset(x = (24 * (1.0F - iconScale)).dp)
+          )
         }
-
       }
-    },
-    content = {
-      InnerAlterCard(
-        imageContext = imageContext,
-        placeholderPainter = placeholderPainter,
-        alter = alter,
-        isFronting = isFronting,
-        isPrimary = isPrimary,
-        onClick = onClick,
-        onLongClick = onLongClick,
-        settings = settings
-      )
     }
-  )
+
+    InnerAlterCard(
+      imageContext = imageContext,
+      placeholderPainter = placeholderPainter,
+      alter = alter,
+      isFronting = isFronting,
+      isPrimary = isPrimary,
+      onClick = onClick,
+      onLongClick = onLongClick,
+      settings = settings,
+      imageModifier = imageModifier,
+      modifier = Modifier.onSizeChanged {
+        width = it.width
+      }.draggable(
+        orientation = Orientation.Horizontal,
+        state = dragState,
+        enabled = dragEnabled,
+        onDragStopped = { processDrag() }
+      ).offset { IntOffset(dragOffset.value.roundToInt(), 0) },
+    )
+  }
 }
 
 private val frontButtonIconSize = 24.dp
@@ -779,7 +791,8 @@ internal fun AlterCard(
     colorMode = settings.colorMode,
     dynamicColorType = settings.dynamicColorType,
     colorContrastLevel = settings.colorContrastLevel,
-    amoledMode = settings.amoledMode
+    amoledMode = settings.amoledMode,
+    reduceMotion = settings.reduceMotion
   ) {
     Column(
       modifier = modifier
@@ -878,17 +891,18 @@ fun AlterCarousel(
   onLongClick: (Int) -> Unit,
   settingsInterface: SettingsInterface,
   imageContext: CoroutineContext,
+  modifier: Modifier = Modifier
 ) {
   val settings by settingsInterface.collectAsState()
   val useSmallAvatars by derive { settings.useSmallAvatars }
 
   val placeholderPainter = rememberVectorPainter(Icons.Rounded.Person)
 
-  val carouselHeight = if(useSmallAvatars) 100.dp else 160.dp
+  val carouselHeight = if (useSmallAvatars) 100.dp else 160.dp
 
   HorizontalMultiBrowseCarousel(
     state = carouselState,
-    modifier = Modifier.height(carouselHeight).fillMaxWidth(),
+    modifier = modifier.height(carouselHeight).fillMaxWidth(),
     preferredItemWidth = carouselHeight,
     itemSpacing = 8.dp
   ) { index ->
@@ -939,12 +953,20 @@ fun CarouselItemScope.AlterCarouselItem(
         colorMode = settings.colorMode,
         dynamicColorType = settings.dynamicColorType,
         colorContrastLevel = settings.colorContrastLevel,
-        amoledMode = settings.amoledMode
+        amoledMode = settings.amoledMode,
+        reduceMotion = settings.reduceMotion
       ) {
-        AlterCarouselPlaceholderImage(alter, placeholderPainter, focusPercentage, settings.fontChoice, useSmallAvatars)
+        AlterCarouselPlaceholderImage(
+          alter,
+          placeholderPainter,
+          focusPercentage,
+          settings.fontChoice,
+          useSmallAvatars
+        )
       }
     } else {
-      val normalized = max(0f, (focusPercentage - BRIGHTNESS_START_THRESHOLD) / (1f - BRIGHTNESS_START_THRESHOLD))
+      val normalized =
+        max(0f, (focusPercentage - BRIGHTNESS_START_THRESHOLD) / (1f - BRIGHTNESS_START_THRESHOLD))
       val eased = FastOutSlowInEasing.transform(normalized)
       /*val brightness = eased * -60f
 
@@ -968,21 +990,37 @@ fun CarouselItemScope.AlterCarouselItem(
             }
           },
           // onLoading = { PlaceholderImage(isFronting, placeholderPainter) },
-          onFailure = { AlterCarouselPlaceholderImage(alter, placeholderPainter, focusPercentage, settings.fontChoice, useSmallAvatars) },
-          contentDescription = stringResource(Res.string.name_avatar, alter.name ?: Res.string.unnamed_alter.compose),
+          onFailure = {
+            AlterCarouselPlaceholderImage(
+              alter,
+              placeholderPainter,
+              focusPercentage,
+              settings.fontChoice,
+              useSmallAvatars
+            )
+          },
+          contentDescription = stringResource(
+            Res.string.name_avatar,
+            alter.name ?: Res.string.unnamed_alter.compose
+          ),
           modifier = Modifier.fillMaxSize(),
           animationSpec = tween(),
           contentScale = ContentScale.Crop
         )
 
         Box(
-          modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.scrim.copy(alpha = 0.4f * eased))
+          modifier = Modifier.fillMaxSize()
+            .background(MaterialTheme.colorScheme.scrim.copy(alpha = 0.4f * eased))
         )
 
         Text(
           alter.name ?: Res.string.unnamed_alter.compose,
           color = Color.White,
-          style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.SemiBold, fontSize = 14.sp, fontFamily = settings.fontChoice.headingFont),
+          style = MaterialTheme.typography.labelLarge.copy(
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 14.sp,
+            fontFamily = settings.fontChoice.headingFont
+          ),
           modifier = Modifier.align(Alignment.BottomStart).padding(16.dp).alpha(eased)
         )
       }
@@ -1013,17 +1051,21 @@ private fun AlterCarouselPlaceholderImage(
         Icon(
           painter = placeholderPainter,
           contentDescription = null,
-          modifier = Modifier.size(if(useSmallAvatars) 30.dp else 48.dp).animateItem(),
+          modifier = Modifier.size(if (useSmallAvatars) 30.dp else 48.dp).animateItem(),
           tint = MaterialTheme.colorScheme.secondary
         )
       }
 
-      if(focusPercentage >= 0.97f) {
+      if (focusPercentage >= 0.97f) {
         item {
           Text(
             alter.name ?: Res.string.unnamed_alter.compose,
             color = MaterialTheme.colorScheme.secondary,
-            style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.SemiBold, fontSize = 14.sp, fontFamily = fontChoice.headingFont),
+            style = MaterialTheme.typography.labelLarge.copy(
+              fontWeight = FontWeight.SemiBold,
+              fontSize = 14.sp,
+              fontFamily = fontChoice.headingFont
+            ),
             modifier = Modifier.padding(top = 2.dp).animateItem()
           )
         }
@@ -1318,7 +1360,7 @@ fun AlterContextSheet(
     ) {
       BottomSheetListItem(
         imageVector = Icons.Rounded.PushPin,
-        title = if(isPinned) Res.string.unpin_alter.compose else Res.string.pin_alter.compose
+        title = if (isPinned) Res.string.unpin_alter.compose else Res.string.pin_alter.compose
       ) {
         launchPinOrUnpin(selectedAlter, !isPinned)
         onDismissRequest()
@@ -1434,10 +1476,12 @@ fun LazyAlterList(
       modifier = Modifier.fillMaxHeight().let {
         if (nestedScrollConnection != null) {
           it.nestedScroll(nestedScrollConnection)
-        } else { it }
+        } else {
+          it
+        }
       }.imePadding(),
       state = lazyListState,
-      verticalArrangement = Arrangement.spacedBy(12.dp),
+      verticalArrangement = Arrangement.spacedBy(16.dp),
       contentPadding = PaddingValues(GLOBAL_PADDING)
     ) {
       if (searchBarVisible) {
@@ -1477,26 +1521,28 @@ fun LazyAlterList(
                     }
                   )
               ) {
-                Row(
+                Box(
                   modifier = Modifier.fillMaxWidth().let {
                     if (searchBarVisible) it.padding(vertical = 12.dp) else it.padding(
                       bottom = 12.dp,
                       top = 8.dp
-                    )
-                  },
+                    ).height(IntrinsicSize.Min)
+                  }
                 ) {
                   Text(
                     Res.string.tags.compose,
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.fillMaxSize(),
+                    textAlign = TextAlign.Center,
                     style = getSubsectionStyle(settingsData.fontSizeScalar)
                   )
-                  Spacer(modifier = Modifier.width(16.dp))
-                  Icon(
-                    imageVector = if (tagsCollapsed) Icons.Rounded.ExpandMore else Icons.Rounded.ExpandLess,
-                    contentDescription = null,
-                    modifier = Modifier.size(24.dp)
-                  )
-                  Spacer(modifier = Modifier.width(12.dp))
+                  Row(
+                    modifier = Modifier.align(Alignment.CenterEnd).padding(end = 12.dp)
+                  ) {
+                    Icon(
+                      imageVector = if (tagsCollapsed) Icons.Rounded.ExpandMore else Icons.Rounded.ExpandLess,
+                      contentDescription = null
+                    )
+                  }
                 }
               }
             }
@@ -1522,46 +1568,6 @@ fun LazyAlterList(
       }
       if (searchQuery.isBlank()) {
         if ((emptyContent == null && sortedAlters.isNotEmpty()) || emptyContent != null) {
-          if(pinnedAlters.isNotEmpty()) {
-            item(key = "__pinned_alters_label") {
-              SpotlightTooltip(
-                title = Res.string.tooltip_alter_pinning_title.compose,
-                description = Res.string.tooltip_alter_pinning_desc.compose
-              ) {
-                Text(
-                  Res.string.pinned_alters.compose,
-                  modifier = Modifier.fillMaxWidth()
-                    .padding(
-                      bottom = 12.dp,
-                      top = if ((tags.isNotEmpty() && !tagsCollapsed) || searchBarVisible) 12.dp else 8.dp
-                    ),
-                  style = getSubsectionStyle(settingsData.fontSizeScalar)
-                )
-              }
-            }
-
-            item {
-              AlterCarousel(
-                carouselState = carouselState,
-                alters = remember(allAlters, pinnedAlters) { pinnedAlters.mapNotNull { id -> allAlters.find { it.id == id } } },
-                onClick = launchViewAlter,
-                onDoubleClick = { id ->
-                  if(id in frontingData.map { it.first }) {
-                    launchEndFront(id)
-                  } else {
-                    launchStartFront(id)
-                  }
-                  haptics.performHapticFeedback(HapticFeedbackType.Confirm)
-                },
-                onLongClick = {
-                  setSelectedAlter(it)
-                  haptics.performHapticFeedback(HapticFeedbackType.LongPress)
-                },
-                settingsInterface = settings,
-                imageContext = imageContext
-              )
-            }
-          }
           item(key = "__alters_label") {
             Text(
               if (isNested) Res.string.alters.compose else Res.string.all_alters.compose,
@@ -1570,11 +1576,13 @@ fun LazyAlterList(
                   bottom = 12.dp,
                   top = if ((tags.isNotEmpty() && !tagsCollapsed) || searchBarVisible) 12.dp else 8.dp
                 ),
+              textAlign = TextAlign.Center,
               style = getSubsectionStyle(settingsData.fontSizeScalar)
             )
           }
         }
       }
+
       if (sortedAlters.isEmpty()) {
         emptyContent?.let { it() }
       } else if (searchResults.isEmpty()) {
@@ -1601,6 +1609,34 @@ fun LazyAlterList(
               }
             ),
             modifier = Modifier.animateItem()
+          )
+        }
+      }
+
+      if (pinnedAlters.isNotEmpty() && searchQuery.isBlank() && ((emptyContent == null && sortedAlters.isNotEmpty()) || emptyContent != null)) {
+        item {
+          AlterCarousel(
+            carouselState = carouselState,
+            alters = remember(
+              allAlters,
+              pinnedAlters
+            ) { pinnedAlters.mapNotNull { id -> allAlters.find { it.id == id } } },
+            onClick = launchViewAlter,
+            onDoubleClick = { id ->
+              if (id in frontingData.map { it.first }) {
+                launchEndFront(id)
+              } else {
+                launchStartFront(id)
+              }
+              haptics.performHapticFeedback(HapticFeedbackType.Confirm)
+            },
+            onLongClick = {
+              setSelectedAlter(it)
+              haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+            },
+            settingsInterface = settings,
+            imageContext = imageContext,
+            modifier = Modifier.padding(bottom = 8.dp)
           )
         }
       }

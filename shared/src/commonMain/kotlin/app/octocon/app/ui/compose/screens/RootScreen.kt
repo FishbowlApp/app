@@ -247,6 +247,7 @@ fun RootScreen(
       colorMode = settings.colorMode,
       dynamicColorType = settings.dynamicColorType,
       colorContrastLevel = settings.colorContrastLevel,
+      reduceMotion = settings.reduceMotion,
       amoledMode = settings.amoledMode
     ) {
       Surface(modifier = Modifier.fillMaxSize()) {

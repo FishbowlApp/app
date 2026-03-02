@@ -658,7 +658,8 @@ fun AlterViewBasicInfoTab(
               colorMode = settings.colorMode,
               dynamicColorType = settings.dynamicColorType,
               colorContrastLevel = settings.colorContrastLevel,
-              amoledMode = settings.amoledMode
+              amoledMode = settings.amoledMode,
+              reduceMotion = settings.reduceMotion
             ) {
               InputChip(
                 selected = true,

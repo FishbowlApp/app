@@ -34,7 +34,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
@@ -529,7 +528,7 @@ fun ChoicePollChoiceCard(
 ) {
   Card(
     colors = CardDefaults.cardColors(
-      containerColor = MaterialTheme.colorScheme.surfaceContainer
+      containerColor = MaterialTheme.colorScheme.surfaceContainerLow
     ),
     elevation = CardDefaults.cardElevation(
       defaultElevation = 1.0.dp
@@ -771,10 +770,10 @@ private fun LazyItemScope.VotePollCard(
   }
   val responseCount = yesCount + noCount + abstainCount + vetoCount
 
-  ElevatedCard(
+  Card(
     modifier = modifier.fillMaxWidth().animateItem(),
-    colors = CardDefaults.elevatedCardColors(
-      containerColor = MaterialTheme.colorScheme.surfaceContainer
+    colors = CardDefaults.cardColors(
+      containerColor = MaterialTheme.colorScheme.surfaceContainerLow
     ),
   ) {
     Box(
@@ -932,10 +931,10 @@ private fun LazyItemScope.ChoicePollCard(
 
   val responsesCount = allValidResponses.size
 
-  ElevatedCard(
+  Card(
     modifier = modifier.fillMaxWidth().animateItem(),
-    colors = CardDefaults.elevatedCardColors(
-      containerColor = MaterialTheme.colorScheme.surfaceContainer
+    colors = CardDefaults.cardColors(
+      containerColor = MaterialTheme.colorScheme.surfaceContainerLow
     ),
   ) {
     Box(

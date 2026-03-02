@@ -107,7 +107,8 @@ fun FriendAlterViewScreen(
     colorMode = settings.colorMode,
     dynamicColorType = settings.dynamicColorType,
     colorContrastLevel = settings.colorContrastLevel,
-    amoledMode = settings.amoledMode
+    amoledMode = settings.amoledMode,
+    reduceMotion = settings.reduceMotion
   ) {
     OctoScaffold(
       hasHoistedBottomBar = !isSinglet,
