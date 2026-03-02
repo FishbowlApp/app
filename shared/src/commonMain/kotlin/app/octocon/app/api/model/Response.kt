@@ -32,9 +32,10 @@ data class APIResponse<T>(
 @Serializable
 data class SocketInitResponse(
   val system: MySystem,
-  val alters: List<MyAlter>,
-  val tags: List<MyTag>,
-  val fronts: List<MyFrontItem>
+  val alters: List<MyAlter>? = null,
+  val tags: List<MyTag>? = null,
+  val fronts: List<MyFrontItem>? = null,
+  val batched: Boolean = false
 )
 
 @Serializable

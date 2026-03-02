@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import app.octocon.app.ui.compose.LocalMarkdownComponents
@@ -20,15 +19,11 @@ import app.octocon.app.ui.model.RootComponent
 import app.octocon.app.utils.DevicePlatform
 import app.octocon.app.utils.InitPushNotifications
 import app.octocon.app.utils.PlatformEvent
-import app.octocon.app.utils.abifix.fixedABIEmptyStackAnimation
 import app.octocon.app.utils.derive
 import app.octocon.app.utils.generateMarkdownComponents
 import app.octocon.app.utils.kamelConfig
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.experimental.stack.ChildStack
-import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.LocalStackAnimationProvider
-import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.StackAnimation
-import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.StackAnimationProvider
 import io.kamel.image.config.LocalKamelConfig
 
 // If only value classes could be `const`...
@@ -231,9 +226,6 @@ fun RootScreen(
   }
 
   CompositionLocalProvider(
-    LocalStackAnimationProvider provides remember { object : StackAnimationProvider {
-      override fun <C : Any, T : Any> provide(): StackAnimation<C, T>? = fixedABIEmptyStackAnimation()
-    } },
     LocalKamelConfig provides kamelConfig,
     LocalMarkdownComponents provides markdownComponents,
     LocalSetShowPushNotifications provides { enabled ->

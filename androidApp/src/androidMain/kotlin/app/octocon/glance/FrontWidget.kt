@@ -75,8 +75,8 @@ import app.octocon.app.utils.state
 import app.octocon.util.createSharedPreferences
 import app.octocon.util.getSavedSettings
 import kotlinx.coroutines.delay
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
+import kotlin.time.Clock
+import kotlin.time.Instant
 import androidx.glance.GlanceModifier.Companion as Modifier
 
 class FrontWidgetReceiver : GlanceAppWidgetReceiver() {

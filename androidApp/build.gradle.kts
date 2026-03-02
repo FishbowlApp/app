@@ -1,3 +1,7 @@
+@file:OptIn(ExperimentalKotlinGradlePluginApi::class)
+
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
   kotlin("multiplatform")
   id("com.android.application")
@@ -21,31 +25,31 @@ kotlin {
   }
 
   dependencies {
-    val decomposeVersion = "3.3.0-beta01"
-    implementation(platform("com.google.firebase:firebase-bom:33.2.0"))
+    val decomposeVersion = "3.5.0-beta01"
+    implementation(platform("com.google.firebase:firebase-bom:34.10.0"))
     implementation("com.google.firebase:firebase-messaging")
-    implementation("com.google.firebase:firebase-messaging-ktx")
-    implementation("androidx.browser:browser:1.8.0")
+    implementation("androidx.browser:browser:1.9.0")
     implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
 
-    implementation("com.nimbusds:nimbus-jose-jwt:9.40")
+    implementation("com.nimbusds:nimbus-jose-jwt:10.8")
 
-    baselineProfile(project(":baselineprofile"))
+    // TODO: Add baseline profiles back
+    // baselineProfile(project(":baselineprofile"))
 
     // Widget
-    implementation("androidx.work:work-runtime-ktx:2.10.0")
-    implementation("io.coil-kt.coil3:coil:3.1.0")
-    implementation("io.coil-kt.coil3:coil-network-ktor3:3.1.0")
+    implementation("androidx.work:work-runtime-ktx:2.11.1")
+    implementation("io.coil-kt.coil3:coil:3.4.0")
+    implementation("io.coil-kt.coil3:coil-network-ktor3:3.4.0")
     implementation("androidx.glance:glance-appwidget:1.1.1")
     implementation("androidx.glance:glance-material3:1.1.1")
-    compileOnly("com.materialkolor:material-kolor:2.0.2")
-    // compileOnly(compose.material3)
-    compileOnly("org.jetbrains.compose.material3:material3:1.8.0+dev2098")
+    compileOnly("com.materialkolor:material-kolor:5.0.0-alpha06")
+    compileOnly("org.jetbrains.compose.material3:material3:1.11.0-alpha03")
+    // compileOnly("org.jetbrains.compose.material3:material3:1.8.0+dev2098")
 
-    val ktorVersion = "3.0.3"
+    val ktorVersion = "3.4.0"
 
-    compileOnly("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
-    compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
+    compileOnly("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
+    compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:1.10.0")
 
     // HTTP client
     compileOnly("io.ktor:ktor-client-core:$ktorVersion")

@@ -97,8 +97,6 @@ import com.materialkolor.ktx.harmonizeWithPrimary
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import octoconapp.shared.generated.resources.Res
@@ -148,6 +146,8 @@ import kotlin.enums.enumEntries
 import kotlin.math.PI
 import kotlin.math.atan2
 import kotlin.math.min
+import kotlin.time.Clock
+import kotlin.time.Instant
 
 val randomChoiceColors by lazy {
   listOf(

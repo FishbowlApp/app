@@ -29,16 +29,24 @@ kotlin {
 
   wasmJs { browser() }
 
+  applyDefaultHierarchyTemplate()
+
   sourceSets {
     val commonMain by getting {
       dependencies {
-        implementation("com.github.ajalt.colormath:colormath:3.5.0")
+        implementation("com.github.ajalt.colormath:colormath:3.6.1")
 
-        compileOnly(compose.runtime)
-        compileOnly(compose.foundation)
-        // compileOnly(compose.material3)
-        compileOnly("org.jetbrains.compose.material3:material3:1.8.0+dev2098")
-        compileOnly(compose.components.resources)
+        compileOnly("org.jetbrains.compose.runtime:runtime:1.11.0-alpha03")
+        compileOnly("org.jetbrains.compose.foundation:foundation:1.11.0-alpha03")
+        compileOnly("org.jetbrains.compose.material3:material3:1.11.0-alpha03")
+        // compileOnly("org.jetbrains.compose.material3:material3:1.8.0+dev2098")
+        compileOnly("org.jetbrains.compose.components:components-resources:1.11.0-alpha03")
+      }
+    }
+
+    val iosMain by getting {
+      dependencies {
+        api("androidx.performance:performance-annotation:1.0.0-alpha01")
       }
     }
   }

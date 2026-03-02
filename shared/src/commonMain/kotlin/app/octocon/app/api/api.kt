@@ -13,6 +13,7 @@ import app.octocon.app.api.model.MyFrontItem
 import app.octocon.app.api.model.MySystem
 import app.octocon.app.api.model.MyTag
 import app.octocon.app.api.model.Poll
+import app.octocon.app.utils.DevicePlatform
 import app.octocon.app.utils.globalSerializer
 import app.octocon.app.utils.idRegex
 import app.octocon.app.utils.ioDispatcher
@@ -200,6 +201,30 @@ sealed interface ChannelMessage {
   @Serializable
   data object AltersWiped : ChannelMessage
 
+  @Serializable
+  data class BatchedInitAlters(
+    @SerialName("batch_index") val batchIndex: Int,
+    @SerialName("total_batches") val totalBatches: Int,
+    val alters: List<MyAlter>
+  ) : ChannelMessage
+
+  @Serializable
+  data class BatchedInitTags(
+    @SerialName("batch_index") val batchIndex: Int,
+    @SerialName("total_batches") val totalBatches: Int,
+    val tags: List<MyTag>
+  ) : ChannelMessage
+
+  @Serializable
+  data class BatchedInitFronts(
+    @SerialName("batch_index") val batchIndex: Int,
+    @SerialName("total_batches") val totalBatches: Int,
+    @SerialName("fronts") val fronts: List<MyFrontItem>
+  ) : ChannelMessage
+
+  @Serializable
+  data object BatchedInitComplete : ChannelMessage
+
   companion object {
     val associations: Map<String, KType> = mapOf(
       "ok" to typeOf<Ok>(),
@@ -265,6 +290,11 @@ sealed interface ChannelMessage {
 
       "account_deleted" to typeOf<AccountDeleted>(),
       "alters_wiped" to typeOf<AltersWiped>(),
+
+      "batched_init_alters" to typeOf<BatchedInitAlters>(),
+      "batched_init_tags" to typeOf<BatchedInitTags>(),
+      "batched_init_fronts" to typeOf<BatchedInitFronts>(),
+      "batched_init_complete" to typeOf<BatchedInitComplete>(),
     )
   }
 }
@@ -282,10 +312,10 @@ expect val client: HttpClient
 
 interface PhoenixSocketSession {
   fun disconnect()
-  fun sendMessage(event: String, payload: Map<String, Any?>, callback: suspend (String) -> Unit): Unit
+  fun sendMessage(event: String, payload: Map<String, Any?>, callback: suspend (String) -> Unit)
 }
 
-internal class KotlixPhoenixSocketSession constructor(
+internal class KotlixPhoenixSocketSession(
   token: String,
   userID: String,
   eventPipeline: MutableSharedFlow<ChannelMessage>,
@@ -293,7 +323,7 @@ internal class KotlixPhoenixSocketSession constructor(
   private val coroutineScope: CoroutineScope,
   onConnected: (String) -> Unit,
 ) : PhoenixSocketSession {
-  private val params = hashMapOf<String, Any?>("token" to token)
+  private val params = hashMapOf<String, Any?>("token" to token, "protocolVersion" to "2.0.0", "platform" to DevicePlatform.internalName)
   private val paramsClosure: (isReconnect: Boolean) -> Payload = {
     params.apply {
       if (it) put("isReconnect", true)

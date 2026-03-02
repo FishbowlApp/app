@@ -32,14 +32,6 @@
 	<string>70</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>This permission will never be used.</string>
-	<key>NSContactsUsageDescription</key>
-	<string>This permission will never be used.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This permission will never be used.</string>
-	<key>NSMotionUsageDescription</key>
-	<string>This permission will never be used.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

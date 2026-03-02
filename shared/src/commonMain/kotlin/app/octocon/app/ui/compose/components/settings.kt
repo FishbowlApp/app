@@ -556,7 +556,7 @@ fun ReorderableCollectionItemScope.CustomFieldItemCard(
   launchEditSecurityLevel: (CustomField) -> Unit,
 ) {
   val elevation by animateDpAsState(if (isDragging) 6.dp else 1.dp)
-  val scale by animateFloatAsState(if (isDragging) 1.05f else 1f)
+  val scale by animateFloatAsState(if (isDragging) 1.02f else 1f)
   val indicatorColor by animateColorAsState(
     if (isDragging) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
   )

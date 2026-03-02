@@ -119,7 +119,7 @@ val platformUtilities = object : PlatformUtilities {
     // return recoveryCode to ""
   }
 
-  override fun setupEncryptionKey(encryptionKey: String): Settings? {
+  override fun setupEncryptionKey(encryptionKey: String): Settings {
     encryptionVault.set("encryption_key", encryptionKey)
 
     val settings = getSettingsFromKeychain().copy(encryptedEncryptionKey = "STORED IN KEYCHAIN")
@@ -132,7 +132,7 @@ val platformUtilities = object : PlatformUtilities {
   }
 
   override fun decryptEncryptionKey(encryptedEncryptionKey: String): String {
-    return Base64.Default.decode(encryptedEncryptionKey).decodeToString()
+    return Base64.decode(encryptedEncryptionKey).decodeToString()
   }
 
   private fun generateIV(): ByteArray = usePinned {
@@ -144,7 +144,7 @@ val platformUtilities = object : PlatformUtilities {
 
   override fun encryptData(data: String, settings: Settings): String {
     val iv = generateIV()
-    val key = Base64.Default.decode(this.getEncryptionKey(settings))
+    val key = Base64.decode(this.getEncryptionKey(settings))
 
     val cipherText = injectedPlatformDelegate!!.encryptData(key.toNSData(), iv.toNSData(), data).toByteArray()
 
@@ -152,9 +152,9 @@ val platformUtilities = object : PlatformUtilities {
     val tag = cipherText.copyOfRange(cipherText.size - tagLength, cipherText.size)
     val actualCipherText = cipherText.copyOfRange(0, cipherText.size - tagLength)
 
-    val ivBase64 = Base64.Default.encode(iv)
-    val cipherTextBase64 = Base64.Default.encode(actualCipherText)
-    val tagBase64 = Base64.Default.encode(tag)
+    val ivBase64 = Base64.encode(iv)
+    val cipherTextBase64 = Base64.encode(actualCipherText)
+    val tagBase64 = Base64.encode(tag)
 
     val result = "enc|$ivBase64|$cipherTextBase64|$tagBase64"
     platformLog(result)
@@ -170,11 +170,11 @@ val platformUtilities = object : PlatformUtilities {
 
     require(data.startsWith("enc|") && parts.size == 4) { "Invalid encrypted data format" }
 
-    val iv = Base64.Default.decode(parts[1])
-    val cipherText = Base64.Default.decode(parts[2])
-    val tag = Base64.Default.decode(parts[3])
+    val iv = Base64.decode(parts[1])
+    val cipherText = Base64.decode(parts[2])
+    val tag = Base64.decode(parts[3])
 
-    val key = Base64.Default.decode(this.getEncryptionKey(settings))
+    val key = Base64.decode(this.getEncryptionKey(settings))
 
     val result = injectedPlatformDelegate!!.decryptData(key.toNSData(), iv.toNSData(), cipherText.toNSData(), tag.toNSData())
     if(result == null) {

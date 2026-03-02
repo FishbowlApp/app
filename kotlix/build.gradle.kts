@@ -37,11 +37,11 @@ kotlin {
   applyDefaultHierarchyTemplate()
 
   sourceSets {
-    val ktorVersion = "3.0.3"
+    val ktorVersion = "3.4.0"
 
     val commonMain by getting {
       dependencies {
-        compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
+        compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:1.10.0")
 
         // HTTP client
         compileOnly("io.ktor:ktor-client-core:$ktorVersion")

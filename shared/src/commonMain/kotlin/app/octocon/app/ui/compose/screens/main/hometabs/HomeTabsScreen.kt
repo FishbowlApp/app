@@ -53,13 +53,13 @@ import app.octocon.app.ui.compose.LocalUpdateLazyListState
 import app.octocon.app.ui.compose.NavigationType
 import app.octocon.app.ui.compose.theme.ThemeFromColor
 import app.octocon.app.ui.model.main.hometabs.HomeTabsComponent
-import app.octocon.app.utils.abifix.fixedABIStackAnimation
 import app.octocon.app.utils.compose
 import app.octocon.app.utils.derive
 import app.octocon.app.utils.state
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.experimental.stack.ChildStack
 import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.fade
+import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -177,7 +177,7 @@ fun HomeTabsScreen(
 
         ChildStack(
           stack,
-          animation = fixedABIStackAnimation(fade(tween(200))),
+          animation = stackAnimation(fade(tween(200))),
           modifier = Modifier.fillMaxSize()
         ) {
           when (val child = it.instance) {

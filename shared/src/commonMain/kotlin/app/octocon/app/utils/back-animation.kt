@@ -2,11 +2,11 @@ package app.octocon.app.utils
 
 import androidx.compose.runtime.Composable
 import app.octocon.app.ScreenTransitionType
-import app.octocon.app.utils.abifix.fixedABIStackAnimation
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.PredictiveBackParams
 import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.StackAnimation
 import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.StackAnimator
+import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.stackAnimation
 import com.arkivanov.essenty.backhandler.BackHandler
 
 @OptIn(ExperimentalDecomposeApi::class)
@@ -18,13 +18,13 @@ fun <C : Any, T : Any> backAnimation(
   onBack: () -> Unit
 ): StackAnimation<C, T> {
   if(screenTransitionType == ScreenTransitionType.NATIVE) {
-    return fixedABIStackAnimation(
+    return stackAnimation(
       animator = platformStackAnimator(reduceMotion),
       predictiveBackParams = { predictiveBackParams(backHandler, onBack) }
     )
   }
 
-  return fixedABIStackAnimation(animator = screenTransitionType.animator)
+  return stackAnimation(animator = screenTransitionType.animator)
 }
 
 @OptIn(ExperimentalDecomposeApi::class)

@@ -1,3 +1,5 @@
+package com.mr0xf00.easycrop.core
+
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.unit.IntSize
@@ -23,11 +25,12 @@ import platform.UIKit.UIGraphicsGetCurrentContext
 import platform.UIKit.UIGraphicsGetImageFromCurrentImageContext
 import platform.UIKit.UIImage
 import platform.UIKit.UIImageJPEGRepresentation
+import kotlin.math.PI
 import kotlin.math.floor
 import kotlin.math.roundToInt
 
 private const val COMPRESSION_QUALITY = 1.0
-private const val DEFAULT_ANGLE = 2 * kotlin.math.PI
+private const val DEFAULT_ANGLE = 2 * PI
 
 class UIImageSrc(
   private val image: UIImage,

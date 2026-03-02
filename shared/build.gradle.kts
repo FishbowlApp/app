@@ -18,8 +18,8 @@ aboutLibraries {
 }
 
 kotlin {
-  val essentyVersion = "2.5.0-beta01"
-  val decomposeVersion = "3.3.0-beta01"
+  val essentyVersion = "2.5.0"
+  val decomposeVersion = "3.5.0-beta01"
 
   androidTarget()
 
@@ -71,26 +71,27 @@ kotlin {
   }
 
   sourceSets {
-    val ktorVersion = "3.0.3"
+    val ktorVersion = "3.4.0"
 
     wasmJs { browser() }
 
     val commonMain by getting {
       println(extra)
       // val markdownVersion = "0.31.0-rc01"
-      val kamelVersion = "1.0.3"
+      val kamelVersion = "1.0.9"
 
       dependencies {
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
-        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
-        implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.10.0")
+        implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
 
-        implementation(compose.runtime)
-        implementation(compose.foundation)
-        // implementation(compose.material3)
-        implementation("org.jetbrains.compose.material3:material3:1.8.0+dev2098")
-        implementation(compose.components.resources)
-        implementation(compose.materialIconsExtended)
+        implementation("org.jetbrains.compose.runtime:runtime:1.11.0-alpha03")
+        implementation("org.jetbrains.compose.foundation:foundation:1.11.0-alpha03")
+        implementation("org.jetbrains.compose.foundation:foundation:1.11.0-alpha03")
+        implementation("org.jetbrains.compose.material3:material3:1.11.0-alpha03")
+        implementation("org.jetbrains.compose.components:components-resources:1.11.0-alpha03")
+        implementation("org.jetbrains.compose.material:material-icons-core:1.7.3")
+        implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
 
         api("com.arkivanov.essenty:lifecycle:$essentyVersion")
         implementation("com.arkivanov.essenty:lifecycle-coroutines:$essentyVersion")
@@ -118,13 +119,13 @@ kotlin {
         implementation("media.kamel:kamel-decoder-image-bitmap:$kamelVersion")
 
         // File picker
-        implementation("io.github.vinceglb:filekit-compose:0.8.8")
+        implementation("io.github.vinceglb:filekit-dialogs-compose:0.13.0")
 
         // Material 3 colors
-        implementation("com.materialkolor:material-kolor:2.0.2")
+        implementation("com.materialkolor:material-kolor:5.0.0-alpha06")
 
         // Background blur
-        implementation("dev.chrisbanes.haze:haze:1.0.2")
+        implementation("dev.chrisbanes.haze:haze:1.7.2")
 
         // Crypto
         implementation(project.dependencies.platform("org.kotlincrypto.hash:bom:0.6.1"))
@@ -137,10 +138,10 @@ kotlin {
         implementation(project(":multiplatform-markdown-renderer"))
         implementation(project(":multiplatform-markdown-renderer-m3"))
 
-        implementation("sh.calvin.reorderable:reorderable:2.4.3")
+        implementation("sh.calvin.reorderable:reorderable:3.0.0")
 
-        implementation("com.mikepenz:aboutlibraries-core:11.6.0")
-        implementation("com.mikepenz:aboutlibraries-compose-m3:11.6.0")
+        implementation("com.mikepenz:aboutlibraries-core:13.2.1")
+        implementation("com.mikepenz:aboutlibraries-compose-m3:13.2.1")
 
         // Phoenix channels
         implementation(project(":kotlix"))
@@ -148,18 +149,18 @@ kotlin {
     }
     val androidMain by getting {
       dependencies {
-        api("androidx.activity:activity-compose:1.10.0")
-        api("androidx.appcompat:appcompat:1.7.0")
-        api("androidx.core:core-ktx:1.15.0")
-        implementation("androidx.core:core-splashscreen:1.0.1")
-        api("androidx.security:security-crypto:1.1.0-alpha06")
-        api("androidx.security:security-crypto-ktx:1.1.0-alpha06")
+        api("androidx.activity:activity-compose:1.12.4")
+        api("androidx.appcompat:appcompat:1.7.1")
+        api("androidx.core:core-ktx:1.17.0")
+        implementation("androidx.core:core-splashscreen:1.2.0")
+        api("androidx.security:security-crypto:1.1.0")
+        api("androidx.security:security-crypto-ktx:1.1.0")
 
         implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
         // Phoenix channels
         // implementation("com.github.dsrees:JavaPhoenixClient:1.3.0")
 
-        implementation("com.github.skydoves:cloudy:0.2.0")
+        implementation("com.github.skydoves:cloudy:0.5.0")
       }
     }
     val iosArm64Main by getting
@@ -168,6 +169,7 @@ kotlin {
       dependencies {
         implementation("io.ktor:ktor-client-darwin:$ktorVersion")
         implementation("com.liftric:kvault:1.12.0")
+        api("androidx.performance:performance-annotation:1.0.0-alpha01")
       }
     }
 
@@ -175,8 +177,9 @@ kotlin {
       dependsOn(commonMain)
 
       dependencies {
-        implementation("dev.icerock.moko:permissions:0.18.1")
-        implementation("dev.icerock.moko:permissions-compose:0.18.1")
+        implementation("dev.icerock.moko:permissions:0.20.1")
+        implementation("dev.icerock.moko:permissions-notifications:0.20.1")
+        implementation("dev.icerock.moko:permissions-compose:0.20.1")
       }
     }
 
@@ -223,7 +226,11 @@ android {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
   }
+  
   kotlin {
     jvmToolchain(17)
   }
+}
+dependencies {
+  implementation("androidx.core:core-ktx:1.17.0")
 }

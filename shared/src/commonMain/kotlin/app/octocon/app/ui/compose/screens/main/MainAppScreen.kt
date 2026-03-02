@@ -26,10 +26,10 @@ import app.octocon.app.ui.compose.components.shared.OctoconModalNavigationDrawer
 import app.octocon.app.ui.compose.screens.main.hometabs.HomeTabsScreen
 import app.octocon.app.ui.model.main.MainAppComponent
 import app.octocon.app.utils.ExitApplicationType
-import app.octocon.app.utils.abifix.fixedABIStackAnimation
 import app.octocon.app.utils.derive
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.experimental.stack.ChildStack
+import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.stackAnimation
 import com.arkivanov.decompose.router.panels.ChildPanelsMode
 
 @OptIn(ExperimentalDecomposeApi::class, InternalOctoconLayoutApi::class)
@@ -56,7 +56,7 @@ fun MainAppScreen(
     ) {
       ChildStack(
         component.stack,
-        animation = fixedABIStackAnimation(if(reduceMotion) FADE_ANIMATOR else ZOOM_ANIMATOR)
+        animation = stackAnimation(if(reduceMotion) FADE_ANIMATOR else ZOOM_ANIMATOR)
       ) {
         when (val child = it.instance) {
           is MainAppComponent.Child.HomeTabsChild -> HomeTabsScreen(child.component)

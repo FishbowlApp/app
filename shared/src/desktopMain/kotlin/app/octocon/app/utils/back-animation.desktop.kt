@@ -14,6 +14,7 @@ import com.arkivanov.essenty.backhandler.BackHandler
 actual fun platformStackAnimator(reduceMotion: Boolean): StackAnimator = if(reduceMotion) FADE_ANIMATOR else ZOOM_ANIMATOR
 
 @OptIn(ExperimentalDecomposeApi::class)
+@Suppress("SameReturnValue")
 actual fun predictiveBackParams(
   backHandler: BackHandler,
   onBack: () -> Unit

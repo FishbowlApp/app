@@ -457,7 +457,7 @@ class Channel(
    *
    * @return [Unit]
    */
-  private suspend fun onChannelJoinError() {
+  private fun onChannelJoinError() {
     state = State.ERRORED
     if (socket.isConnected) {
       rejoinTimer.scheduleTimeout {

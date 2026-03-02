@@ -54,8 +54,8 @@ import app.octocon.app.ui.model.main.polls.pollview.PollViewSettingsComponent
 import app.octocon.app.utils.compose
 import app.octocon.app.utils.dateFormat
 import app.octocon.app.utils.savedState
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
+import kotlin.time.Clock
+import kotlin.time.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import octoconapp.shared.generated.resources.Res

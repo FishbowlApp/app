@@ -11,13 +11,13 @@ import app.octocon.app.ScreenTransitionType.Companion.FADE_ANIMATOR
 import app.octocon.app.ui.compose.InternalOctoconLayoutApi
 import app.octocon.app.ui.compose.LocalChildPanelsMode
 import app.octocon.app.ui.compose.LocalDesiredChildPanelsMode
-import app.octocon.app.utils.abifix.FixedABIChildPanels
-import app.octocon.app.utils.abifix.FixedABIHorizontalChildPanelsLayout
 import app.octocon.app.utils.platformStackAnimator
 import app.octocon.app.utils.predictiveBackParams
 import com.arkivanov.decompose.Child
 import com.arkivanov.decompose.ExperimentalDecomposeApi
+import com.arkivanov.decompose.extensions.compose.experimental.panels.ChildPanels
 import com.arkivanov.decompose.extensions.compose.experimental.panels.ChildPanelsAnimators
+import com.arkivanov.decompose.extensions.compose.experimental.panels.HorizontalChildPanelsLayout
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.arkivanov.decompose.router.panels.ChildPanels
 import com.arkivanov.decompose.router.panels.ChildPanelsMode
@@ -54,14 +54,14 @@ fun <MC : Any, MT : Any, DC : Any, DT : Any> DoublePanels(
   CompositionLocalProvider(
     LocalChildPanelsMode provides panels.mode
   ) {
-    FixedABIChildPanels(
+    ChildPanels(
       panels = panels,
       mainChild = main,
       detailsChild = details,
       extraChild = {},
       modifier = modifier,
       secondPanelPlaceholder = placeholder,
-      layout = remember { FixedABIHorizontalChildPanelsLayout(dualWeights = 0.40f to 0.60f) },
+      layout = remember { HorizontalChildPanelsLayout(dualWeights = 0.40f to 0.60f) },
       animators = ChildPanelsAnimators(single = platformStackAnimator(reduceMotion), dual = FADE_ANIMATOR to platformStackAnimator(reduceMotion)),
       predictiveBackParams = { predictiveBackParams(backHandler, onBackPressed) },
     )
@@ -88,13 +88,13 @@ fun <MC : Any, MT : Any, DC : Any, DT : Any, EC : Any, ET : Any> TriplePanels(
   CompositionLocalProvider(
     LocalChildPanelsMode provides panels.mode
   ) {
-    FixedABIChildPanels(
+    ChildPanels(
       panels = panels,
       mainChild = main,
       detailsChild = details,
       extraChild = extra,
       secondPanelPlaceholder = placeholder,
-      layout = remember { FixedABIHorizontalChildPanelsLayout(dualWeights = 0.40f to 0.60f) },
+      layout = remember { HorizontalChildPanelsLayout(dualWeights = 0.40f to 0.60f) },
       animators = ChildPanelsAnimators(single = platformStackAnimator(reduceMotion), dual = FADE_ANIMATOR to platformStackAnimator(reduceMotion)),
       predictiveBackParams = { predictiveBackParams(backHandler, onBackPressed) },
       modifier = modifier

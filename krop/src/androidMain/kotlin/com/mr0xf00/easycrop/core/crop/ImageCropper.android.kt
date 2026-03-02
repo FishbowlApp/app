@@ -4,7 +4,11 @@ import android.content.Context
 import android.net.Uri
 import androidx.compose.ui.unit.IntSize
 import com.mr0xf00.easycrop.core.images.toImageSrc
-import kotlinx.coroutines.*
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.UUID
 
@@ -58,7 +62,7 @@ fun File.deleteInBackground() {
     GlobalScope.launch(Dispatchers.IO) { runCatching { delete() } }
 }
 
-suspend fun copy(src: Uri, dst: File, context: Context) = withContext(Dispatchers.IO) {
+suspend fun copy(src: Uri, dst: File, context: Context): Uri = withContext(Dispatchers.IO) {
     dst.parentFile?.mkdirs()
     context.contentResolver.openInputStream(src)!!.use { srcStream ->
         dst.outputStream().use { dstStream ->

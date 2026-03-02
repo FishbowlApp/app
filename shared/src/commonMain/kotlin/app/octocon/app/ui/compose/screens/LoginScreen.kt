@@ -7,6 +7,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -104,11 +105,10 @@ fun LoginScreen(
               ), modifier = Modifier.padding(horizontal = 16.dp))
             }
           }
-          Row(
-          ) {
-            GoogleLoginButton(component::logInWithGoogle, modifier = Modifier.weight(1f))
+          Row(modifier = Modifier.height(IntrinsicSize.Min)) {
+            GoogleLoginButton(component::logInWithGoogle, modifier = Modifier.weight(1f).fillMaxHeight())
             Spacer(modifier = Modifier.width(8.dp))
-            AppleLoginButton(component::logInWithApple, modifier = Modifier.weight(1f))
+            AppleLoginButton(component::logInWithApple, modifier = Modifier.weight(1f).fillMaxHeight())
           }
           Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.systemBars))
         }

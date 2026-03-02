@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package app.octocon.util
 
 import android.content.Context

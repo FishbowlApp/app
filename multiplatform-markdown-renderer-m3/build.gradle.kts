@@ -33,9 +33,9 @@ kotlin {
       dependencies {
         api(project(":multiplatform-markdown-renderer"))
         api("org.jetbrains:markdown:0.7.3")
-        compileOnly(compose.runtime)
-        // compileOnly(compose.material3)
-        compileOnly("org.jetbrains.compose.material3:material3:1.8.0+dev2098")
+        compileOnly("org.jetbrains.compose.runtime:runtime:1.11.0-alpha03")
+        compileOnly("org.jetbrains.compose.material3:material3:1.11.0-alpha03")
+        // compileOnly("org.jetbrains.compose.material3:material3:1.8.0+dev2098")
       }
     }
   }

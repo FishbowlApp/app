@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import com.mr0xf00.easycrop.core.images.ImageBitmapSrc
 import com.mr0xf00.easycrop.core.images.ImageSrc
-import io.github.vinceglb.filekit.core.PlatformFile
+import io.github.vinceglb.filekit.PlatformFile
 import kotlinx.coroutines.CoroutineScope
 import org.jetbrains.skia.Image
 
@@ -17,6 +17,7 @@ actual suspend fun platformFileToImageSrc(
   return ImageBitmapSrc(imageBitmap)
 }
 
+@Suppress("SameReturnValue")
 actual fun directlyCompressImage(
   file: PlatformFile,
   platformUtilities: PlatformUtilities

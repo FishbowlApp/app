@@ -44,8 +44,8 @@ import androidx.compose.ui.window.DialogProperties
 import app.octocon.app.utils.compose
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.entity.Library
-import com.mikepenz.aboutlibraries.ui.compose.m3.util.author
-import com.mikepenz.aboutlibraries.ui.compose.m3.util.htmlReadyLicenseContent
+import com.mikepenz.aboutlibraries.ui.compose.util.author
+import com.mikepenz.aboutlibraries.ui.compose.util.htmlReadyLicenseContent
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import octoconapp.shared.generated.resources.Res
@@ -96,11 +96,11 @@ fun FixedLibrariesContainer(
       } else if (!license?.htmlReadyLicenseContent.isNullOrBlank()) {
         openDialog.value = library
       } else if (!license?.url.isNullOrBlank()) {
-        license?.url?.also {
+        license.url?.also {
           try {
             uriHandler.openUri(it)
           } catch (t: Throwable) {
-            println("Failed to open url: ${it}")
+            println("Failed to open url: $it")
           }
         }
       }
@@ -203,11 +203,11 @@ fun FixedLibraries(
       if (onLibraryClick != null) {
         onLibraryClick.invoke(library)
       } else if (!license?.url.isNullOrBlank()) {
-        license?.url?.also {
+        license.url?.also {
           try {
             uriHandler.openUri(it)
           } catch (t: Throwable) {
-            println("Failed to open url: ${it}")
+            println("Failed to open url: $it")
           }
         }
       }

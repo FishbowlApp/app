@@ -541,7 +541,7 @@ fun FakeOutlinedTextField(
       modifier = modifier.let {
         if (onClick != null) it.pointerInput(Unit) {
           detectTapGestures(
-            onTap = { onClick(it) }
+            onTap = { offset -> onClick(offset) }
           )
         }.semantics {
           this.role = Role.Button

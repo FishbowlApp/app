@@ -1,6 +1,6 @@
 package app.octocon.app.utils
 
-import UIImageSrc
+import com.mr0xf00.easycrop.core.UIImageSrc
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.ImageBitmapConfig
 import androidx.compose.ui.util.fastForEach
@@ -9,7 +9,7 @@ import cocoapods.SDWebImage.SDImageFormatWebP
 import cocoapods.SDWebImageWebPCoder.SDImageWebPCoder
 import cocoapods.TOCropViewController.TOCropViewController
 import com.mr0xf00.easycrop.core.images.ImageSrc
-import io.github.vinceglb.filekit.core.PlatformFile
+import io.github.vinceglb.filekit.PlatformFile
 import kotlinx.cinterop.CValue
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.refTo

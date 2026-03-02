@@ -25,6 +25,7 @@ val platformUtilities = object : PlatformUtilities {
     javaPreferences.put(SETTINGS_KEY, globalSerializer.encodeToString(settings))
   }
 
+  @Suppress("EmptyMethod")
   override fun showAlert(message: String) {
     // TODO: Alerts?
   }

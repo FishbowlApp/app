@@ -10,7 +10,6 @@ plugins {
 
 kotlin {
   wasmJs {
-    moduleName = "octocon-app"
     browser {
       commonWebpackConfig {
         outputFileName = "octocon-app.js"
@@ -28,7 +27,7 @@ kotlin {
         implementation(compose.ui)
         implementation(compose.foundation)
 
-        implementation("org.jetbrains.kotlinx:kotlinx-browser-wasm-js:0.3")
+        implementation("org.jetbrains.kotlinx:kotlinx-browser-wasm-js:0.5.0")
       }
     }
   }

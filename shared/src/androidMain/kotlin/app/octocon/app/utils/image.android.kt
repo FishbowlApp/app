@@ -7,7 +7,8 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import com.mr0xf00.easycrop.core.images.ImageSrc
 import com.mr0xf00.easycrop.core.images.toImageSrc
-import io.github.vinceglb.filekit.core.PlatformFile
+import io.github.vinceglb.filekit.PlatformFile
+import io.github.vinceglb.filekit.dialogs.toAndroidUri
 import kotlinx.coroutines.CoroutineScope
 import java.io.ByteArrayOutputStream
 
@@ -30,13 +31,13 @@ import java.io.ByteArrayOutputStream
 actual suspend fun platformFileToImageSrc(
   file: PlatformFile,
   platformUtilities: PlatformUtilities
-): ImageSrc? = file.uri.toImageSrc(platformUtilities.context)
+): ImageSrc? = file.toAndroidUri().toImageSrc(platformUtilities.context)
 
 actual fun directlyCompressImage(
   file: PlatformFile,
   platformUtilities: PlatformUtilities
 ): ByteArray? {
-  val inputStream = platformUtilities.context.contentResolver.openInputStream(file.uri)
+  val inputStream = platformUtilities.context.contentResolver.openInputStream(file.toAndroidUri())
   return BitmapFactory
     .decodeStream(inputStream)
     ?.compressAsWebP()

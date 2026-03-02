@@ -55,25 +55,23 @@ class DefaultAnnotatorSettings(
 
 @Composable
 fun annotatorSettings(
-    linkTextSpanStyle: TextLinkStyles = LocalMarkdownTypography.current.textLink,
-    codeSpanStyle: SpanStyle = LocalMarkdownTypography.current.codeSpanStyle,
-    annotator: MarkdownAnnotator? = LocalMarkdownAnnotator.current,
-    referenceLinkHandler: ReferenceLinkHandler? = LocalReferenceLinkHandler.current,
-    uriHandler: UriHandler = LocalUriHandler.current,
-    linkInteractionListener: LinkInteractionListener? = object : LinkInteractionListener {
-        override fun onClick(link: LinkAnnotation) {
-            val annotationUrl = (link as? LinkAnnotation.Url)?.url
-            if (annotationUrl != null) {
-                val foundReference = referenceLinkHandler?.find(annotationUrl) ?: annotationUrl
-                // wait for finger up to navigate to the link
-                try {
-                    uriHandler.openUri(foundReference)
-                } catch (t: Throwable) {
-                    println("Could not open the provided url: $foundReference // ${t.message}")
-                }
-            }
-        }
-    },
+  linkTextSpanStyle: TextLinkStyles = LocalMarkdownTypography.current.textLink,
+  codeSpanStyle: SpanStyle = LocalMarkdownTypography.current.codeSpanStyle,
+  annotator: MarkdownAnnotator? = LocalMarkdownAnnotator.current,
+  referenceLinkHandler: ReferenceLinkHandler? = LocalReferenceLinkHandler.current,
+  uriHandler: UriHandler = LocalUriHandler.current,
+  linkInteractionListener: LinkInteractionListener? = LinkInteractionListener { link ->
+    val annotationUrl = (link as? LinkAnnotation.Url)?.url
+    if (annotationUrl != null) {
+      val foundReference = referenceLinkHandler?.find(annotationUrl) ?: annotationUrl
+      // wait for finger up to navigate to the link
+      try {
+        uriHandler.openUri(foundReference)
+      } catch (t: Throwable) {
+        println("Could not open the provided url: $foundReference // ${t.message}")
+      }
+    }
+  },
 ): AnnotatorSettings = DefaultAnnotatorSettings(
     linkTextSpanStyle = linkTextSpanStyle,
     codeSpanStyle = codeSpanStyle,

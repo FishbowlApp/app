@@ -37,7 +37,6 @@ pluginManagement {
 
     id("org.jetbrains.compose").version(composeVersion)
     id("androidx.baselineprofile").version("1.2.3")
-    id("org.jetbrains.kotlin.android") version "2.1.0"
   }
 }
 

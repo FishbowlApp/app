@@ -41,6 +41,7 @@ import app.octocon.app.utils.platformLog
 import app.octocon.app.utils.sortedLocaleAware
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
 import io.ktor.client.call.body
+import io.ktor.client.request.invoke
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpMethod.Companion.Delete
@@ -301,11 +302,15 @@ internal class ApiInterfaceImpl(
                 coroutineScope
               ) { json ->
                 if (!_initComplete.value) {
+                  println(json)
                   val response = globalSerializer.decodeFromString<SocketInitResponse>(json)
+
                   _systemMe.tryEmit(APIState.Success(response.system))
-                  _alters.tryEmit(APIState.Success(response.alters))
-                  _tags.tryEmit(APIState.Success(response.tags.sortedLocaleAware { it.name }))
-                  _fronts.tryEmit(APIState.Success(response.fronts))
+                  if(response.batched) return@connectToPhoenixChannel
+
+                  _alters.tryEmit(APIState.Success(response.alters!!))
+                  _tags.tryEmit(APIState.Success(response.tags!!.sortedLocaleAware { it.name }))
+                  _fronts.tryEmit(APIState.Success(response.fronts!!))
 
                   if(settingsInterface.data.value.isSinglet) {
                     reloadFriends(false)
@@ -902,6 +907,31 @@ internal class ApiInterfaceImpl(
           )
         )
         clearAllFrontHistory()
+      }
+
+      is ChannelMessage.BatchedInitAlters -> {
+        val base = if(_alters.value is APIState.Loading) emptyList() else _alters.value.ensureData
+        _alters.tryEmit(APIState.Success(base + message.alters))
+        println("Received batched alters init #${message.batchIndex} of ${message.totalBatches} with ${message.alters.size} alters")
+      }
+      is ChannelMessage.BatchedInitTags -> {
+        val base = if(_tags.value is APIState.Loading) emptyList() else _tags.value.ensureData
+        val data = base.plus(message.tags).let {
+          if(message.batchIndex == message.totalBatches) {
+            it.sortedLocaleAware { tag -> tag.name }
+          } else it
+        }
+        _tags.tryEmit(APIState.Success(data))
+
+        println("Received batched tags init #${message.batchIndex} of ${message.totalBatches} with ${message.tags.size} tags")
+      }
+      is ChannelMessage.BatchedInitFronts -> {
+        val base = if(_fronts.value is APIState.Loading) emptyList() else _fronts.value.ensureData
+        _fronts.tryEmit(APIState.Success(base + message.fronts))
+        println("Received batched fronts init #${message.batchIndex} of ${message.totalBatches} with ${message.fronts.size} fronts")
+      }
+      is ChannelMessage.BatchedInitComplete -> {
+        _initComplete.value = true
       }
 
       is ChannelMessage.Ok -> {}

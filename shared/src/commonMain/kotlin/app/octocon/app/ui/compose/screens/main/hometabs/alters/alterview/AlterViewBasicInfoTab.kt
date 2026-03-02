@@ -98,9 +98,9 @@ import com.mr0xf00.easycrop.core.crop.RectCropShape
 import com.mr0xf00.easycrop.core.crop.cropperStyle
 import com.mr0xf00.easycrop.ui.BareControls
 import com.mr0xf00.easycrop.ui.ImageCropperDialog
-import io.github.vinceglb.filekit.compose.rememberFilePickerLauncher
-import io.github.vinceglb.filekit.core.PickerMode
-import io.github.vinceglb.filekit.core.PickerType
+import io.github.vinceglb.filekit.dialogs.FileKitMode
+import io.github.vinceglb.filekit.dialogs.FileKitType
+import io.github.vinceglb.filekit.dialogs.compose.rememberFilePickerLauncher
 import io.kamel.core.utils.cacheControl
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
@@ -230,8 +230,8 @@ fun AlterViewBasicInfoTab(
   }
 
   val filePickerLauncher = rememberFilePickerLauncher(
-    type = PickerType.Image,
-    mode = PickerMode.Single,
+    type = FileKitType.Image,
+    mode = FileKitMode.Single,
     onResult = { file ->
       file?.let {
         if(DevicePlatform.usesNativeImageCropper) {
