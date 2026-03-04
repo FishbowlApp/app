@@ -60,7 +60,6 @@ import app.octocon.app.utils.compose
 import app.octocon.app.utils.derive
 import app.octocon.app.utils.state
 import com.materialkolor.ktx.harmonizeWithPrimary
-
 import octoconapp.shared.generated.resources.Res
 import octoconapp.shared.generated.resources.choose_an_alter
 import octoconapp.shared.generated.resources.no_votes
@@ -126,7 +125,6 @@ private fun VotePollResults(
   val placeholderPainter = rememberVectorPainter(Icons.Rounded.Person)
   var selectAlterDialogOpen by state(false)
 
-
   var selectedAlterForContextSheet by state<Int?>(null)
   var selectedAlterForEditComment by state<Int?>(null)
 
@@ -153,7 +151,6 @@ private fun VotePollResults(
   }
 
   val alterIds = remember(alters) { alters.ensureData.map { it.id } }
-
   val validResponses = data.responses.filter { it.alterID in alterIds }
 
   val results =
@@ -167,6 +164,8 @@ private fun VotePollResults(
   val votesToAlters = validResponses.groupBy({ it.vote }) {
     alters.ensureData.find { alter -> alter.id == it.alterID }!!
   }.toList().sortedBy { it.first.ordinal }
+
+  val totalVotes = results.values.sum()
 
   val segments =
     results
@@ -191,7 +190,7 @@ private fun VotePollResults(
         ).aspectRatio(1.0F),
         contentAlignment = Alignment.Center,
       ) {
-        if (data.responses.isEmpty()) {
+        if (totalVotes == 0) {
           Text(
             text = Res.string.no_votes.compose,
             style = MaterialTheme.typography.labelLarge,
@@ -209,7 +208,7 @@ private fun VotePollResults(
               }
               item(key = vote.ordinal) {
                 val percentage =
-                  round((count.toDouble() / data.responses.size) * 100).toInt()
+                  round((count.toDouble() / totalVotes) * 100).toInt()
                 Row(
                   verticalAlignment = Alignment.CenterVertically,
                   horizontalArrangement = Arrangement.Center,
@@ -254,7 +253,7 @@ private fun VotePollResults(
         }
         SegmentedBorderedCircle(
           segments,
-          inert = data.responses.isEmpty(),
+          inert = totalVotes == 0,
           selectedSegment = displayedVoteType,
           setSelection = {
             displayedVoteType = it
@@ -267,7 +266,7 @@ private fun VotePollResults(
     item {
       Spacer(modifier = Modifier.height(16.dp))
     }
-    if (data.responses.isEmpty()) {
+    if (totalVotes == 0) {
       item {
         PollEmptyCard(
           setCastVoteSheetOpen,
@@ -467,13 +466,14 @@ private fun ChoicePollResults(
   }
 
   val alterIds = remember(alters) { alters.ensureData.map { it.id } }
-
   val validResponses = data.responses.filter { it.alterID in alterIds }
 
   val results =
     validResponses
       .groupingBy { it.choiceID }
       .eachCount()
+
+  val totalVotes = results.values.sum()
 
   val votesToAlters = validResponses.groupBy({ it.choiceID }) {
     alters.ensureData.find { alter -> alter.id == it.alterID }!!
@@ -507,7 +507,7 @@ private fun ChoicePollResults(
         ).aspectRatio(1.0F),
         contentAlignment = Alignment.Center,
       ) {
-        if (data.responses.isEmpty()) {
+        if (totalVotes == 0) {
           Text(
             text = Res.string.no_votes.compose,
             style = MaterialTheme.typography.labelLarge,
@@ -525,7 +525,7 @@ private fun ChoicePollResults(
               }
               item(key = choiceID) {
                 val percentage =
-                  round((count.toDouble() / data.responses.size) * 100).toInt()
+                  round((count.toDouble() / totalVotes) * 100).toInt()
                 Row(
                   verticalAlignment = Alignment.CenterVertically,
                   horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -570,7 +570,7 @@ private fun ChoicePollResults(
         }
         SegmentedBorderedCircle(
           segments,
-          inert = data.responses.isEmpty(),
+          inert = totalVotes == 0,
           selectedSegment = displayedChoiceType,
           setSelection = {
             displayedChoiceType = it
@@ -583,7 +583,7 @@ private fun ChoicePollResults(
     item {
       Spacer(modifier = Modifier.height(16.dp))
     }
-    if (data.responses.isEmpty()) {
+    if (totalVotes == 0) {
       item {
         PollEmptyCard(
           setCastVoteSheetOpen,

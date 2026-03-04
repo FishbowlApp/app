@@ -1,6 +1,7 @@
 package app.octocon.app
-import androidx.compose.foundation.ComposeFoundationFlags
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.uikit.OnFocusBehavior
 import androidx.compose.ui.window.ComposeUIViewController
@@ -12,6 +13,7 @@ import app.octocon.app.utils.platformLog
 import app.octocon.app.utils.platformUtilities
 import app.octocon.app.utils.sfSafariViewController
 import com.arkivanov.decompose.ExperimentalDecomposeApi
+import com.arkivanov.decompose.extensions.compose.stack.animation.predictiveback.PredictiveBackGestureIcon
 import com.arkivanov.decompose.extensions.compose.stack.animation.predictiveback.PredictiveBackGestureOverlay
 import com.arkivanov.essenty.backhandler.BackDispatcher
 import io.ktor.http.Url
@@ -33,7 +35,6 @@ val platformEventFlow = MutableSharedFlow<PlatformEvent>(replay = 3)
   ExperimentalDecomposeApi::class
 )
 fun MainViewController(platformDelegate: PlatformDelegate, root: RootComponent, backDispatcher: BackDispatcher): UIViewController {
-  ComposeFoundationFlags.DragGesturePickUpEnabled = false
   GlobalScope.launch {
     iosDeepLinkFlow.collect { deepLink ->
       if(deepLink != null) {
@@ -67,13 +68,13 @@ fun MainViewController(platformDelegate: PlatformDelegate, root: RootComponent, 
     PredictiveBackGestureOverlay(
       backDispatcher = backDispatcher,
       // TODO: https://youtrack.jetbrains.com/issue/CMP-7006/Fix-1.8.0-alpha-binary-incompatibilities
-      /*backIcon = { progress, _ ->
+      backIcon = { progress, _ ->
         PredictiveBackGestureIcon(
           imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
           progress = progress,
         )
-      },*/
-      backIcon = null,
+      },
+      // backIcon = null,
       endEdgeEnabled = false,
       modifier = Modifier.fillMaxSize(),
     ) {

@@ -197,7 +197,7 @@ fun OnboardingFrontTutorialScreen(
           component.removeAlterFromFront(alter.id)
         },
         launchSetPrimaryFront = component::setPrimaryFront,
-        modifier = Modifier.animateItem().padding(top = 12.dp),
+        modifier = Modifier.animateItem().padding(top = 16.dp),
         settings = settings
       )
     }

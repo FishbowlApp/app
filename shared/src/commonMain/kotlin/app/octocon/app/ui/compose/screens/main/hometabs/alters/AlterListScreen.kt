@@ -67,6 +67,7 @@ import app.octocon.app.ui.compose.screens.GLOBAL_PADDING
 import app.octocon.app.ui.compose.utils.SpotlightTooltip
 import app.octocon.app.ui.model.main.hometabs.alters.AlterListComponent
 import app.octocon.app.utils.compose
+import app.octocon.app.utils.composeColorSchemeParams
 import app.octocon.app.utils.derive
 import app.octocon.app.utils.ioDispatcher
 import app.octocon.app.utils.savedState
@@ -161,8 +162,8 @@ fun AlterListScreen(
     frontingAlters + nonFrontingAlters
   }
 
-  val pinnedAlters: List<Int> = remember(alters, alterSortingMethod, unnamed_alter) {
-    if (!alters.isSuccess) return@remember emptyList()
+  val pinnedAlters: List<Int> by derive {
+    if (!alters.isSuccess) return@derive emptyList()
     alters.ensureData
       .filter { it.pinned }
       .let { alterSortingMethod.sortAlters(it, unnamed_alter) }
@@ -335,7 +336,8 @@ fun AlterListScreen(
                     )
                   )
                   Spacer(modifier = Modifier.height(12.dp))
-                  FilledTonalButton(onClick = {}) {
+                  val colorSchemeParams = composeColorSchemeParams
+                  FilledTonalButton(onClick = { component.platformUtilities.openURL("https://octocon.app/docs/introduction", colorSchemeParams) }) {
                     Text(Res.string.new_user_card_button.compose)
                   }
                 }

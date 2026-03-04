@@ -1,6 +1,5 @@
 package app.octocon.app.ui.compose.screens.main.hometabs.friends
 
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -55,6 +54,7 @@ import app.octocon.app.ui.model.main.hometabs.friends.FriendAlterViewComponent
 import app.octocon.app.utils.MarkdownRenderer
 import app.octocon.app.utils.compose
 import app.octocon.app.utils.derive
+import app.octocon.app.utils.effectsSpec
 import app.octocon.app.utils.generateMarkdownTypography
 import app.octocon.app.utils.ioDispatcher
 import com.arkivanov.decompose.ExperimentalDecomposeApi
@@ -201,7 +201,7 @@ fun FriendAlterViewScreen(
                           alterData.name ?: unnamed_alter
                         ),
                         modifier = Modifier.fillMaxSize(),
-                        animationSpec = tween()
+                        animationSpec = effectsSpec()
                       )
                     }
                   }

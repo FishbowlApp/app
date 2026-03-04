@@ -224,3 +224,9 @@ fun rememberLibraries(
     }
   }
 }
+
+interface BuildConfigInterface {
+  fun isDebug(): Boolean
+}
+
+expect object BuildConfig : BuildConfigInterface

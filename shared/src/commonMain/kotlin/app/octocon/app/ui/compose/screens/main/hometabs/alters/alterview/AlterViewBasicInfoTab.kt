@@ -1,6 +1,5 @@
 package app.octocon.app.ui.compose.screens.main.hometabs.alters.alterview
 
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -89,6 +88,7 @@ import app.octocon.app.utils.DevicePlatform
 import app.octocon.app.utils.compose
 import app.octocon.app.utils.cropImageNatively
 import app.octocon.app.utils.derive
+import app.octocon.app.utils.effectsSpec
 import app.octocon.app.utils.ioDispatcher
 import app.octocon.app.utils.platformFileToImageSrc
 import app.octocon.app.utils.savedState
@@ -383,7 +383,7 @@ fun AlterViewBasicInfoTab(
                       name ?: unnamed_alter
                     ),
                     modifier = Modifier.fillMaxSize(),
-                    animationSpec = tween()
+                    animationSpec = effectsSpec()
                   )
                 }
               }

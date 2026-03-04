@@ -122,7 +122,7 @@ kotlin {
         implementation("io.github.vinceglb:filekit-dialogs-compose:0.13.0")
 
         // Material 3 colors
-        implementation("com.materialkolor:material-kolor:5.0.0-alpha06")
+        implementation("com.materialkolor:material-kolor:2.1.1")
 
         // Background blur
         implementation("dev.chrisbanes.haze:haze:1.7.2")
@@ -206,6 +206,7 @@ kotlin {
       languageSettings.optIn("androidx.compose.foundation.ExperimentalFoundationApi")
       languageSettings.optIn("androidx.compose.foundation.layout.ExperimentalLayoutApi")
       languageSettings.optIn("androidx.compose.material3.ExperimentalMaterial3Api")
+      languageSettings.optIn("androidx.compose.material3.ExperimentalMaterial3ExpressiveApi")
     }
   }
 }
@@ -229,6 +230,10 @@ android {
   
   kotlin {
     jvmToolchain(17)
+  }
+
+  buildFeatures {
+    buildConfig = true
   }
 }
 dependencies {

@@ -381,7 +381,7 @@ fun AttachAlterDialog(
               .background(MaterialTheme.colorScheme.surface).let {
                 if (searchBarVisible) it.fillMaxSize() else it
               },
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp)
           ) {
             items(searchResults, key = { it.id }) {
               InertAlterCard(
@@ -487,7 +487,7 @@ fun AttachTagDialog(
               .background(MaterialTheme.colorScheme.surface).let {
                 if (searchBarVisible) it.fillMaxSize() else it
               },
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp)
           ) {
             items(searchResults) {
               TagCard(

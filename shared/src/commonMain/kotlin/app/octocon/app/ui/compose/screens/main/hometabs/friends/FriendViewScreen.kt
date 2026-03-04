@@ -1,13 +1,11 @@
 package app.octocon.app.ui.compose.screens.main.hometabs.friends
 
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -57,6 +55,7 @@ import app.octocon.app.ui.model.main.hometabs.friends.FriendViewComponent
 import app.octocon.app.utils.MarkdownRenderer
 import app.octocon.app.utils.compose
 import app.octocon.app.utils.derive
+import app.octocon.app.utils.effectsSpec
 import app.octocon.app.utils.ioDispatcher
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.panels.ChildPanelsMode
@@ -137,13 +136,13 @@ fun FriendViewScreen(
   val tagMap by derive { friendData?.tagMap }
 
   val nonFrontingAlters: List<ExternalAlter> by derive {
-    if(friendData == null) return@derive emptyList()
+    if (friendData == null) return@derive emptyList()
     val frontingAlters = friendshipContainer!!.fronting.map { it.alter.id }
     alters!!.filter { it.id !in frontingAlters }
   }
 
   val rootTags: List<ExternalTag> by derive {
-    if(friendData == null) return@derive emptyList()
+    if (friendData == null) return@derive emptyList()
     tags!!.filter { it.parentTagID == null || !tagMap!!.containsKey(it.parentTagID) }
   }
 
@@ -166,7 +165,7 @@ fun FriendViewScreen(
         navigation = {
           val childPanelsMode = LocalChildPanelsMode.current
 
-          if(childPanelsMode == ChildPanelsMode.SINGLE) {
+          if (childPanelsMode == ChildPanelsMode.SINGLE) {
             BackNavigationButton(component::navigateBack)
           }
         },
@@ -182,234 +181,203 @@ fun FriendViewScreen(
         Surface(
           modifier = Modifier.fillMaxSize()
         ) {
-          Box(
-            modifier = Modifier.fillMaxSize()
+          LazyColumn(
+            state = lazyListState,
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            contentPadding = PaddingValues(GLOBAL_PADDING)
           ) {
-            LazyColumn(
-              state = lazyListState,
-              modifier = Modifier.fillMaxWidth(),
-              horizontalAlignment = Alignment.CenterHorizontally,
-              contentPadding = PaddingValues(horizontal = GLOBAL_PADDING)
-            ) {
+            if (friendData == null || friend == null || alters == null || tags == null || tagMap == null) {
+              item { IndeterminateProgressSpinner() }
+            } else {
               item {
-                Spacer(modifier = Modifier.size(8.dp))
-              }
-
-              if (
-                friendData == null
-                || friend == null
-                || alters == null
-                || tags == null
-                || tagMap == null
-              ) {
-                item { IndeterminateProgressSpinner() }
-              } else {
-                item {
                   Box(
-                    modifier = Modifier.padding(vertical = 8.dp)
+                    modifier = Modifier.sizeIn(
+                      maxWidth = 312.dp, maxHeight = 312.dp
+                    ).aspectRatio(1.0F)
+                      .clip(squareifyShape(settings.cornerStyle) { RoundedCornerShape(96.dp) }),
                   ) {
-                    Box(
-                      modifier = Modifier.sizeIn(
-                        maxWidth = 312.dp,
-                        maxHeight = 312.dp
-                      ).aspectRatio(1.0F).clip(squareifyShape(settings.cornerStyle) { RoundedCornerShape(96.dp) }),
-                    ) {
-                      if (
-                      // imageFailedToLoad ||
-                        friend!!.avatarUrl.isNullOrBlank()) {
-                        Box(
-                          modifier = Modifier.fillMaxSize().background(
-                            MaterialTheme.colorScheme.surfaceContainerHigh
-                          ),
-                          contentAlignment = Alignment.Center
+                    if (
+                    // imageFailedToLoad ||
+                      friend!!.avatarUrl.isNullOrBlank()) {
+                      Box(
+                        modifier = Modifier.fillMaxSize().background(
+                          MaterialTheme.colorScheme.surfaceContainerHigh
+                        ), contentAlignment = Alignment.Center
+                      ) {
+                        Column(
+                          modifier = Modifier.fillMaxWidth(),
+                          horizontalAlignment = Alignment.CenterHorizontally,
+                          verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                          Column(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(8.dp)
-                          ) {
-                            Icon(
-                              imageVector = Icons.Rounded.Person,
-                              modifier = Modifier.size(48.dp),
-                              contentDescription = Res.string.no_avatar.compose
-                            )
-                          }
+                          Icon(
+                            imageVector = Icons.Rounded.Person,
+                            modifier = Modifier.size(48.dp),
+                            contentDescription = Res.string.no_avatar.compose
+                          )
                         }
-                      } else {
-                        KamelImage(
-                          {
-                            asyncPainterResource(friend!!.avatarUrl!!) {
-                              coroutineContext = imageScope.coroutineContext + ioDispatcher
-                              requestBuilder {
-                                cacheControl("max-age=31536000, immutable")
-                              }
-                            }
-                          },
-                          // onLoading = { PlaceholderImage(isFronting, placeholderPainter) },
-                          onFailure = {
-                            Text(Res.string.error_loading_avatar.compose)
-                          },
-                          contentDescription = stringResource(Res.string.name_avatar, titleText),
-                          modifier = Modifier.fillMaxSize(),
-                          animationSpec = tween()
-                        )
                       }
+                    } else {
+                      KamelImage(
+                        {
+                          asyncPainterResource(friend!!.avatarUrl!!) {
+                            coroutineContext = imageScope.coroutineContext + ioDispatcher
+                            requestBuilder {
+                              cacheControl("max-age=31536000, immutable")
+                            }
+                          }
+                        },
+                        // onLoading = { PlaceholderImage(isFronting, placeholderPainter) },
+                        onFailure = {
+                          Text(Res.string.error_loading_avatar.compose)
+                        },
+                        contentDescription = stringResource(Res.string.name_avatar, titleText),
+                        modifier = Modifier.fillMaxSize(),
+                        animationSpec = effectsSpec()
+                      )
                     }
                   }
                 }
 
-                item {
-                  Row(
-                    modifier = Modifier.fillMaxWidth()
-                      .padding(vertical = 8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                  ) {
-                    if (!friend!!.username.isNullOrBlank()) {
-                      OutlinedTextField(
-                        modifier = Modifier.weight(2f),
-                        value = friend!!.username!!,
-                        onValueChange = {},
-                        readOnly = true,
-                        singleLine = true,
-                        label = { Text(Res.string.username.compose) }
-                      )
-                    }
+              item {
+                Row(
+                  modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+                  horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                  if (!friend!!.username.isNullOrBlank()) {
                     OutlinedTextField(
-                      modifier = Modifier.weight(1f),
-                      value = friend!!.id,
+                      modifier = Modifier.weight(2f),
+                      value = friend!!.username!!,
                       onValueChange = {},
                       readOnly = true,
                       singleLine = true,
-                      label = { Text(Res.string.id.compose) }
-                    )
+                      label = { Text(Res.string.username.compose) })
+                  }
+                  OutlinedTextField(
+                    modifier = Modifier.weight(1f),
+                    value = friend!!.id,
+                    onValueChange = {},
+                    readOnly = true,
+                    singleLine = true,
+                    label = { Text(Res.string.id.compose) })
+                }
+              }
+
+              if (!friend!!.description.isNullOrBlank()) {
+                item {
+                  FakeOutlinedTextField(
+                    label = { Text(Res.string.description.compose) },
+                    isBlank = false,
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+                  ) {
+                    MarkdownRenderer(friend!!.description)
                   }
                 }
+              }
 
-                if (!friend!!.description.isNullOrBlank()) {
-                  item {
-                    FakeOutlinedTextField(
-                      label = { Text(Res.string.description.compose) },
-                      isBlank = false,
-                      modifier = Modifier.fillMaxWidth()
-                        .padding(vertical = 8.dp)
-                    ) {
-                      MarkdownRenderer(friend!!.description)
-                    }
-                  }
-                }
-
-                if (friendshipContainer!!.fronting.isNotEmpty()) {
-                  item {
-                    Text(
-                      Res.string.currently_fronting.compose,
-                      modifier = Modifier.fillMaxWidth()
-                        .padding(top = 16.dp, bottom = 19.dp),
-                      style = getSubsectionStyle(settings.fontSizeScalar)
-                    )
-                  }
-
-                  items(friendshipContainer!!.fronting, key = { "f${it.alter.id}" }) {
-                    Box(
-                      modifier = Modifier.padding(vertical = 5.dp)
-                    ) {
-                      InertAlterCard(
-                        alter = it.alter,
-                        imageContext = imageScope.coroutineContext + ioDispatcher,
-                        placeholderPainter = placeholderPainter,
-                        onClick = {
-                          component.navigateToFriendAlterView(it.alter.id)
-                        },
-                        isFronting = true,
-                        frontComment = it.front.comment,
-                        isPrimary = it.primary,
-                        settings = settings
-                      )
-                    }
-                  }
-                }
-
-                if (rootTags.isNotEmpty()) {
-                  item {
-                    Text(
-                      Res.string.tags.compose,
-                      modifier = Modifier.fillMaxWidth()
-                        .padding(top = 19.dp, bottom = 19.dp),
-                      style = getSubsectionStyle(settings.fontSizeScalar)
-                    )
-                  }
-
-                  items(rootTags, key = ExternalTag::id) {
-                    Box(
-                      modifier = Modifier.padding(vertical = 5.dp)
-                    ) {
-                      TagCard(
-                        tag = it,
-                        iconPainter = folderPainter,
-                        onClick = { component.navigateToFriendTagView(it.id) },
-                        settings = settings
-                      )
-                    }
-                  }
-                }
-
+              if (friendshipContainer!!.fronting.isNotEmpty()) {
                 item {
                   Text(
-                    Res.string.all_alters.compose,
-                    modifier = Modifier.fillMaxWidth()
-                      .padding(top = 19.dp, bottom = 19.dp),
+                    Res.string.currently_fronting.compose,
+                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 19.dp),
                     style = getSubsectionStyle(settings.fontSizeScalar)
                   )
                 }
 
-                items(nonFrontingAlters, key = ExternalAlter::id) {
+                items(friendshipContainer!!.fronting, key = { "f${it.alter.id}" }) {
                   Box(
                     modifier = Modifier.padding(vertical = 5.dp)
                   ) {
                     InertAlterCard(
-                      alter = it,
+                      alter = it.alter,
                       imageContext = imageScope.coroutineContext + ioDispatcher,
                       placeholderPainter = placeholderPainter,
-                      onClick = { component.navigateToFriendAlterView(it.id) },
-                      isFronting = false,
-                      isPrimary = false,
+                      onClick = {
+                        component.navigateToFriendAlterView(it.alter.id)
+                      },
+                      isFronting = true,
+                      frontComment = it.front.comment,
+                      isPrimary = it.primary,
                       settings = settings
                     )
                   }
                 }
+              }
 
+              if (rootTags.isNotEmpty()) {
                 item {
-                  Column(
-                    modifier = Modifier.padding(
-                      top = 11.dp,
-                      bottom = 16.dp
-                    ),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                  Text(
+                    Res.string.tags.compose,
+                    modifier = Modifier.fillMaxWidth().padding(top = 19.dp, bottom = 19.dp),
+                    style = getSubsectionStyle(settings.fontSizeScalar)
+                  )
+                }
+
+                items(rootTags, key = ExternalTag::id) {
+                  Box(
+                    modifier = Modifier.padding(vertical = 8.dp)
                   ) {
-                    Row(
-                      verticalAlignment = Alignment.CenterVertically,
-                      horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                      Icon(
-                        imageVector = Icons.Rounded.LockPerson,
-                        modifier = Modifier.size(16.dp),
-                        contentDescription = null
-                      )
-                      Text(
-                        Res.string.note.compose,
-                        style = MaterialTheme.typography.labelMedium
-                      )
-                    }
-                    Text(
-                      Res.string.privacy_warning.compose,
-                      style = MaterialTheme.typography.bodySmall
+                    TagCard(
+                      tag = it,
+                      iconPainter = folderPainter,
+                      onClick = { component.navigateToFriendTagView(it.id) },
+                      settings = settings
                     )
                   }
+                }
+              }
+
+              item {
+                Text(
+                  Res.string.all_alters.compose,
+                  modifier = Modifier.fillMaxWidth().padding(top = 19.dp, bottom = 19.dp),
+                  style = getSubsectionStyle(settings.fontSizeScalar)
+                )
+              }
+
+              items(nonFrontingAlters, key = ExternalAlter::id) {
+                Box(
+                  modifier = Modifier.padding(vertical = 8.dp)
+                ) {
+                  InertAlterCard(
+                    alter = it,
+                    imageContext = imageScope.coroutineContext + ioDispatcher,
+                    placeholderPainter = placeholderPainter,
+                    onClick = { component.navigateToFriendAlterView(it.id) },
+                    isFronting = false,
+                    isPrimary = false,
+                    settings = settings
+                  )
+                }
+              }
+
+              item {
+                Column(
+                  modifier = Modifier.padding(
+                    top = 11.dp, bottom = 16.dp
+                  ), verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                  Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                  ) {
+                    Icon(
+                      imageVector = Icons.Rounded.LockPerson,
+                      modifier = Modifier.size(16.dp),
+                      contentDescription = null
+                    )
+                    Text(
+                      Res.string.note.compose, style = MaterialTheme.typography.labelMedium
+                    )
+                  }
+                  Text(
+                    Res.string.privacy_warning.compose, style = MaterialTheme.typography.bodySmall
+                  )
                 }
               }
             }
           }
         }
       }
-    }
-  )
+    })
 }

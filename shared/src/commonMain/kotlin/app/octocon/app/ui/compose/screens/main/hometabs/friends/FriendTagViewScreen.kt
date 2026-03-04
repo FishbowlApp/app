@@ -119,7 +119,7 @@ fun FriendTagViewScreen(
             modifier = Modifier.fillMaxWidth().imePadding(),
             state = lazyListState,
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = PaddingValues(
               start = GLOBAL_PADDING,
               end = GLOBAL_PADDING,

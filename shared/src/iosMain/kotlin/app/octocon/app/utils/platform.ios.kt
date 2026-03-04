@@ -28,6 +28,7 @@ import platform.UIKit.registerForRemoteNotifications
 import platform.posix.arc4random_uniform
 import platform.posix.exit
 import platform.posix.memcpy
+import kotlin.experimental.ExperimentalNativeApi
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
@@ -232,4 +233,11 @@ fun NSData.toByteArray(): ByteArray = ByteArray(this@toByteArray.length.toInt())
 fun ByteArray.toNSData(): NSData = memScoped {
   NSData.create(bytes = allocArrayOf(this@toNSData),
     length = this@toNSData.size.toULong())
+}
+
+actual object BuildConfig : BuildConfigInterface {
+  @OptIn(ExperimentalNativeApi::class)
+  override fun isDebug(): Boolean {
+    return Platform.isDebugBinary
+  }
 }

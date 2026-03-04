@@ -385,7 +385,7 @@ fun FrontHistoryScreen(
         }
 
         item {
-          Spacer(modifier = Modifier.size(12.dp))
+          Spacer(modifier = Modifier.size(16.dp))
         }
       }
 

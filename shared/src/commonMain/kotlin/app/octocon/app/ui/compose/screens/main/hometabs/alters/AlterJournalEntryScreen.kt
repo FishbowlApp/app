@@ -50,6 +50,7 @@ import app.octocon.app.ui.model.main.SaveState
 import app.octocon.app.ui.model.main.hometabs.alters.AlterJournalEntryViewComponent
 import app.octocon.app.utils.compose
 import app.octocon.app.utils.derive
+import app.octocon.app.utils.effectsSpec
 import app.octocon.app.utils.localeFormatNumber
 import app.octocon.app.utils.savedState
 import com.arkivanov.decompose.ExperimentalDecomposeApi
@@ -169,8 +170,8 @@ fun AlterJournalEntryViewScreen(
       floatingActionButton = {
         AnimatedVisibility(
           visible = isEditing,
-          enter = fadeIn(animationSpec = spring(stiffness = Spring.StiffnessMediumLow)),
-          exit = fadeOut(animationSpec = spring(stiffness = Spring.StiffnessMediumLow))
+          enter = fadeIn(effectsSpec()),
+          exit = fadeOut(effectsSpec())
         ) {
           FloatingActionButton(
             onClick = { isEditing = false },

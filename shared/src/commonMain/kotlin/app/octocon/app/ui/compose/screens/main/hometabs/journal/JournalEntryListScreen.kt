@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -172,7 +171,7 @@ fun JournalEntryListScreen(
     floatingActionButton = {
       if (!ready || settings.encryptedEncryptionKey == null) return@OctoScaffold
       Column(
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.End
       )
       {
@@ -202,12 +201,12 @@ fun JournalEntryListScreen(
         }
 
         if (settings.encryptedEncryptionKey == null) {
-          if (system.ensureData.encryptionInitialized) {
-            LazyColumn(
-              contentPadding = PaddingValues(GLOBAL_PADDING),
-              verticalArrangement = Arrangement.spacedBy(12.dp),
-              modifier = Modifier.fillMaxSize()
-            ) {
+          LazyColumn(
+            contentPadding = PaddingValues(GLOBAL_PADDING),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.fillMaxSize()
+          ) {
+            if(system.ensureData.encryptionInitialized) {
               item {
                 RecoverEncryptionCard(
                   api = api,
@@ -218,14 +217,13 @@ fun JournalEntryListScreen(
               item {
                 ResetEncryptionCard(api = api, modifier = Modifier.fillMaxWidth())
               }
-            }
-          } else {
-            Box(modifier = Modifier.fillMaxSize()) {
-              SetupEncryptionCard(
-                api = api,
-                settings = component.settings,
-                modifier = Modifier.padding(GLOBAL_PADDING)
-              )
+            } else {
+              item {
+                SetupEncryptionCard(
+                  api = api,
+                  settings = component.settings
+                )
+              }
             }
           }
           return@OctoScaffold
@@ -356,16 +354,10 @@ private fun LazyJournalEntryList(
   ) {
     LazyColumn(
       state = lazyListState,
-      modifier = Modifier.fillMaxSize().apply {
-        /*if (nestedScrollConnection != null) {
-          nestedScroll(nestedScrollConnection)
-        }*/
-      },
-      verticalArrangement = Arrangement.spacedBy(12.dp),
+      modifier = Modifier.fillMaxSize(),
+      contentPadding = PaddingValues(GLOBAL_PADDING),
+      verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-      item {
-        Spacer(modifier = Modifier.size(4.dp))
-      }
 
       if (searchBarVisible) {
         item {
@@ -374,7 +366,7 @@ private fun LazyJournalEntryList(
             setSearchQuery = { searchQuery = it },
             isSearching = isSearching,
             placeholderText = Res.string.search_journal_entries.compose,
-            modifier = Modifier.padding(horizontal = GLOBAL_PADDING).fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
           )
         }
       }
@@ -382,8 +374,7 @@ private fun LazyJournalEntryList(
       if (showPermanentTips) {
         item {
           PermanentTipsNote(
-            text = Res.string.permanent_tip_global_journals.compose,
-            modifier = Modifier.padding(horizontal = GLOBAL_PADDING)
+            text = Res.string.permanent_tip_global_journals.compose
           )
         }
       }
@@ -396,8 +387,7 @@ private fun LazyJournalEntryList(
             ),
             elevation = CardDefaults.cardElevation(
               defaultElevation = 1.0.dp
-            ),
-            modifier = Modifier.padding(horizontal = GLOBAL_PADDING)
+            )
           ) {
             Column(
               modifier = Modifier.padding(16.dp).fillMaxWidth()
@@ -436,13 +426,8 @@ private fun LazyJournalEntryList(
           placeholderPainter = placeholderPainter,
           launchViewJournalEntry = launchEditJournalEntry,
           launchOpenJournalEntrySheet = launchOpenJournalEntrySheet,
-          modifier = Modifier.padding(horizontal = GLOBAL_PADDING),
           settings = settings
         )
-      }
-
-      item {
-        Spacer(modifier = Modifier.size(4.dp))
       }
     }
   }

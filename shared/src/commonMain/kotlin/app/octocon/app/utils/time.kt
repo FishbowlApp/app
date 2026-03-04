@@ -4,6 +4,7 @@ import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Month
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.number
 import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.until
@@ -44,7 +45,7 @@ fun MonthYearPair.nextMonth(): MonthYearPair {
 
 fun currentMonthYearPair(): MonthYearPair {
   val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
-  return Pair(now.year, now.monthNumber)
+  return Pair(now.year, now.month.number)
 }
 
 /*

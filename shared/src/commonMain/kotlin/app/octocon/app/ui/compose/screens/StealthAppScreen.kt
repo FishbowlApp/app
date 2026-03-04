@@ -43,6 +43,7 @@ import app.octocon.app.utils.Fonts
 import app.octocon.app.utils.compose
 import app.octocon.app.utils.composeColorSchemeParams
 import app.octocon.app.utils.dateFormat
+import app.octocon.app.utils.effectsSpec
 import app.octocon.app.utils.ioDispatcher
 import app.octocon.app.utils.noCacheKamelConfig
 import io.kamel.core.utils.cacheControl
@@ -177,7 +178,7 @@ fun StealthAppScreen(component: StealthAppComponent) {
                         modifier = Modifier
                           .size(width = 96.dp, height = 128.dp)
                           .clip(MaterialTheme.shapes.medium),
-                        animationSpec = tween(),
+                        animationSpec = effectsSpec(),
                         contentScale = ContentScale.Crop
                       )
                     }

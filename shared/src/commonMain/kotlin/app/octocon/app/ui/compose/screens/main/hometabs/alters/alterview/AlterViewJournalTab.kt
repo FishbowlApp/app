@@ -59,7 +59,6 @@ import app.octocon.app.utils.fuse.Fuse
 import app.octocon.app.utils.savedState
 import app.octocon.app.utils.sortBySimilarity
 import app.octocon.app.utils.state
-
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -117,22 +116,22 @@ fun AlterViewJournalTab(
   }
 
   if (settings.encryptedEncryptionKey == null) {
-    if (system.ensureData.encryptionInitialized) {
-      LazyColumn(
-        contentPadding = PaddingValues(GLOBAL_PADDING),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = Modifier.fillMaxSize()
-      ) {
+    LazyColumn(
+      contentPadding = PaddingValues(GLOBAL_PADDING),
+      verticalArrangement = Arrangement.spacedBy(16.dp),
+      modifier = Modifier.fillMaxSize()
+    ) {
+      if(system.ensureData.encryptionInitialized) {
         item {
           RecoverEncryptionCard(api = api, settings = component.settings, modifier = Modifier.fillMaxWidth())
         }
         item {
           ResetEncryptionCard(api = api, modifier = Modifier.fillMaxWidth())
         }
-      }
-    } else {
-      Box(modifier = Modifier.fillMaxSize()) {
-        SetupEncryptionCard(api = api, settings = component.settings, modifier = Modifier.padding(GLOBAL_PADDING))
+      } else {
+        item {
+          SetupEncryptionCard(api = api, settings = component.settings)
+        }
       }
     }
     return
@@ -250,17 +249,14 @@ private fun LazyJournalEntryList(
   ) {
     LazyColumn(
       state = lazyListState,
-      modifier = Modifier.fillMaxSize().padding(horizontal = GLOBAL_PADDING).apply {
+      modifier = Modifier.fillMaxSize().apply {
         /*if (nestedScrollConnection != null) {
           nestedScroll(nestedScrollConnection)
         }*/
       },
-      verticalArrangement = Arrangement.spacedBy(12.dp),
+      contentPadding = PaddingValues(GLOBAL_PADDING),
+      verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-      item {
-        Spacer(modifier = Modifier.size(4.dp))
-      }
-
       if (searchBarVisible) {
         item {
           OctoSearchBar(

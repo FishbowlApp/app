@@ -63,6 +63,7 @@ import app.octocon.app.api.model.MyAlter
 import app.octocon.app.ui.compose.theme.ThemeFromColor
 import app.octocon.app.utils.compose
 import app.octocon.app.utils.dateTimeFormat
+import app.octocon.app.utils.effectsSpec
 import app.octocon.app.utils.savedState
 import io.kamel.core.utils.cacheControl
 import io.kamel.image.KamelImage
@@ -394,7 +395,7 @@ fun LazyItemScope.GlobalJournalEntryCard(
                         },
                         contentDescription = null,
                         modifier = Modifier.size(32.dp).clip(CircleShape),
-                        animationSpec = tween(),
+                        animationSpec = effectsSpec(),
                       )
                     }
                   }

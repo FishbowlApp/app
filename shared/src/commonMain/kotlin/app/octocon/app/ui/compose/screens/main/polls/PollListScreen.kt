@@ -151,7 +151,7 @@ fun PollListScreen(
     ) {
       LazyColumn(
         modifier = Modifier.fillMaxSize().padding(GLOBAL_PADDING),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
       ) {
         when {
           !polls.isSuccess -> {

@@ -91,3 +91,7 @@ val platformUtilities = object : PlatformUtilities {
   override fun performAdditionalPushNotificationSetup() = Unit
   override fun updateWidgets(sessionInvalidated: Boolean) = Unit
 }
+
+actual object BuildConfig : BuildConfigInterface {
+  override fun isDebug(): Boolean = false // TODO: Implement a way to determine this; env?
+}

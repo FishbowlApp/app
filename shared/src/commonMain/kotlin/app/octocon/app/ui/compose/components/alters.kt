@@ -3,7 +3,6 @@ package app.octocon.app.ui.compose.components
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -71,12 +70,12 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.carousel.CarouselItemScope
 import androidx.compose.material3.carousel.CarouselState
 import androidx.compose.material3.carousel.HorizontalMultiBrowseCarousel
+import androidx.compose.material3.carousel.rememberCarouselState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -128,10 +127,12 @@ import app.octocon.app.ui.model.interfaces.SettingsInterface
 import app.octocon.app.utils.DevicePlatform
 import app.octocon.app.utils.compose
 import app.octocon.app.utils.derive
+import app.octocon.app.utils.effectsSpec
 import app.octocon.app.utils.fuse.Fuse
 import app.octocon.app.utils.platformLog
 import app.octocon.app.utils.savedState
 import app.octocon.app.utils.sortBySimilarity
+import app.octocon.app.utils.spatialSpec
 import app.octocon.app.utils.state
 import io.kamel.core.utils.cacheControl
 import io.kamel.image.KamelImage
@@ -235,7 +236,7 @@ private fun InnerAlterCard(
         onFailure = { AlterCardPlaceholderImage(isFronting, placeholderPainter) },
         contentDescription = "${alter.name} avatar",
         modifier = imageModifier.fillMaxSize().clip(MaterialTheme.shapes.medium),
-        animationSpec = tween()
+        animationSpec = effectsSpec()
       )
     }
   }
@@ -460,10 +461,11 @@ private fun SwipeAlterCardWrapper(
     }
   }
 
+  val spatialSpec = spatialSpec<Float>()
   fun processDrag() {
     dragEnabled = false
     scope.launch {
-      dragOffset.animateTo(0f)
+      dragOffset.animateTo(0f, animationSpec = spatialSpec)
       dragEnabled = true
     }
 
@@ -590,10 +592,11 @@ private fun BidirectionalSwipeAlterCardWrapper(
     willDismiss = currentProgress >= swipeThreshold && currentProgress != 1.0F
   }
 
+  val spatialSpec = spatialSpec<Float>()
   fun processDrag() {
     dragEnabled = false
     scope.launch {
-      dragOffset.animateTo(0f)
+      dragOffset.animateTo(0f, animationSpec = spatialSpec)
       dragEnabled = true
     }
 
@@ -1004,7 +1007,7 @@ fun CarouselItemScope.AlterCarouselItem(
             alter.name ?: Res.string.unnamed_alter.compose
           ),
           modifier = Modifier.fillMaxSize(),
-          animationSpec = tween(),
+          animationSpec = effectsSpec(),
           contentScale = ContentScale.Crop
         )
 
@@ -1455,13 +1458,7 @@ fun LazyAlterList(
     isSearching = false
   }
 
-  val carouselState = rememberSaveable(pinnedAlters, saver = CarouselState.Saver) {
-    CarouselState(
-      currentItem = 0,
-      currentItemOffsetFraction = 0F,
-      itemCount = { pinnedAlters.size }
-    )
-  }
+  val carouselState = rememberCarouselState(0) { pinnedAlters.size }
 
   LaunchedEffect(lazyListState) {
     snapshotFlow { lazyListState.firstVisibleItemIndex }
@@ -1514,7 +1511,7 @@ fun LazyAlterList(
               description = Res.string.tooltip_tags_desc.compose
             ) {
               Column(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().clip(MaterialTheme.shapes.medium)
                   .clickable(
                     onClick = {
                       settings.setTagsCollapsed(!tagsCollapsed)

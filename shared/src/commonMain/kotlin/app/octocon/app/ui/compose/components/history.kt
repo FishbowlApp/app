@@ -1,6 +1,5 @@
 package app.octocon.app.ui.compose.components
 
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,6 +33,7 @@ import app.octocon.app.ui.compose.screens.main.hometabs.FrontHistoryItem
 import app.octocon.app.ui.compose.screens.main.hometabs.FrontHistoryTimeType
 import app.octocon.app.ui.compose.theme.ThemeFromColor
 import app.octocon.app.utils.compose
+import app.octocon.app.utils.effectsSpec
 import app.octocon.app.utils.timeFormat
 import io.kamel.core.utils.cacheControl
 import io.kamel.image.KamelImage
@@ -78,7 +78,7 @@ fun FrontHistoryItemCard(
     reduceMotion = settings.reduceMotion
   ) {
     Column(
-      modifier = Modifier.padding(horizontal = GLOBAL_PADDING, vertical = 4.dp)
+      modifier = Modifier.padding(horizontal = GLOBAL_PADDING, vertical = 8.dp)
     ) {
       Card(
         modifier = Modifier.height(frontHistoryItemCardHeight)
@@ -125,7 +125,7 @@ fun FrontHistoryItemCard(
               contentDescription = "${alter.name} avatar",
               modifier = Modifier.size(frontHistoryItemCardHeight)
                 .clip(MaterialTheme.shapes.medium),
-              animationSpec = tween()
+              animationSpec = effectsSpec()
             )
           }
 

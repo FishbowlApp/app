@@ -21,6 +21,7 @@ import androidx.glance.appwidget.state.updateAppWidgetState
 import app.octocon.app.AndroidAppWrapper
 import app.octocon.app.Settings
 import app.octocon.app.ui.model.RootComponentImpl
+import app.octocon.app.utils.BuildConfig
 import app.octocon.app.utils.ColorSchemeParams
 import app.octocon.app.utils.ExitApplicationType
 import app.octocon.app.utils.PlatformEvent
@@ -309,6 +310,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     val initialSettings: Settings = handleIntent(settings)
+
+    BuildConfig.applicationContext = context
 
     GlobalScope.launch {
       try {

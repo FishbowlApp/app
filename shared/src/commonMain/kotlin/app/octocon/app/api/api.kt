@@ -13,6 +13,7 @@ import app.octocon.app.api.model.MyFrontItem
 import app.octocon.app.api.model.MySystem
 import app.octocon.app.api.model.MyTag
 import app.octocon.app.api.model.Poll
+import app.octocon.app.utils.BuildConfig
 import app.octocon.app.utils.DevicePlatform
 import app.octocon.app.utils.globalSerializer
 import app.octocon.app.utils.idRegex
@@ -340,9 +341,11 @@ internal class KotlixPhoenixSocketSession(
       KtorWebSocketTransport(url, socketFlow, decode, client)
     }
   ).apply {
-    logger = {
-      platformLog("OCTOCON-CHANNEL", it)
-    }
+    logger = if (BuildConfig.isDebug()) {
+      {
+        platformLog("OCTOCON-CHANNEL", it)
+      }
+    } else null
   }
   private var socketChannel: Channel? = null
 

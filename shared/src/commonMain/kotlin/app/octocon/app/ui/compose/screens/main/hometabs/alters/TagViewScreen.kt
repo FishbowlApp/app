@@ -57,6 +57,7 @@ import app.octocon.app.ui.model.main.SaveState
 import app.octocon.app.ui.model.main.hometabs.alters.TagViewComponent
 import app.octocon.app.utils.compose
 import app.octocon.app.utils.derive
+import app.octocon.app.utils.effectsSpec
 import app.octocon.app.utils.savedState
 import app.octocon.app.utils.state
 import com.arkivanov.decompose.ExperimentalDecomposeApi
@@ -158,8 +159,8 @@ fun TagViewScreen(
       floatingActionButton = {
         AnimatedVisibility(
           pages.selectedIndex == 0,
-          enter = fadeIn(animationSpec = spring(stiffness = Spring.StiffnessMediumLow)),
-          exit = fadeOut(animationSpec = spring(stiffness = Spring.StiffnessMediumLow))
+          enter = fadeIn(effectsSpec()),
+          exit = fadeOut(effectsSpec())
         ) {
           FloatingActionButton(
             onClick = {

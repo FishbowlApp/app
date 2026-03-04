@@ -58,6 +58,7 @@ import app.octocon.app.ui.compose.NavigationType
 import app.octocon.app.ui.compose.utils.SpotlightTooltip
 import app.octocon.app.utils.DevicePlatform
 import app.octocon.app.utils.compose
+import app.octocon.app.utils.effectsSpec
 import app.octocon.app.utils.state
 import kotlinx.coroutines.launch
 import octoconapp.shared.generated.resources.Res
@@ -192,8 +193,8 @@ fun OctoScaffold(
 
       AnimatedVisibility(
         visible = !isCollapsed,
-        enter = fadeIn(animationSpec = spring(stiffness = Spring.StiffnessMediumLow)),
-        exit = fadeOut(animationSpec = spring(stiffness = Spring.StiffnessMediumLow))
+        enter = fadeIn(effectsSpec()),
+        exit = fadeOut(effectsSpec())
       ) {
         Column(
           verticalArrangement = Arrangement.spacedBy(12.dp),

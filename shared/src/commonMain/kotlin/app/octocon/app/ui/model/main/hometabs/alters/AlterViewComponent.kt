@@ -41,6 +41,9 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.encodeToJsonElement
+import kotlinx.serialization.json.put
 import octoconapp.shared.generated.resources.Res
 import octoconapp.shared.generated.resources.basic_info
 import octoconapp.shared.generated.resources.custom_fields
@@ -342,24 +345,7 @@ class AlterViewComponentImpl(
     (api as ApiInterfaceImpl).sendAPIRequest<JsonElement>(
       HttpMethod.Patch,
       "systems/me/alters/${alterID}",
-      globalSerializer.encodeToString<MyAlter>(
-        apiAlter.value!!.ensureData.copy(
-          avatarUrl = null,
-          insertedAt = null,
-          updatedAt = null,
-          name = model.name.value,
-          pronouns = model.pronouns.value,
-          description = model.description.value,
-          color = model.color.value,
-          securityLevel = model.securityLevel.value,
-          fields = model.fields.value,
-          alias = model.alias.value,
-          proxyName = model.proxyName.value,
-          untracked = model.untracked.value,
-          archived = model.archived.value,
-          pinned = model.pinned.value
-        )
-      ),
+      _model.buildJsonDiff(),
       callback
     )
   }
@@ -451,7 +437,9 @@ class AlterViewComponentImpl(
       pinned
     ) { results ->
       val isLoaded = results[0] as Boolean
-      if(!isLoaded) { return@combine false }
+      if (!isLoaded) {
+        return@combine false
+      }
 
       val name = results[1] as String?
       val pronouns = results[2] as String?
@@ -466,18 +454,18 @@ class AlterViewComponentImpl(
       val pinned = results[11] as Boolean
 
       return@combine (
-        name != initialAlter.value!!.name ||
-        pronouns != initialAlter.value!!.pronouns ||
-        description != initialAlter.value!!.description ||
-        color != initialAlter.value!!.color ||
-        securityLevel != initialAlter.value!!.securityLevel ||
-        fields != initialAlter.value!!.fields ||
-        alias != initialAlter.value!!.alias ||
-        proxyName != initialAlter.value!!.proxyName ||
-        untracked != initialAlter.value!!.untracked ||
-        archived != initialAlter.value!!.archived ||
-        pinned != initialAlter.value!!.pinned
-      )
+          name != initialAlter.value!!.name ||
+              pronouns != initialAlter.value!!.pronouns ||
+              description != initialAlter.value!!.description ||
+              color != initialAlter.value!!.color ||
+              securityLevel != initialAlter.value!!.securityLevel ||
+              fields != initialAlter.value!!.fields ||
+              alias != initialAlter.value!!.alias ||
+              proxyName != initialAlter.value!!.proxyName ||
+              untracked != initialAlter.value!!.untracked ||
+              archived != initialAlter.value!!.archived ||
+              pinned != initialAlter.value!!.pinned
+          )
     }.stateIn(coroutineScope, SharingStarted.Eagerly, false)
 
     override fun updateSaveState(saveState: SaveState) {
@@ -567,5 +555,31 @@ class AlterViewComponentImpl(
       _archived.value = initialAlter.value!!.archived
       _pinned.value = initialAlter.value!!.pinned
     }
+
+    fun buildJsonDiff(): String =
+      buildJsonObject {
+        if (_name.value != initialAlter.value!!.name)
+          put("name", _name.value)
+        if (_pronouns.value != initialAlter.value!!.pronouns)
+          put("pronouns", _pronouns.value)
+        if (_description.value != initialAlter.value!!.description)
+          put("description", _description.value)
+        if (_color.value != initialAlter.value!!.color)
+          put("color", _color.value)
+        if (_securityLevel.value != initialAlter.value!!.securityLevel)
+          put("security_level", globalSerializer.encodeToString(_securityLevel.value))
+        if (_fields.value != initialAlter.value!!.fields)
+          put("fields", globalSerializer.encodeToJsonElement(_fields.value))
+        if (_alias.value != initialAlter.value!!.alias)
+          put("alias", _alias.value)
+        if (_proxyName.value != initialAlter.value!!.proxyName)
+          put("proxy_name", _proxyName.value)
+        if (_untracked.value != initialAlter.value!!.untracked)
+          put("untracked", _untracked.value)
+        if (_archived.value != initialAlter.value!!.archived)
+          put("archived", _archived.value)
+        if (_pinned.value != initialAlter.value!!.pinned)
+          put("pinned", _pinned.value)
+      }.toString()
   }
 }

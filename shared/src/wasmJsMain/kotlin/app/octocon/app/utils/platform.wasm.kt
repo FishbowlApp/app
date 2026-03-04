@@ -144,3 +144,7 @@ val platformUtilities = object : PlatformUtilities {
 }
 
 const val SETTINGS_LOCALSTORAGE_KEY = "octocon_settings"
+
+actual object BuildConfig : BuildConfigInterface {
+  override fun isDebug(): Boolean = false // TODO: Implement a way to determine this?
+}

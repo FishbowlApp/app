@@ -75,7 +75,7 @@ import octoconapp.shared.generated.resources.setup_encryption_dialog_title
 import octoconapp.shared.generated.resources.tap_to_copy
 
 @Composable
-internal fun SetupEncryptionCard(api: ApiInterface, settings: SettingsInterface, modifier: Modifier) {
+internal fun SetupEncryptionCard(api: ApiInterface, settings: SettingsInterface, modifier: Modifier = Modifier) {
   var encryptionDialogOpen by savedState(false)
   Card(
     colors = CardDefaults.cardColors(
@@ -122,7 +122,6 @@ internal fun SetupEncryptionCard(api: ApiInterface, settings: SettingsInterface,
 
   if (encryptionDialogOpen) {
     SetupEncryptionDialog(api, settings) { encryptionDialogOpen = false }
-
   }
 }
 

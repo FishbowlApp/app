@@ -60,6 +60,7 @@ import app.octocon.app.utils.DevicePlatform
 import app.octocon.app.utils.compose
 import app.octocon.app.utils.cropImageNatively
 import app.octocon.app.utils.derive
+import app.octocon.app.utils.effectsSpec
 import app.octocon.app.utils.ioDispatcher
 import app.octocon.app.utils.localeFormatNumber
 import app.octocon.app.utils.platformFileToImageSrc
@@ -333,7 +334,7 @@ private fun ProfileRoot(
                       systemData.username ?: systemData.id
                     ),
                     modifier = Modifier.fillMaxSize(),
-                    animationSpec = tween()
+                    animationSpec = effectsSpec()
                   )
                 }
               }

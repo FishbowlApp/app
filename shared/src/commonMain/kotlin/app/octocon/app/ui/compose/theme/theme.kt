@@ -1,13 +1,11 @@
 package app.octocon.app.ui.compose.theme
 
-import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ColorScheme
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MotionScheme
@@ -32,10 +30,12 @@ import app.octocon.app.DynamicColorType
 import app.octocon.app.FontChoice
 import app.octocon.app.FontSizeScalar
 import app.octocon.app.ThemeColor
+import app.octocon.app.utils.AnimationSpeed
+import app.octocon.app.utils.effectsSpec
 import app.octocon.app.utils.isGrayscale
 import com.materialkolor.PaletteStyle
 import com.materialkolor.dynamicColorScheme
-import com.materialkolor.dynamiccolor.ColorSpec
+import com.materialkolor.ktx.animateColorScheme
 
 private object OctoTypefaceTokens {
   val Plain = FontFamily.SansSerif
@@ -386,7 +386,6 @@ val LocalOctoShapes = staticCompositionLocalOf<Shapes> {
   error("No OctoShapes provided")
 }
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun OctoconTheme(
   fontChoice: FontChoice,
@@ -411,58 +410,7 @@ fun OctoconTheme(
     amoledMode
   )
 
-  val animationSpec: AnimationSpec<Color> = spring(stiffness = Spring.StiffnessLow)
-
-  val scheme = colorScheme.copy(
-    primary = colorScheme.primary.animate(animationSpec),
-    primaryContainer = colorScheme.primaryContainer.animate(animationSpec),
-    secondary = colorScheme.secondary.animate(animationSpec),
-    secondaryContainer = colorScheme.secondaryContainer.animate(animationSpec),
-    tertiary = colorScheme.tertiary.animate(animationSpec),
-    tertiaryContainer = colorScheme.tertiaryContainer.animate(animationSpec),
-    background = colorScheme.background.animate(animationSpec),
-    surface = colorScheme.surface.animate(animationSpec),
-    surfaceTint = colorScheme.surfaceTint.animate(animationSpec),
-    surfaceBright = colorScheme.surfaceBright.animate(animationSpec),
-    surfaceDim = colorScheme.surfaceDim.animate(animationSpec),
-    surfaceContainer = colorScheme.surfaceContainer.animate(animationSpec),
-    surfaceContainerHigh = colorScheme.surfaceContainerHigh.animate(animationSpec),
-    surfaceContainerHighest = colorScheme.surfaceContainerHighest.animate(animationSpec),
-    surfaceContainerLow = colorScheme.surfaceContainerLow.animate(animationSpec),
-    surfaceContainerLowest = colorScheme.surfaceContainerLowest.animate(animationSpec),
-    surfaceVariant = colorScheme.surfaceVariant.animate(animationSpec),
-    error = colorScheme.error.animate(animationSpec),
-    errorContainer = colorScheme.errorContainer.animate(animationSpec),
-    onPrimary = colorScheme.onPrimary.animate(animationSpec),
-    onPrimaryContainer = colorScheme.onPrimaryContainer.animate(animationSpec),
-    onSecondary = colorScheme.onSecondary.animate(animationSpec),
-    onSecondaryContainer = colorScheme.onSecondaryContainer.animate(animationSpec),
-    onTertiary = colorScheme.onTertiary.animate(animationSpec),
-    onTertiaryContainer = colorScheme.onTertiaryContainer.animate(animationSpec),
-    onBackground = colorScheme.onBackground.animate(animationSpec),
-    onSurface = colorScheme.onSurface.animate(animationSpec),
-    onSurfaceVariant = colorScheme.onSurfaceVariant.animate(animationSpec),
-    onError = colorScheme.onError.animate(animationSpec),
-    onErrorContainer = colorScheme.onErrorContainer.animate(animationSpec),
-    inversePrimary = colorScheme.inversePrimary.animate(animationSpec),
-    inverseSurface = colorScheme.inverseSurface.animate(animationSpec),
-    inverseOnSurface = colorScheme.inverseOnSurface.animate(animationSpec),
-    outline = colorScheme.outline.animate(animationSpec),
-    outlineVariant = colorScheme.outlineVariant.animate(animationSpec),
-    scrim = colorScheme.scrim.animate(animationSpec),
-    primaryFixed = colorScheme.primaryFixed.animate(animationSpec),
-    primaryFixedDim = colorScheme.primaryFixedDim.animate(animationSpec),
-    onPrimaryFixed = colorScheme.onPrimaryFixed.animate(animationSpec),
-    onPrimaryFixedVariant = colorScheme.onPrimaryFixedVariant.animate(animationSpec),
-    secondaryFixed = colorScheme.secondaryFixed.animate(animationSpec),
-    secondaryFixedDim = colorScheme.secondaryFixedDim.animate(animationSpec),
-    onSecondaryFixed = colorScheme.onSecondaryFixed.animate(animationSpec),
-    onSecondaryFixedVariant = colorScheme.onSecondaryFixedVariant.animate(animationSpec),
-    tertiaryFixed = colorScheme.tertiaryFixed.animate(animationSpec),
-    tertiaryFixedDim = colorScheme.tertiaryFixedDim.animate(animationSpec),
-    onTertiaryFixed = colorScheme.onTertiaryFixed.animate(animationSpec),
-    onTertiaryFixedVariant = colorScheme.onTertiaryFixedVariant.animate(animationSpec)
-  )
+  val scheme = animateColorScheme(colorScheme, effectsSpec(AnimationSpeed.SLOW))
 
   CompositionLocalProvider(
     LocalOctoTypography provides typography,
@@ -527,16 +475,14 @@ object SchemeCache {
         isDark = false,
         isAmoled = isAmoled,
         contrastLevel = colorContrastLevel.doubleValue,
-        style = paletteStyle,
-        specVersion = ColorSpec.SpecVersion.SPEC_2025
+        style = paletteStyle
       ),
       dynamicColorScheme(
         Color(intColor),
         isDark = true,
         isAmoled = isAmoled,
         contrastLevel = colorContrastLevel.doubleValue,
-        style = paletteStyle,
-        specVersion = ColorSpec.SpecVersion.SPEC_2025
+        style = paletteStyle
       )
     )
   }
@@ -566,7 +512,6 @@ object SchemeCache {
     }
 }
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ThemeFromColor(
   color: String?,
@@ -668,7 +613,6 @@ fun hexStringToARGBInt(hex: String): Int {
   }
 }
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Suppress("UNCHECKED_CAST")
 private object ReducedMotionScheme : MotionScheme {
   private val defaultSpatialSpec =

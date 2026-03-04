@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -252,13 +251,9 @@ private fun LazyFriendsList(
         } else it
       },
     state = lazyListState,
-    verticalArrangement = Arrangement.spacedBy(12.dp),
-    contentPadding = PaddingValues(horizontal = GLOBAL_PADDING)
+    verticalArrangement = Arrangement.spacedBy(16.dp),
+    contentPadding = PaddingValues(GLOBAL_PADDING)
   ) {
-    item {
-      Spacer(modifier = Modifier.size(4.dp))
-    }
-
     if (showPermanentTips) {
       item {
         PermanentTipsNote(
@@ -357,10 +352,6 @@ private fun LazyFriendsList(
             )
         }
       }
-    }
-
-    item {
-      Spacer(modifier = Modifier.size(4.dp))
     }
   }
 }

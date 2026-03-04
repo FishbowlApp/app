@@ -3,9 +3,6 @@
 package app.octocon.app.ui.compose.screens.main.hometabs.journal
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
@@ -73,6 +70,7 @@ import app.octocon.app.ui.model.main.SaveState
 import app.octocon.app.ui.model.main.hometabs.journal.JournalEntryViewComponent
 import app.octocon.app.utils.compose
 import app.octocon.app.utils.derive
+import app.octocon.app.utils.effectsSpec
 import app.octocon.app.utils.localeFormatNumber
 import app.octocon.app.utils.savedState
 import app.octocon.app.utils.state
@@ -216,8 +214,8 @@ fun JournalEntryViewScreen(
       floatingActionButton = {
         AnimatedVisibility(
           visible = isEditing,
-          enter = fadeIn(animationSpec = spring(stiffness = Spring.StiffnessMediumLow)),
-          exit = fadeOut(animationSpec = spring(stiffness = Spring.StiffnessMediumLow))
+          enter = fadeIn(effectsSpec()),
+          exit = fadeOut(effectsSpec())
         ) {
           FloatingActionButton(
             onClick = { isEditing = false },
@@ -308,7 +306,7 @@ fun JournalEntryViewScreen(
                           modifier = Modifier.size(32.dp).clip(CircleShape).clickable {
                             alterToEdit = alter
                           },
-                          animationSpec = tween()
+                          animationSpec = effectsSpec()
                         )
                       }
                     }

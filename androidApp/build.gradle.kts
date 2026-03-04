@@ -42,7 +42,7 @@ kotlin {
     implementation("io.coil-kt.coil3:coil-network-ktor3:3.4.0")
     implementation("androidx.glance:glance-appwidget:1.1.1")
     implementation("androidx.glance:glance-material3:1.1.1")
-    compileOnly("com.materialkolor:material-kolor:5.0.0-alpha06")
+    compileOnly("com.materialkolor:material-kolor:2.1.1")
     compileOnly("org.jetbrains.compose.material3:material3:1.11.0-alpha03")
     // compileOnly("org.jetbrains.compose.material3:material3:1.8.0+dev2098")
 

@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -76,8 +75,10 @@ import app.octocon.app.api.model.FriendshipLevel
 import app.octocon.app.ui.compose.theme.squareifyShape
 import app.octocon.app.utils.compose
 import app.octocon.app.utils.dateFormat
+import app.octocon.app.utils.effectsSpec
 import app.octocon.app.utils.idRegex
 import app.octocon.app.utils.savedState
+import app.octocon.app.utils.spatialSpec
 import app.octocon.app.utils.usernameRegex
 import io.kamel.core.utils.cacheControl
 import io.kamel.image.KamelImage
@@ -305,7 +306,7 @@ fun FriendCard(
     modifier = Modifier
       .fillMaxWidth()
       .clip(CardDefaults.elevatedShape)
-      .animateContentSize(),
+      .animateContentSize(animationSpec = spatialSpec()),
     colors = CardDefaults.cardColors(
       containerColor = MaterialTheme.colorScheme.surfaceContainerLow
     )
@@ -359,7 +360,7 @@ fun FriendCard(
               )
             }
           ),
-          animationSpec = tween()
+          animationSpec = effectsSpec()
         )
       }
       Column(
@@ -393,8 +394,8 @@ fun FriendCard(
       }
       AnimatedVisibility(
         visible = friendship.level == FriendshipLevel.TrustedFriend,
-        enter = fadeIn() + scaleIn(),
-        exit = scaleOut() + fadeOut()
+        enter = fadeIn(effectsSpec()) + scaleIn(spatialSpec()),
+        exit = scaleOut(spatialSpec()) + fadeOut(effectsSpec())
       ) {
         Box(
           modifier = Modifier.fillMaxHeight().padding(end = 24.0.dp - differential),
@@ -410,13 +411,14 @@ fun FriendCard(
       }
     }
 
-    AnimatedVisibility(frontingExpanded, enter = fadeIn(), exit = fadeOut()) {
+    AnimatedVisibility(frontingExpanded, enter = fadeIn(effectsSpec()), exit = fadeOut(effectsSpec())) {
       HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
     }
 
     if (fronting.isEmpty()) return@Card
 
-    AnimatedVisibility(frontingExpanded) {
+    if(frontingExpanded) {
+    //AnimatedVisibility(frontingExpanded) {
       Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
         Column(
           modifier = Modifier.padding(12.dp),
@@ -439,7 +441,7 @@ fun FriendCard(
       }
     }
 
-    AnimatedVisibility(frontingExpanded, enter = fadeIn(), exit = fadeOut()) {
+    AnimatedVisibility(frontingExpanded, enter = fadeIn(effectsSpec()), exit = fadeOut(effectsSpec())) {
       HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
     }
 
@@ -540,7 +542,7 @@ fun IncomingFriendRequestCard(
               )
             }
           ),
-          animationSpec = tween()
+          animationSpec = effectsSpec()
         )
       }
 
@@ -644,7 +646,7 @@ fun OutgoingFriendRequestCard(
           onFailure = { FriendCardPlaceholderImage(placeholderPainter, friendCardBaseHeight, settings = settings) },
           contentDescription = "${displayName}'s avatar",
           modifier = Modifier.size(friendCardBaseHeight).clip(CardDefaults.elevatedShape),
-          animationSpec = tween()
+          animationSpec = effectsSpec()
         )
       }
 
