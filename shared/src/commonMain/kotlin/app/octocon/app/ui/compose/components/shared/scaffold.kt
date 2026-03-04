@@ -1,9 +1,7 @@
 package app.octocon.app.ui.compose.components.shared
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
@@ -24,8 +22,8 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LargeTopAppBar
-import androidx.compose.material3.MediumTopAppBar
+import androidx.compose.material3.LargeFlexibleTopAppBar
+import androidx.compose.material3.MediumFlexibleTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -186,7 +184,7 @@ fun OctoScaffold(
       }
 
       val bottomPadding = if(navigationType == NavigationType.BOTTOM_BAR && hasHoistedBottomBar) {
-        animateDpAsState(if (isCollapsed) 0.dp else 80.dp)
+        animateDpAsState(if (isCollapsed) 0.dp else 64.dp)
       } else {
         animateDpAsState(0.dp)
       }
@@ -269,9 +267,9 @@ fun OctoTopBar(
   topAppBarState: TopAppBarState = rememberTopAppBarState(),
   scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
     topAppBarState
-  ),
+  )
 ) {
-  MediumTopAppBar(
+  MediumFlexibleTopAppBar(
     actions = actions,
     navigationIcon = navigation,
     title = {
@@ -320,7 +318,7 @@ fun OctoLargeTopBar(
     topAppBarState
   ),
 ) {
-  LargeTopAppBar(
+  LargeFlexibleTopAppBar(
     actions = actions,
     navigationIcon = navigation,
     title = {

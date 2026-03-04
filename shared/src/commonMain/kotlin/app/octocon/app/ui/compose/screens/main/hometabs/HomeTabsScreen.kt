@@ -8,7 +8,6 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,10 +21,10 @@ import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
+import androidx.compose.material3.ShortNavigationBar
+import androidx.compose.material3.ShortNavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -305,8 +304,8 @@ fun BottomBar(
     amoledMode = settings.amoledMode,
     reduceMotion = settings.reduceMotion
   ) {
-    NavigationBar(
-      // windowInsets = WindowInsets.navigationBars
+    ShortNavigationBar(
+      // windowInsets = WindowInsets.navigationBars,
       modifier = modifier
     ) {
       OctoconNavigationBarItem(
@@ -347,7 +346,7 @@ fun BottomBar(
 
 
 @Composable
-private fun RowScope.OctoconNavigationBarItem(
+private fun OctoconNavigationBarItem(
   title: String,
   icon: VectorPainter,
   lazyListCoroutineScope: CoroutineScope,
@@ -355,7 +354,7 @@ private fun RowScope.OctoconNavigationBarItem(
   isSelected: Boolean,
   navigate: () -> Unit
 ) {
-  NavigationBarItem(
+  ShortNavigationBarItem(
     selected = isSelected,
     onClick = {
       if (isSelected) {
