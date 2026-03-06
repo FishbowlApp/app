@@ -170,7 +170,13 @@ sealed interface ChannelMessage {
   data class PKImportComplete(@SerialName("alter_count") val alterCount: Int) : ChannelMessage
 
   @Serializable
+  data object PKImportFailed : ChannelMessage
+
+  @Serializable
   data class SPImportComplete(@SerialName("alter_count") val alterCount: Int) : ChannelMessage
+
+  @Serializable
+  data object SPImportFailed : ChannelMessage
 
   @Serializable
   data class DiscordAccountLinked(@SerialName("discord_id") val discordID: String) : ChannelMessage
@@ -192,6 +198,9 @@ sealed interface ChannelMessage {
 
   @Serializable
   data class SelfUpdated(val data: MySystem) : ChannelMessage
+
+  @Serializable
+  data class UsernameUpdated(val username: String) : ChannelMessage
 
   @Serializable
   data object EncryptedDataWiped : ChannelMessage
@@ -253,6 +262,7 @@ sealed interface ChannelMessage {
 
       "self_updated" to typeOf<SelfUpdated>(),
       "fields_updated" to typeOf<FieldsUpdated>(),
+      "username_updated" to typeOf<UsernameUpdated>(),
 
       "friend_removed" to typeOf<FriendRemoved>(),
       "friend_added" to typeOf<FriendAdded>(),
@@ -276,7 +286,9 @@ sealed interface ChannelMessage {
       "poll_deleted" to typeOf<PollDeleted>(),
 
       "pk_import_complete" to typeOf<PKImportComplete>(),
+      "pk_import_failed" to typeOf<PKImportFailed>(),
       "sp_import_complete" to typeOf<SPImportComplete>(),
+      "sp_import_failed" to typeOf<SPImportFailed>(),
 
       "discord_account_linked" to typeOf<DiscordAccountLinked>(),
       "discord_account_unlinked" to typeOf<DiscordAccountUnlinked>(),

@@ -89,7 +89,7 @@ fun SettingsCustomFieldsScreen(
   }
 
   OctoScaffold(
-    topBar = { topAppBarState, scrollBehavior, showSnackbar ->
+    topBar = { topAppBarState, scrollBehavior, _ ->
       OctoTopBar(
         navigation = {
           val childPanelsMode = LocalChildPanelsMode.current

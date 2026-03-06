@@ -34,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import app.octocon.app.FontSizeScalar
@@ -100,7 +101,7 @@ fun ResourcesScreen(
   val openURL: (String) -> Unit = remember(colorSchemeParams) { { component.openResource(it, colorSchemeParams) } }
 
   OctoScaffold(
-    topBar = { topAppBarState, scrollBehavior, showSnackbar ->
+    topBar = { topAppBarState, scrollBehavior, _ ->
       OctoTopBar(
         titleTextState = TitleTextState(
           Res.string.resources.compose,
@@ -194,7 +195,9 @@ private fun LazyListScope.ResourcesSection(
     ) {
       Text(
         title,
-        style = getSubsectionStyle(fontSizeScalar = fontSizeScalar)
+        style = getSubsectionStyle(fontSizeScalar = fontSizeScalar),
+        textAlign = TextAlign.Center,
+        modifier = Modifier.fillMaxWidth()
       )
       /*Icon(
         imageVector = icon,

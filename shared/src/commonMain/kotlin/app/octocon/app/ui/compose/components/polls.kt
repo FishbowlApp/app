@@ -85,7 +85,7 @@ import app.octocon.app.api.model.VotePoll
 import app.octocon.app.ui.compose.components.shared.BottomSheetListItem
 import app.octocon.app.ui.compose.components.shared.NoRippleInteractionSource
 import app.octocon.app.ui.compose.components.shared.OctoBottomSheet
-import app.octocon.app.ui.compose.components.shared.rememberCollectPressInteractionSource
+import app.octocon.app.ui.compose.components.shared.onTapUnconsumed
 import app.octocon.app.ui.compose.screens.GLOBAL_PADDING
 import app.octocon.app.utils.compose
 import app.octocon.app.utils.dateFormat
@@ -265,10 +265,7 @@ fun CreatePollDialog(
               ?: Res.string.no_end_time.compose,
             onValueChange = {},
             readOnly = true,
-            modifier = Modifier.fillMaxWidth(),
-            interactionSource = rememberCollectPressInteractionSource {
-              dateDialogOpen = true
-            },
+            modifier = Modifier.fillMaxWidth().onTapUnconsumed { dateDialogOpen = true },
             label = { Text(Res.string.end_time.compose) }
           )
         }

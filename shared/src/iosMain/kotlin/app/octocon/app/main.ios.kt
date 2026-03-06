@@ -1,7 +1,5 @@
 package app.octocon.app
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.uikit.OnFocusBehavior
 import androidx.compose.ui.window.ComposeUIViewController
@@ -13,7 +11,6 @@ import app.octocon.app.utils.platformLog
 import app.octocon.app.utils.platformUtilities
 import app.octocon.app.utils.sfSafariViewController
 import com.arkivanov.decompose.ExperimentalDecomposeApi
-import com.arkivanov.decompose.extensions.compose.stack.animation.predictiveback.PredictiveBackGestureIcon
 import com.arkivanov.decompose.extensions.compose.stack.animation.predictiveback.PredictiveBackGestureOverlay
 import com.arkivanov.essenty.backhandler.BackDispatcher
 import io.ktor.http.Url
@@ -67,14 +64,7 @@ fun MainViewController(platformDelegate: PlatformDelegate, root: RootComponent, 
   }) {
     PredictiveBackGestureOverlay(
       backDispatcher = backDispatcher,
-      // TODO: https://youtrack.jetbrains.com/issue/CMP-7006/Fix-1.8.0-alpha-binary-incompatibilities
-      backIcon = { progress, _ ->
-        PredictiveBackGestureIcon(
-          imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-          progress = progress,
-        )
-      },
-      // backIcon = null,
+      backIcon = null,
       endEdgeEnabled = false,
       modifier = Modifier.fillMaxSize(),
     ) {
@@ -82,6 +72,7 @@ fun MainViewController(platformDelegate: PlatformDelegate, root: RootComponent, 
     }
   }
 }
+
 
 @OptIn(DelicateCoroutinesApi::class)
 fun providePushNotificationToken(token: String?) {

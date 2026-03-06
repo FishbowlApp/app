@@ -2,7 +2,6 @@ package app.octocon.app.ui.compose.screens.main.polls
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Undo
@@ -200,7 +199,7 @@ fun PollViewScreen(
         poll = poll!!,
         launchDeletePoll = {
           api.deletePoll(it)
-          component.navigateBack()
+          component.navigateBack(false)
         },
         onDismissRequest = { deletePollDialogOpen = false }
       )
@@ -209,7 +208,7 @@ fun PollViewScreen(
 }
 
 @Composable
-private fun RowScope.TopBarActions(
+private fun TopBarActions(
   revertChanges: () -> Unit,
   launchDeletePoll: () -> Unit,
 ) {

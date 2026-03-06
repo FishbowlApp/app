@@ -406,10 +406,11 @@
     <string name="quick_exit_body">Quick exit is now enabled. Double-tap anywhere that isn't already interactive (like a button) to immediately exit the app.</string>
 
     <string name="notifications">Notifications</string>
+    <string name="account_options">Account options</string>
 
     <string name="show_push_notifications">Show push notifications</string>
 
-    <string name="account">Account</string>
+    <string name="login_methods">Login methods</string>
 
     <string name="create_custom_field">Create custom field</string>
     <string name="custom_fields">Custom fields</string>
@@ -470,17 +471,20 @@
 
     <string name="simply_plural">Simply Plural</string>
     <string name="import_sp_title">Import from Simply Plural</string>
-    <string name="import_sp_body">To import your alters from Simply Plural, you'll need a "token" from Simply Plural first. You can get this by opening the Simply Plural app and navigating to the following page:\n~\n**Settings** -> **Account** -> **Tokens**\n~\nFrom here:\n- Click the **Add Token** button\n- Enable the **Read** permission\n- Click the **Add Token** button at the bottom of the screen\n- Tap **Yes** 3 times to confirm\n- Click the copy button on the left of the token to copy it to your clipboard\n- Enter the token below!</string>
+    <string name="import_sp_body">To import your alters from Simply Plural, you'll need a "token" from Simply Plural first. You can get this by opening the Simply Plural app and navigating to the following page:\n~\n**Settings** -> **Account** -> **Tokens**\n~\nFrom here:\n- Click the **Add Token** button\n- Enable the **Read** permission\n- Click the **Add Token** button at the bottom of the screen\n- Tap **Yes** 3 times to confirm\n- Hold tap on the token to copy it to your clipboard\n- Enter the token below!</string>
 
     <string name="pluralkit">PluralKit</string>
     <string name="import_pk_title">Import from PluralKit</string>
     <string name="import_pk_body">To import your alters from PluralKit, you'll need your PluralKit "token" first.\n~\nTo receive this, DM the PluralKit Discord bot with the command `pk;token`, then copy the long, random string it gives you and enter it below.</string>
 
     <string name="import_complete_title">Import complete!</string>
+    <string name="importing_data_body">Importing your data...</string>
 
     <string name="import_complete_sp_body">Your alters have been successfully imported from Simply Plural!\n~\n**Note:** it may take a while longer for your avatars (profile pictures) to import.</string>
-    <string name="import_complete_pk_body">Your alters have been successfully imported from PluralKit!\n~\n**Note:** it may take a while longer for your avatars (profile pictures) to import.</string>
+    <string name="import_failed_sp_body">Failed to import from Simply Plural! Please check that your token is correct and try again.</string>
 
+    <string name="import_complete_pk_body">Your alters have been successfully imported from PluralKit!\n~\n**Note:** it may take a while longer for your avatars (profile pictures) to import.</string>
+    <string name="import_failed_pk_body">Failed to import from PluralKit! Please check that your token is correct and try again.</string>
     <string name="import">Import</string>
 
     <string name="danger_zone">Danger zone</string>

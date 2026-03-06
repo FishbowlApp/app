@@ -62,7 +62,7 @@ import octoconapp.shared.generated.resources.tag_context_menu
 import octoconapp.shared.generated.resources.tooltip_delete_tag_desc
 import org.jetbrains.compose.resources.stringResource
 
-private val tagCardHeight = 64.dp
+private val tagCardHeight = 72.dp
 
 @Composable
 fun TagCard(

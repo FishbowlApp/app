@@ -2,11 +2,13 @@ package app.octocon.app.ui.compose.components.shared
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.GestureCancellationException
+import androidx.compose.foundation.gestures.PressGestureScope
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.interaction.FocusInteraction
+import androidx.compose.foundation.gestures.forEachGesture
 import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -61,9 +63,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.input.pointer.AwaitPointerEventScope
+import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.PointerInputChange
+import androidx.compose.ui.input.pointer.PointerInputScope
+import androidx.compose.ui.input.pointer.changedToUp
+import androidx.compose.ui.input.pointer.consumeDownChange
+import androidx.compose.ui.input.pointer.isOutOfBounds
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.positionChangeConsumed
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.onClick
@@ -74,7 +84,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastAll
+import androidx.compose.ui.util.fastAny
 import app.octocon.app.Settings
 import app.octocon.app.api.model.MyAlter
 import app.octocon.app.api.model.MyTag
@@ -96,10 +109,12 @@ import app.octocon.app.utils.state
 import app.octocon.color_picker.ClassicColorPicker
 import app.octocon.color_picker.HsvColor
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
 import octoconapp.shared.generated.resources.Res
 import octoconapp.shared.generated.resources.cancel
 import octoconapp.shared.generated.resources.color
@@ -119,8 +134,10 @@ fun createConfirmationDialog(
   confirmText: String,
   cancelText: String,
   icon: @Composable () -> Unit,
-  onConfirm: (openUri: (String) -> Unit) -> Unit,
-  openUri: (String, ColorSchemeParams) -> Unit = { _, _ -> }
+  onConfirm: ((openUri: (String) -> Unit) -> Unit)?,
+  openUri: (String, ColorSchemeParams) -> Unit = { _, _ -> },
+  closeOnConfirm: Boolean = true,
+  forceOpen: Boolean = false
 ): Triple<@Composable () -> Unit, Boolean, () -> Unit> = internalConfirmationDialog(
   title = title,
   confirmText = confirmText,
@@ -128,7 +145,9 @@ fun createConfirmationDialog(
   icon = icon,
   content = { Text(messageText) },
   onConfirm = onConfirm,
-  openUri = openUri
+  openUri = openUri,
+  closeOnConfirm = closeOnConfirm,
+  forceOpen = forceOpen
 )
 
 @Composable
@@ -138,8 +157,10 @@ fun createConfirmationDialog(
   confirmText: String,
   cancelText: String,
   icon: @Composable () -> Unit,
-  onConfirm: (openUri: (String) -> Unit) -> Unit,
-  openUri: (String, ColorSchemeParams) -> Unit = { _, _ -> }
+  onConfirm: ((openUri: (String) -> Unit) -> Unit)?,
+  openUri: (String, ColorSchemeParams) -> Unit = { _, _ -> },
+  closeOnConfirm: Boolean = true,
+  forceOpen: Boolean = false
 ) = internalConfirmationDialog(
   title = title,
   confirmText = confirmText,
@@ -147,7 +168,9 @@ fun createConfirmationDialog(
   icon = icon,
   content = messageContent,
   onConfirm = onConfirm,
-  openUri = openUri
+  openUri = openUri,
+  closeOnConfirm = closeOnConfirm,
+  forceOpen = forceOpen
 )
 
 @Composable
@@ -157,36 +180,45 @@ private fun internalConfirmationDialog(
   cancelText: String,
   content: @Composable () -> Unit,
   icon: @Composable () -> Unit,
-  onConfirm: (openUri: (String) -> Unit) -> Unit,
-  openUri: (String, ColorSchemeParams) -> Unit = { _, _ -> }
+  onConfirm: ((openUri: (String) -> Unit) -> Unit)?,
+  openUri: (String, ColorSchemeParams) -> Unit = { _, _ -> },
+  closeOnConfirm: Boolean,
+  forceOpen: Boolean
 ): Triple<@Composable () -> Unit, Boolean, () -> Unit> {
   var isOpen by savedState(false)
 
   val composable: @Composable () -> Unit = {
     val colorSchemeParams = composeColorSchemeParams
 
-    AlertDialog(
-      icon = icon,
-      title = { Text(text = title) },
-      text = content,
-      confirmButton = {
+    val dismissButton = @Composable {
+      TextButton(
+        onClick = { isOpen = false },
+        enabled = !forceOpen
+      ) {
+        Text(cancelText)
+      }
+    }
+
+    val confirmButton = @Composable {
+      if(onConfirm != null) {
         TextButton(
           onClick = {
             onConfirm { uri -> openUri(uri, colorSchemeParams) }
-            isOpen = false
+            if (closeOnConfirm) isOpen = false
           }
         ) {
           Text(confirmText)
         }
-      },
-      dismissButton = {
-        TextButton(
-          onClick = { isOpen = false }
-        ) {
-          Text(cancelText)
-        }
-      },
-      onDismissRequest = { isOpen = false }
+      }
+    }
+
+    AlertDialog(
+      icon = icon,
+      title = { Text(text = title) },
+      text = content,
+      confirmButton = if(onConfirm == null) dismissButton else confirmButton,
+      dismissButton = if(onConfirm == null) null else dismissButton,
+      onDismissRequest = { if(!forceOpen) isOpen = false }
     )
   }
 
@@ -723,7 +755,7 @@ object NoRippleInteractionSource : MutableInteractionSource {
   override fun tryEmit(interaction: Interaction) = true
 }
 
-@Composable
+/*@Composable
 inline fun rememberCollectPressInteractionSource(
   crossinline block: suspend () -> Unit
 ) = remember { MutableInteractionSource() }.also { interactionSource ->
@@ -741,7 +773,104 @@ inline fun rememberCollectPressInteractionSource(
       }
     }
   }
+}*/
+
+fun Modifier.onTapUnconsumed(
+  onTap: ((Offset) -> Unit)? = null
+) = pointerInput(Unit) {
+  detectTapUnconsumed(onTap)
 }
+
+suspend fun PointerInputScope.detectTapUnconsumed(
+  onTap: ((Offset) -> Unit)? = null
+) {
+  val pressScope = PressGestureScopeImpl(this)
+  forEachGesture {
+    coroutineScope {
+      pressScope.reset()
+      awaitPointerEventScope {
+        awaitFirstDown(requireUnconsumed = false).also { it.consumeDownChange() }
+
+        val up = waitForUpOrCancellationInitial()
+        if (up == null) {
+          pressScope.cancel() // tap-up was canceled
+        } else {
+          pressScope.release()
+          onTap?.invoke(up.position)
+        }
+      }
+    }
+  }
+}
+
+suspend fun AwaitPointerEventScope.waitForUpOrCancellationInitial(): PointerInputChange? {
+  while (true) {
+    val event = awaitPointerEvent(PointerEventPass.Initial)
+    if (event.changes.fastAll { it.changedToUp() }) {
+      // All pointers are up
+      return event.changes[0]
+    }
+
+    if (event.changes.fastAny { it.consumed.downChange || it.isOutOfBounds(
+        size,
+        extendedTouchPadding
+      )
+      }) {
+      return null // Canceled
+    }
+
+    // Check for cancel by position consumption. We can look on the Final pass of the
+    // existing pointer event because it comes after the Main pass we checked above.
+    val consumeCheck = awaitPointerEvent(PointerEventPass.Final)
+    if (consumeCheck.changes.fastAny { it.positionChangeConsumed() }) {
+      return null
+    }
+  }
+}
+
+private class PressGestureScopeImpl(density: Density) : PressGestureScope, Density by density {
+  private var isReleased = false
+  private var isCanceled = false
+  private val mutex = Mutex(locked = false)
+
+  /** Called when a gesture has been canceled. */
+  fun cancel() {
+    isCanceled = true
+    if (mutex.isLocked) {
+      mutex.unlock()
+    }
+  }
+
+  /** Called when all pointers are up. */
+  fun release() {
+    isReleased = true
+    if (mutex.isLocked) {
+      mutex.unlock()
+    }
+  }
+
+  /** Called when a new gesture has started. */
+  suspend fun reset() {
+    mutex.lock()
+    isReleased = false
+    isCanceled = false
+  }
+
+  override suspend fun awaitRelease() {
+    if (!tryAwaitRelease()) {
+      throw GestureCancellationException("The press gesture was canceled.")
+    }
+  }
+
+  override suspend fun tryAwaitRelease(): Boolean {
+    if (!isReleased && !isCanceled) {
+      mutex.lock()
+      mutex.unlock()
+    }
+    return isReleased
+  }
+}
+
 
 @Composable
 fun Modifier.octoButtonModifier() = this.pointerHoverIcon(PointerIcon.Hand)

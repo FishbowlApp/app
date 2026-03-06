@@ -1,9 +1,6 @@
 package app.octocon.app.utils
 
 import androidx.compose.runtime.Composable
-import app.octocon.app.api.model.ExternalAlter
-import app.octocon.app.api.model.ExternalTag
-import app.octocon.app.api.model.SNAPINewsArticle
 import io.kamel.core.config.Core
 import io.kamel.core.config.DefaultCacheSize
 import io.kamel.core.config.KamelConfig
@@ -38,9 +35,14 @@ expect fun <T> List<T>.sortedLocaleAware(selector: (T) -> String): List<T>
 
 @Suppress("NOTHING_TO_INLINE")
 inline fun isGrayscale(hex: String): Boolean {
-  val rgb = hex.substring(1).chunked(2).map { it.toInt(16) }
-  val (r, g, b) = rgb
-  return (r == g && g == b)
+  return try {
+    val rgb = hex.substring(1).chunked(2).map { it.toInt(16) }
+    val (r, g, b) = rgb
+    (r == g && g == b)
+  } catch(e: Exception) {
+    e.printStackTrace()
+    false
+  }
 }
 
 val kamelConfig = KamelConfig {

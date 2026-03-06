@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Logout
 import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material.icons.rounded.Error
 import androidx.compose.material.icons.rounded.FileDownload
 import androidx.compose.material.icons.rounded.Link
 import androidx.compose.material.icons.rounded.Lock
@@ -20,6 +21,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -36,7 +38,6 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import app.octocon.app.api.ChannelMessage
 import app.octocon.app.api.model.MySystem
-import app.octocon.app.ui.compose.LocalChildPanelsMode
 import app.octocon.app.ui.compose.LocalNavigationType
 import app.octocon.app.ui.compose.LocalSetShowPushNotifications
 import app.octocon.app.ui.compose.NavigationType
@@ -68,7 +69,7 @@ import com.mikepenz.markdown.compose.LocalMarkdownColors
 import com.mikepenz.markdown.m3.markdownColor
 import octoconapp.shared.generated.resources.Res
 import octoconapp.shared.generated.resources.accessibility
-import octoconapp.shared.generated.resources.account
+import octoconapp.shared.generated.resources.account_options
 import octoconapp.shared.generated.resources.app
 import octoconapp.shared.generated.resources.app_info
 import octoconapp.shared.generated.resources.appearance
@@ -85,11 +86,13 @@ import octoconapp.shared.generated.resources.import
 import octoconapp.shared.generated.resources.import_alters
 import octoconapp.shared.generated.resources.import_complete_pk_body
 import octoconapp.shared.generated.resources.import_complete_sp_body
-import octoconapp.shared.generated.resources.import_complete_title
+import octoconapp.shared.generated.resources.import_failed_pk_body
+import octoconapp.shared.generated.resources.import_failed_sp_body
 import octoconapp.shared.generated.resources.import_pk_body
 import octoconapp.shared.generated.resources.import_pk_title
 import octoconapp.shared.generated.resources.import_sp_body
 import octoconapp.shared.generated.resources.import_sp_title
+import octoconapp.shared.generated.resources.importing_data_body
 import octoconapp.shared.generated.resources.link
 import octoconapp.shared.generated.resources.link_apple_account_body
 import octoconapp.shared.generated.resources.link_apple_account_title
@@ -97,6 +100,7 @@ import octoconapp.shared.generated.resources.link_discord_account_body
 import octoconapp.shared.generated.resources.link_discord_account_title
 import octoconapp.shared.generated.resources.link_google_account_body
 import octoconapp.shared.generated.resources.link_google_account_title
+import octoconapp.shared.generated.resources.login_methods
 import octoconapp.shared.generated.resources.logout
 import octoconapp.shared.generated.resources.logout_body
 import octoconapp.shared.generated.resources.notifications
@@ -148,8 +152,9 @@ import octoconapp.shared.generated.resources.wipe_alters_body
 fun SettingsRootScreen(
   component: SettingsRootComponent
 ) {
+  val account_options = Res.string.account_options.compose
   val notifications = Res.string.notifications.compose
-  val account = Res.string.account.compose
+  val login_methods = Res.string.login_methods.compose
   val import_alters = Res.string.import_alters.compose
   val danger_zone = Res.string.danger_zone.compose
   val app_info = Res.string.app_info.compose
@@ -157,30 +162,18 @@ fun SettingsRootScreen(
 
   val markdownColors = markdownColor()
 
-  var spCompleteDialogOpen by state(false)
-  var pkCompleteDialogOpen by state(false)
-
   val api: ApiInterface = component.api
   val settings: SettingsInterface = component.settings
   val settingsData by component.settings.collectAsState()
   val platformUtilities: PlatformUtilities = component.platformUtilities
-  val latestEvent by api.eventFlow.collectAsState(null)
   val system by api.systemMe.collectAsState()
 
   val isSinglet = settingsData.isSinglet
 
-  LaunchedEffect(latestEvent) {
-    when (latestEvent) {
-      is ChannelMessage.SPImportComplete -> spCompleteDialogOpen = true
-      is ChannelMessage.PKImportComplete -> pkCompleteDialogOpen = true
-      else -> Unit
-    }
-  }
-
   val setShowPushNotifications = LocalSetShowPushNotifications.current
 
   OctoScaffold(
-    topBar = { topAppBarState, scrollBehavior, showSnackbar ->
+    topBar = { topAppBarState, scrollBehavior, _ ->
       OctoTopBar(
         titleTextState = TitleTextState(
           Res.string.settings.compose,
@@ -188,7 +181,6 @@ fun SettingsRootScreen(
         ),
         navigation = {
           val navigationType = LocalNavigationType.current
-          val childPanelsMode = LocalChildPanelsMode.current
 
           if(navigationType != NavigationType.DRAWER) {
             OpenDrawerNavigationButton()
@@ -225,7 +217,12 @@ fun SettingsRootScreen(
               text = Res.string.security.compose,
               spotlightDescription = Res.string.tooltip_settings_security_desc.compose,
               onClick = component::navigateToSecurity
-            ) },
+            ) }
+          )
+
+          SettingsSection(
+            account_options,
+            settingsData,
             {
               if(!isSinglet) {
                 SettingsNavigationItem(
@@ -236,7 +233,7 @@ fun SettingsRootScreen(
                 )
               }
             },
-            { SettingsSingletMode(it, settings) }
+            { SettingsSingletMode(if(isSinglet) CardGroupPosition.SINGLE else CardGroupPosition.END, settings) }
           )
 
           if(DevicePlatform.isMobile) {
@@ -253,7 +250,7 @@ fun SettingsRootScreen(
 
           if(system.isSuccess) {
             SettingsSection(
-              account,
+              login_methods,
               settingsData,
               {
                 SettingsGoogleAccount(
@@ -297,8 +294,8 @@ fun SettingsRootScreen(
             SettingsSection(
               import_alters,
               settingsData,
-              { SettingsImportSP(it, api::importSP) },
-              { SettingsImportPK(it, api::importPK) }
+              { SettingsImportSP(it, api::importSP, api) },
+              { SettingsImportPK(it, api::importPK, api) }
             )
           }
 
@@ -326,73 +323,6 @@ fun SettingsRootScreen(
             Spacer(modifier = Modifier.height(GLOBAL_PADDING))
           }
         }
-
-        if (spCompleteDialogOpen) SPCompleteDialog { spCompleteDialogOpen = false }
-        if (pkCompleteDialogOpen) PKCompleteDialog { pkCompleteDialogOpen = false }
-      }
-    }
-  )
-}
-
-@Composable
-private fun SPCompleteDialog(
-  onDismissRequest: () -> Unit
-) {
-  AlertDialog(
-    icon = {
-      Icon(
-        Icons.Rounded.Check,
-        contentDescription = null
-      )
-    },
-    title = {
-      Text(text = Res.string.import_complete_title.compose)
-    },
-    text = {
-      LazyColumn {
-        item {
-          MarkdownRenderer(Res.string.import_complete_sp_body.compose)
-        }
-      }
-    },
-    onDismissRequest = onDismissRequest,
-    confirmButton = {
-      TextButton(
-        onClick = onDismissRequest
-      ) {
-        Text(Res.string.ok.compose)
-      }
-    }
-  )
-}
-
-@Composable
-private fun PKCompleteDialog(
-  onDismissRequest: () -> Unit
-) {
-  AlertDialog(
-    icon = {
-      Icon(
-        Icons.Rounded.Check,
-        contentDescription = null
-      )
-    },
-    title = {
-      Text(text = Res.string.import_complete_title.compose)
-    },
-    text = {
-      LazyColumn {
-        item {
-          MarkdownRenderer(Res.string.import_complete_pk_body.compose)
-        }
-      }
-    },
-    onDismissRequest = onDismissRequest,
-    confirmButton = {
-      TextButton(
-        onClick = onDismissRequest
-      ) {
-        Text(Res.string.ok.compose)
       }
     }
   )
@@ -692,16 +622,36 @@ private fun SettingsLogOut(
     text = Res.string.logout.compose,
     spotlightDescription = Res.string.tooltip_logout_desc.compose,
     cardGroupPosition = cardGroupPosition,
+    isError = true,
     onClick = openDialog
   )
+}
+
+private sealed class ImportStatus {
+  object Idle: ImportStatus()
+  object Importing: ImportStatus()
+  object Failed: ImportStatus()
+  class Success(val alterCount: Int): ImportStatus()
 }
 
 @Composable
 private fun SettingsImportPK(
   cardGroupPosition: CardGroupPosition,
-  importPK: (String) -> Unit
+  importPK: (String) -> Unit,
+  apiInterface: ApiInterface
 ) {
-  var pkToken by state("")
+  var pkToken by savedState("")
+  var status by state<ImportStatus>(ImportStatus.Idle)
+
+  LaunchedEffect(Unit) {
+    apiInterface.eventFlow.collect {
+      when(it) {
+        is ChannelMessage.PKImportComplete -> status = ImportStatus.Success(it.alterCount)
+        is ChannelMessage.PKImportFailed -> status = ImportStatus.Failed
+        else -> Unit
+      }
+    }
+  }
 
   val (Dialog, isOpen, openDialog) = createConfirmationDialog(
     title = Res.string.import_pk_title.compose,
@@ -709,33 +659,77 @@ private fun SettingsImportPK(
       LazyColumn(
         verticalArrangement = Arrangement.spacedBy(8.dp)
       ) {
-        item {
-          MarkdownRenderer(
-            Res.string.import_pk_body.compose
-          )
+        when (status) {
+          is ImportStatus.Success -> item {
+            MarkdownRenderer(
+              Res.string.import_complete_pk_body.compose
+            )
+          }
+
+          is ImportStatus.Failed -> item {
+            MarkdownRenderer(
+              Res.string.import_failed_pk_body.compose
+            )
+          }
+
+          is ImportStatus.Idle -> item {
+            MarkdownRenderer(
+              Res.string.import_pk_body.compose
+            )
+          }
+
+          is ImportStatus.Importing -> item {
+            MarkdownRenderer(
+              Res.string.importing_data_body.compose
+            )
+          }
         }
-        item {
-          TextField(
-            value = pkToken,
-            onValueChange = {
-              if (it.length > 1_000) return@TextField
-              pkToken = it
-            },
-            label = { Text(Res.string.token.compose) },
-            singleLine = true
-          )
+        if(status !is ImportStatus.Success) {
+          item {
+            TextField(
+              value = pkToken,
+              onValueChange = {
+                if (it.length > 1_000) return@TextField
+                pkToken = it
+              },
+              label = { Text(Res.string.token.compose) },
+              singleLine = true,
+              enabled = status == ImportStatus.Idle
+            )
+          }
         }
       }
     },
     confirmText = Res.string.import.compose,
-    cancelText = Res.string.cancel.compose,
+    cancelText = if(status is ImportStatus.Success) Res.string.confirm.compose else Res.string.cancel.compose,
     icon = {
-      Icon(
-        imageVector = Icons.Rounded.FileDownload,
-        contentDescription = null
-      )
+      when (status) {
+        ImportStatus.Idle -> Icon(
+          imageVector = Icons.Rounded.FileDownload,
+          contentDescription = null
+        )
+
+        ImportStatus.Importing -> LoadingIndicator()
+
+        ImportStatus.Failed -> Icon(
+          imageVector = Icons.Rounded.Error,
+          contentDescription = null,
+          tint = MaterialTheme.colorScheme.error
+        )
+
+        is ImportStatus.Success -> Icon(
+          imageVector = Icons.Rounded.Check,
+          contentDescription = null,
+          tint = MaterialTheme.colorScheme.primary
+        )
+      }
     },
-    onConfirm = { importPK(pkToken) }
+    onConfirm = if(status is ImportStatus.Success || status is ImportStatus.Importing) null else { {
+      status = ImportStatus.Importing
+      importPK(pkToken)
+    } },
+    closeOnConfirm = false,
+    forceOpen = status == ImportStatus.Importing
   )
 
   if (isOpen) {
@@ -755,9 +749,21 @@ private fun SettingsImportPK(
 @Composable
 private fun SettingsImportSP(
   cardGroupPosition: CardGroupPosition,
-  importSP: (String) -> Unit
+  importSP: (String) -> Unit,
+  apiInterface: ApiInterface
 ) {
-  var spToken by state("")
+  var spToken by savedState("")
+  var status by state<ImportStatus>(ImportStatus.Idle)
+
+  LaunchedEffect(Unit) {
+    apiInterface.eventFlow.collect {
+      when(it) {
+        is ChannelMessage.SPImportComplete -> status = ImportStatus.Success(it.alterCount)
+        is ChannelMessage.SPImportFailed -> status = ImportStatus.Failed
+        else -> Unit
+      }
+    }
+  }
 
   val (Dialog, isOpen, openDialog) = createConfirmationDialog(
     title = Res.string.import_sp_title.compose,
@@ -765,33 +771,77 @@ private fun SettingsImportSP(
       LazyColumn(
         verticalArrangement = Arrangement.spacedBy(8.dp)
       ) {
-        item {
-          MarkdownRenderer(
-            Res.string.import_sp_body.compose
-          )
+        when (status) {
+          is ImportStatus.Success -> item {
+            MarkdownRenderer(
+              Res.string.import_complete_sp_body.compose
+            )
+          }
+
+          is ImportStatus.Failed -> item {
+            MarkdownRenderer(
+              Res.string.import_failed_sp_body.compose
+            )
+          }
+
+          is ImportStatus.Idle -> item {
+            MarkdownRenderer(
+              Res.string.import_sp_body.compose
+            )
+          }
+
+          is ImportStatus.Importing -> item {
+            MarkdownRenderer(
+              Res.string.importing_data_body.compose
+            )
+          }
         }
-        item {
-          TextField(
-            value = spToken,
-            onValueChange = {
-              if (it.length > 1_000) return@TextField
-              spToken = it
-            },
-            label = { Text(Res.string.token.compose) },
-            singleLine = true
-          )
+        if(status !is ImportStatus.Success) {
+          item {
+            TextField(
+              value = spToken,
+              onValueChange = {
+                if (it.length > 1_000) return@TextField
+                spToken = it
+              },
+              label = { Text(Res.string.token.compose) },
+              singleLine = true,
+              enabled = status == ImportStatus.Idle
+            )
+          }
         }
       }
     },
     confirmText = Res.string.import.compose,
-    cancelText = Res.string.cancel.compose,
+    cancelText = if(status is ImportStatus.Success) Res.string.confirm.compose else Res.string.cancel.compose,
     icon = {
-      Icon(
-        imageVector = Icons.Rounded.FileDownload,
-        contentDescription = null
-      )
+      when (status) {
+        ImportStatus.Idle -> Icon(
+          imageVector = Icons.Rounded.FileDownload,
+          contentDescription = null
+        )
+
+        ImportStatus.Importing -> LoadingIndicator()
+
+        ImportStatus.Failed -> Icon(
+          imageVector = Icons.Rounded.Error,
+          contentDescription = null,
+          tint = MaterialTheme.colorScheme.error
+        )
+
+        is ImportStatus.Success -> Icon(
+          imageVector = Icons.Rounded.Check,
+          contentDescription = null,
+          tint = MaterialTheme.colorScheme.primary
+        )
+      }
     },
-    onConfirm = { importSP(spToken) }
+    onConfirm = if(status is ImportStatus.Success || status is ImportStatus.Importing) null else { {
+      status = ImportStatus.Importing
+      importSP(spToken)
+    } },
+    closeOnConfirm = false,
+    forceOpen = status == ImportStatus.Importing
   )
 
   if (isOpen) {

@@ -47,7 +47,7 @@ import app.octocon.app.ui.compose.LocalUpdateLazyListState
 import app.octocon.app.ui.compose.components.LocalFieldFocusRequester
 import app.octocon.app.ui.compose.components.shared.AttachTagDialog
 import app.octocon.app.ui.compose.components.shared.UpdateColorDialog
-import app.octocon.app.ui.compose.components.shared.rememberCollectPressInteractionSource
+import app.octocon.app.ui.compose.components.shared.onTapUnconsumed
 import app.octocon.app.ui.compose.screens.GLOBAL_PADDING
 import app.octocon.app.ui.compose.theme.hexStringToARGBInt
 import app.octocon.app.ui.compose.utils.MarkdownOutlinedTextField
@@ -174,9 +174,6 @@ fun TagViewSettingsTab(
           onValueChange = {},
           readOnly = true,
           singleLine = true,
-          interactionSource = rememberCollectPressInteractionSource {
-            colorDialogOpen = true
-          },
           suffix = if (color != null) {
             {
               Box(
@@ -189,7 +186,7 @@ fun TagViewSettingsTab(
           } else null,
           label = { Text(Res.string.color.compose) },
           modifier = Modifier.fillMaxWidth()
-            .padding(bottom = 6.dp, start = GLOBAL_PADDING, end = GLOBAL_PADDING)
+            .padding(bottom = 6.dp, start = GLOBAL_PADDING, end = GLOBAL_PADDING).onTapUnconsumed { colorDialogOpen = true }
         )
       }
       item {
@@ -254,11 +251,8 @@ fun TagViewSettingsTab(
             onValueChange = {},
             readOnly = true,
             singleLine = true,
-            interactionSource = rememberCollectPressInteractionSource {
-              setParentTagDialogOpen = true
-            },
             label = { Text(Res.string.parent_tag.compose) },
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(1f).onTapUnconsumed { setParentTagDialogOpen = true },
           )
           if (parentTag != null) {
             FilledTonalIconButton(

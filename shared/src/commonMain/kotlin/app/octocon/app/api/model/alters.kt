@@ -1,7 +1,7 @@
 package app.octocon.app.api.model
 
 import app.octocon.app.utils.AssumedUTCInstantSerializer
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -19,7 +19,7 @@ interface Alter {
 @Serializable
 data class UnmarkedAlterCustomField(
   val id: String,
-  val value: String
+  val value: String?
 )
 
 @Serializable

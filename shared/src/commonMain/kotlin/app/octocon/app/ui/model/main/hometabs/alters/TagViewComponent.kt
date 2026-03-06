@@ -16,6 +16,7 @@ import app.octocon.app.ui.model.main.hometabs.alters.tagview.TagViewSettingsComp
 import app.octocon.app.ui.model.main.hometabs.alters.tagview.TagViewSettingsComponentImpl
 import app.octocon.app.utils.colorRegex
 import app.octocon.app.utils.compose
+import app.octocon.app.utils.globalSerializer
 import com.arkivanov.decompose.router.pages.ChildPages
 import com.arkivanov.decompose.router.pages.Pages
 import com.arkivanov.decompose.router.pages.PagesNavigation
@@ -59,7 +60,7 @@ interface TagViewComponent : CommonInterface {
   fun setAlterSortingMethod(alterSortingMethod: AlterSortingMethod)
 
   fun navigateToPage(index: Int)
-  fun navigateBack()
+  fun navigateBack(trySave: Boolean = true)
 
   fun updateShowSnackbar(showSnackbar: (String) -> Unit)
 
@@ -233,8 +234,8 @@ class TagViewComponentImpl(
 
   private var pendingSaveEvent: (() -> Unit)? = null
 
-  private fun tryExit(onSave: () -> Unit) {
-    if (model.tagHasChanged.value) {
+  private fun tryExit(trySave: Boolean, onSave: () -> Unit) {
+    if (trySave && model.tagHasChanged.value) {
       pendingSaveEvent = onSave
       commit()
     } else {
@@ -242,7 +243,7 @@ class TagViewComponentImpl(
     }
   }
 
-  override fun navigateBack() = tryExit { popSelf() }
+  override fun navigateBack(trySave: Boolean) = tryExit(trySave) { popSelf() }
 
   override fun commit() {
     if (!model.tagHasChanged.value) return
@@ -300,15 +301,15 @@ class TagViewComponentImpl(
 
     private val _name = MutableStateFlow(apiTag.value?.name ?: "")
     override val name: StateFlow<String> = _name
-    private val _description = MutableStateFlow<String?>(apiTag.value?.description)
+    private val _description = MutableStateFlow(apiTag.value?.description)
     override val description: StateFlow<String?> = _description
-    private val _color = MutableStateFlow<String?>(apiTag.value?.color)
+    private val _color = MutableStateFlow(apiTag.value?.color)
     override val color: StateFlow<String?> = _color
     private val _securityLevel = MutableStateFlow(apiTag.value?.securityLevel ?: SecurityLevel.PRIVATE)
     override val securityLevel: StateFlow<SecurityLevel> = _securityLevel
     private val _alters = MutableStateFlow(apiTag.value?.alters ?: emptyList())
     override val alters: StateFlow<List<Int>> = _alters
-    private val _parentTagID = MutableStateFlow<String?>(apiTag.value?.parentTagID)
+    private val _parentTagID = MutableStateFlow(apiTag.value?.parentTagID)
     override val parentTagID: StateFlow<String?> = _parentTagID
 
     private val _initialTag = MutableStateFlow<MyTag?>(null)
@@ -407,7 +408,7 @@ class TagViewComponentImpl(
         if (_description.value != initialTag.value!!.description)
           put("description", _description.value)
         if (_securityLevel.value != initialTag.value!!.securityLevel)
-          put("security_level", _securityLevel.value.internalName)
+          put("security_level", globalSerializer.encodeToString(_securityLevel.value))
       }.toString()
   }
 }

@@ -1,8 +1,6 @@
 package app.octocon.app.ui.compose.screens.main.hometabs.alters
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
@@ -145,7 +143,7 @@ fun AlterJournalEntryViewScreen(
 
     OctoScaffold(
       hasHoistedBottomBar = true,
-      topBar = { topAppBarState, scrollBehavior, showSnackbar ->
+      topBar = { topAppBarState, scrollBehavior, _ ->
         OctoLargeTopBar(
           titleTextState = titleTextState,
           navigation = {
@@ -233,7 +231,7 @@ fun AlterJournalEntryViewScreen(
             onDismissRequest = { deleteEntryDialogOpen = false },
             launchDeleteJournalEntry = {
               api.deleteAlterJournalEntry(it.id)
-              component.navigateBack()
+              component.navigateBack(false)
             }
           )
         }

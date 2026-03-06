@@ -198,7 +198,7 @@ fun AlterListScreen(
 
   OctoScaffold(
     hasHoistedBottomBar = true,
-    topBar = { topAppBarState, scrollBehavior, showSnackbar ->
+    topBar = { topAppBarState, scrollBehavior, _ ->
       OctoTopBar(
         titleTextState = TitleTextState(
           Res.string.alters.compose,

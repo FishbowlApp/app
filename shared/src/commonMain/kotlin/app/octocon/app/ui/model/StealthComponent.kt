@@ -68,12 +68,10 @@ internal class StealthAppComponentImpl(
 ) : StealthAppComponent, CommonComponentContext by componentContext {
   val coroutineScope = coroutineScope(coroutineContext + SupervisorJob())
   private val handler = retainStateHandler { StealthAppComponent.Model() }
-  init {
-    registerStateHandler(handler)
-  }
   override val model = handler.model
 
   init {
+    registerStateHandler(handler)
     loadArticles()
   }
 

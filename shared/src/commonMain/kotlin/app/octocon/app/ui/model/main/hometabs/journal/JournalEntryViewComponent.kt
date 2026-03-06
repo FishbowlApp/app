@@ -47,7 +47,7 @@ interface JournalEntryViewComponent : CommonInterface {
 
   fun commit()
 
-  fun navigateBack()
+  fun navigateBack(trySave: Boolean = false)
 
   fun updateShowSnackbar(showSnackbar: (String) -> Unit)
 
@@ -157,8 +157,8 @@ class JournalEntryViewComponentImpl(
 
   private var pendingSaveEvent: (() -> Unit)? = null
 
-  private fun tryExit(onSave: () -> Unit) {
-    if (model.entryHasChanged.value) {
+  private fun tryExit(trySave: Boolean, onSave: () -> Unit) {
+    if (trySave && model.entryHasChanged.value) {
       pendingSaveEvent = onSave
       commit()
     } else {
@@ -166,7 +166,7 @@ class JournalEntryViewComponentImpl(
     }
   }
 
-  override fun navigateBack() = tryExit(popSelf)
+  override fun navigateBack(trySave: Boolean) = tryExit(trySave, popSelf)
 
   private var showSnackbar: ((String) -> Unit)? = null
 

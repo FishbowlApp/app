@@ -143,7 +143,7 @@ fun FriendListScreen(
 
   OctoScaffold(
     hasHoistedBottomBar = !isSinglet,
-    topBar = { topAppBarState, scrollBehavior, showSnackbar ->
+    topBar = { topAppBarState, scrollBehavior, _ ->
       OctoTopBar(
         titleTextState = TitleTextState(
           title = Res.string.friends.compose,

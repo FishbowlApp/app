@@ -74,7 +74,7 @@ import app.octocon.app.ui.compose.components.shared.BottomSheetListItem
 import app.octocon.app.ui.compose.components.shared.IndeterminateProgressSpinner
 import app.octocon.app.ui.compose.components.shared.OctoBottomSheet
 import app.octocon.app.ui.compose.components.shared.UpdateColorDialog
-import app.octocon.app.ui.compose.components.shared.rememberCollectPressInteractionSource
+import app.octocon.app.ui.compose.components.shared.onTapUnconsumed
 import app.octocon.app.ui.compose.screens.GLOBAL_PADDING
 import app.octocon.app.ui.compose.theme.ThemeFromColor
 import app.octocon.app.ui.compose.theme.getSubsectionStyle
@@ -458,10 +458,7 @@ fun AlterViewBasicInfoTab(
             onValueChange = {},
             readOnly = true,
             singleLine = true,
-            interactionSource = rememberCollectPressInteractionSource {
-              colorDialogOpen = true
-            },
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(1f).onTapUnconsumed { colorDialogOpen = true },
             suffix = if (color != null) {
               {
                 Box(

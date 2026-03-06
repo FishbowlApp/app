@@ -61,7 +61,7 @@ fun SettingsAccessibilityScreen(
   val spotlight = Res.string.spotlight_tooltips.compose
 
   OctoScaffold(
-    topBar = { topAppBarState, scrollBehavior, showSnackbar ->
+    topBar = { topAppBarState, scrollBehavior, _ ->
       OctoTopBar(
         navigation = {
           val childPanelsMode = LocalChildPanelsMode.current

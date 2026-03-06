@@ -43,7 +43,7 @@ fun SettingsOpenSourceLicensesScreen(
   val libraries by rememberLibraries()
 
   OctoScaffold(
-    topBar = { topAppBarState, scrollBehavior, showSnackbar ->
+    topBar = { topAppBarState, scrollBehavior, _ ->
       OctoTopBar(
         navigation = {
           val childPanelsMode = LocalChildPanelsMode.current

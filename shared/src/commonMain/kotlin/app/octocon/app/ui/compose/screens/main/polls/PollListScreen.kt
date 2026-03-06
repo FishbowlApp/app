@@ -49,13 +49,13 @@ import app.octocon.app.utils.state
 import com.mikepenz.markdown.compose.LocalMarkdownColors
 import com.mikepenz.markdown.m3.markdownColor
 import kotlinx.coroutines.delay
-import kotlin.time.Clock
 import octoconapp.shared.generated.resources.Res
 import octoconapp.shared.generated.resources.no_polls_card_body
 import octoconapp.shared.generated.resources.no_polls_card_button
 import octoconapp.shared.generated.resources.no_polls_card_title
 import octoconapp.shared.generated.resources.polls
 import octoconapp.shared.generated.resources.tooltip_polls_desc
+import kotlin.time.Clock
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
@@ -117,7 +117,7 @@ fun PollListScreen(
   }
 
   OctoScaffold(
-    topBar = { topAppBarState, scrollBehavior, showSnackbar ->
+    topBar = { topAppBarState, scrollBehavior, _ ->
       OctoTopBar(
         titleTextState = TitleTextState(
           Res.string.polls.compose,

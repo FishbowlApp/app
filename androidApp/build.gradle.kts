@@ -25,16 +25,13 @@ kotlin {
   }
 
   dependencies {
-    val decomposeVersion = "3.5.0-beta01"
+    val decomposeVersion = "3.4.0"
     implementation(platform("com.google.firebase:firebase-bom:34.10.0"))
     implementation("com.google.firebase:firebase-messaging")
     implementation("androidx.browser:browser:1.9.0")
     implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
 
     implementation("com.nimbusds:nimbus-jose-jwt:10.8")
-
-    // TODO: Add baseline profiles back
-    // baselineProfile(project(":baselineprofile"))
 
     // Widget
     implementation("androidx.work:work-runtime-ktx:2.11.1")
@@ -114,6 +111,8 @@ android {
     viewBinding = true
   }
 }
+
 dependencies {
   implementation("androidx.profileinstaller:profileinstaller:1.3.1")
+  "baselineProfile"(project(":baselineprofile"))
 }

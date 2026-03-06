@@ -50,6 +50,7 @@ import androidx.compose.material.icons.rounded.KeyboardDoubleArrowDown
 import androidx.compose.material.icons.rounded.KeyboardDoubleArrowUp
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.PersonAdd
+import androidx.compose.material.icons.rounded.PersonPinCircle
 import androidx.compose.material.icons.rounded.PersonRemove
 import androidx.compose.material.icons.rounded.PushPin
 import androidx.compose.material.icons.rounded.Search
@@ -182,7 +183,7 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.roundToInt
 
-private val alterCardHeight = 64.dp
+private val alterCardHeight = 72.dp
 const val swipeThreshold = 0.20f
 const val extendedSwipeThreshold = 0.50f
 const val swipeReciprocal = 1f / swipeThreshold
@@ -885,6 +886,8 @@ internal fun AlterCardPlaceholderImage(
   }
 }
 
+private val carouselHeight = 160.dp
+
 @Composable
 fun AlterCarousel(
   carouselState: CarouselState,
@@ -897,11 +900,8 @@ fun AlterCarousel(
   modifier: Modifier = Modifier
 ) {
   val settings by settingsInterface.collectAsState()
-  val useSmallAvatars by derive { settings.useSmallAvatars }
 
   val placeholderPainter = rememberVectorPainter(Icons.Rounded.Person)
-
-  val carouselHeight = if (useSmallAvatars) 100.dp else 160.dp
 
   HorizontalMultiBrowseCarousel(
     state = carouselState,
@@ -918,8 +918,7 @@ fun AlterCarousel(
       imageContext,
       settings,
       placeholderPainter,
-      carouselHeight,
-      useSmallAvatars
+      carouselHeight
     )
   }
 }
@@ -935,8 +934,7 @@ fun CarouselItemScope.AlterCarouselItem(
   imageContext: CoroutineContext,
   settings: Settings,
   placeholderPainter: VectorPainter,
-  height: Dp,
-  useSmallAvatars: Boolean
+  height: Dp
 ) {
   val focusPercentage = carouselItemDrawInfo.size / carouselItemDrawInfo.maxSize
 
@@ -963,8 +961,7 @@ fun CarouselItemScope.AlterCarouselItem(
           alter,
           placeholderPainter,
           focusPercentage,
-          settings.fontChoice,
-          useSmallAvatars
+          settings.fontChoice
         )
       }
     } else {
@@ -998,8 +995,7 @@ fun CarouselItemScope.AlterCarouselItem(
               alter,
               placeholderPainter,
               focusPercentage,
-              settings.fontChoice,
-              useSmallAvatars
+              settings.fontChoice
             )
           },
           contentDescription = stringResource(
@@ -1012,7 +1008,8 @@ fun CarouselItemScope.AlterCarouselItem(
         )
 
         Box(
-          modifier = Modifier.fillMaxSize()
+          modifier = Modifier
+            .fillMaxSize()
             .background(MaterialTheme.colorScheme.scrim.copy(alpha = 0.4f * eased))
         )
 
@@ -1038,7 +1035,6 @@ private fun AlterCarouselPlaceholderImage(
   placeholderPainter: Painter,
   focusPercentage: Float,
   fontChoice: FontChoice,
-  useSmallAvatars: Boolean,
   modifier: Modifier = Modifier
 ) {
   Surface(
@@ -1054,7 +1050,7 @@ private fun AlterCarouselPlaceholderImage(
         Icon(
           painter = placeholderPainter,
           contentDescription = null,
-          modifier = Modifier.size(if (useSmallAvatars) 30.dp else 48.dp).animateItem(),
+          modifier = Modifier.size(48.dp).animateItem(),
           tint = MaterialTheme.colorScheme.secondary
         )
       }
@@ -1337,7 +1333,7 @@ fun AlterContextSheet(
         description = Res.string.tooltip_fronting_desc.compose
       ) {
         BottomSheetListItem(
-          imageVector = Icons.Rounded.PushPin,
+          imageVector = Icons.Rounded.PersonPinCircle,
           title = Res.string.set_as_front.compose
         ) {
           launchSetAsFront(selectedAlter)

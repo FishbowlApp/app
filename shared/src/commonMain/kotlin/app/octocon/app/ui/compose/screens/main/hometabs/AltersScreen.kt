@@ -75,7 +75,7 @@ fun AltersDetailStackScreen(
 
   ChildStack(
     component.stack,
-    animation = backAnimation(screenTransitionType, reduceMotion, component.backHandler, component::onBackPressed)
+    animation = backAnimation(screenTransitionType, reduceMotion, component.backHandler, component::onBackPressed),
   ) {
     when (val child = it.instance) {
       is AltersDetailStackComponent.Child.AlterViewChild -> AlterViewScreen(child.component)

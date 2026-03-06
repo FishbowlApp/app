@@ -69,7 +69,7 @@ interface AlterViewComponent {
   fun deleteAlter()
 
   fun navigateToPage(index: Int)
-  fun navigateBack()
+  fun navigateBack(trySave: Boolean = true)
 
   fun updateShowSnackbar(showSnackbar: (String) -> Unit)
 
@@ -304,8 +304,8 @@ class AlterViewComponentImpl(
 
   private var pendingSaveEvent: (() -> Unit)? = null
 
-  private fun tryExit(onSave: () -> Unit) {
-    if (model.alterHasChanged.value) {
+  private fun tryExit(trySave: Boolean, onSave: () -> Unit) {
+    if (trySave && model.alterHasChanged.value) {
       pendingSaveEvent = onSave
       commit()
     } else {
@@ -314,15 +314,15 @@ class AlterViewComponentImpl(
   }
 
   private fun navigateToTagView(tagID: String) =
-    tryExit { navigateToTagViewFun(tagID) }
+    tryExit(true) { navigateToTagViewFun(tagID) }
 
   private fun navigateToAlterJournalEntryView(entryID: String) =
-    tryExit { navigateToAlterJournalEntryViewFun(entryID, model.color.value) }
+    tryExit(true) { navigateToAlterJournalEntryViewFun(entryID, model.color.value) }
 
   private fun navigateToCustomFields() =
-    tryExit { navigateToCustomFieldsFun() }
+    tryExit(true) { navigateToCustomFieldsFun() }
 
-  override fun navigateBack() = tryExit(popSelf)
+  override fun navigateBack(trySave: Boolean) = tryExit(trySave, popSelf)
 
   override fun commit() {
     if (!model.alterHasChanged.value || model.saveState.value == SaveState.Saving) return
@@ -473,13 +473,13 @@ class AlterViewComponentImpl(
     }
 
     override fun updateName(name: String): Result<String> {
-      if (name.length > 80) return Result.failure(IllegalArgumentException("Name too long"))
+      if (name.length > 100) return Result.failure(IllegalArgumentException("Name too long"))
       _name.value = name.ifBlank { null }
       return Result.success(name)
     }
 
     override fun updatePronouns(pronouns: String): Result<String> {
-      if (pronouns.length > 50) return Result.failure(IllegalArgumentException("Pronouns too long"))
+      if (pronouns.length > 100) return Result.failure(IllegalArgumentException("Pronouns too long"))
       _pronouns.value = pronouns.ifBlank { null }
       return Result.success(pronouns)
     }
@@ -525,7 +525,7 @@ class AlterViewComponentImpl(
     }
 
     override fun updateProxyName(proxyName: String): Result<String> {
-      if (proxyName.length > 80) return Result.failure(IllegalArgumentException("Proxy name too long"))
+      if (proxyName.length > 100) return Result.failure(IllegalArgumentException("Proxy name too long"))
       _proxyName.value = proxyName.ifBlank { null }
       return Result.success(proxyName)
     }
@@ -567,7 +567,7 @@ class AlterViewComponentImpl(
         if (_color.value != initialAlter.value!!.color)
           put("color", _color.value)
         if (_securityLevel.value != initialAlter.value!!.securityLevel)
-          put("security_level", globalSerializer.encodeToString(_securityLevel.value))
+          put("security_level", globalSerializer.encodeToJsonElement(_securityLevel.value))
         if (_fields.value != initialAlter.value!!.fields)
           put("fields", globalSerializer.encodeToJsonElement(_fields.value))
         if (_alias.value != initialAlter.value!!.alias)

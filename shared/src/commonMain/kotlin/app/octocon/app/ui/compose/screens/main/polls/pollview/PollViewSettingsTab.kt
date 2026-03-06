@@ -46,7 +46,7 @@ import app.octocon.app.ui.compose.components.ChoicePollChoiceContextSheet
 import app.octocon.app.ui.compose.components.ChoicePollEditChoiceDialog
 import app.octocon.app.ui.compose.components.ChoicePollEmptyChoicesCard
 import app.octocon.app.ui.compose.components.ChoicePollRemoveChoiceDialog
-import app.octocon.app.ui.compose.components.shared.rememberCollectPressInteractionSource
+import app.octocon.app.ui.compose.components.shared.onTapUnconsumed
 import app.octocon.app.ui.compose.screens.GLOBAL_PADDING
 import app.octocon.app.ui.compose.theme.getSubsectionStyle
 import app.octocon.app.ui.compose.utils.blankErrorText
@@ -163,10 +163,7 @@ fun PollViewSettingsTab(
             ?: Res.string.no_end_time.compose,
           onValueChange = {},
           readOnly = true,
-          modifier = Modifier.weight(1f),
-          interactionSource = rememberCollectPressInteractionSource {
-            dateDialogOpen = true
-          },
+          modifier = Modifier.weight(1f).onTapUnconsumed { dateDialogOpen = true },
           label = { Text(Res.string.end_time.compose) }
         )
         if (timeEnd != null) {

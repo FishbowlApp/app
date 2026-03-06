@@ -36,7 +36,7 @@ interface AlterJournalEntryViewComponent : CommonInterface {
 
   fun commit()
 
-  fun navigateBack()
+  fun navigateBack(trySave: Boolean = true)
 
   fun updateShowSnackbar(showSnackbar: (String) -> Unit)
 
@@ -138,8 +138,8 @@ internal class AlterJournalEntryViewComponentImpl(
 
   private var pendingSaveEvent: (() -> Unit)? = null
 
-  private fun tryExit(onSave: () -> Unit) {
-    if (model.entryHasChanged.value) {
+  private fun tryExit(trySave: Boolean, onSave: () -> Unit) {
+    if (trySave && model.entryHasChanged.value) {
       pendingSaveEvent = onSave
       commit()
     } else {
@@ -147,7 +147,7 @@ internal class AlterJournalEntryViewComponentImpl(
     }
   }
 
-  override fun navigateBack() = tryExit(popSelf)
+  override fun navigateBack(trySave: Boolean) = tryExit(trySave, popSelf)
 
   private var showSnackbar: ((String) -> Unit)? = null
 

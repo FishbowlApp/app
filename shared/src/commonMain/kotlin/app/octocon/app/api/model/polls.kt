@@ -15,7 +15,7 @@ import app.octocon.app.utils.AssumedUTCInstantSerializer
 import app.octocon.app.utils.compose
 import app.octocon.app.utils.generateUUID
 import com.materialkolor.ktx.harmonizeWithPrimary
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlinx.serialization.Polymorphic
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

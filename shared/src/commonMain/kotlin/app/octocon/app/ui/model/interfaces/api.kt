@@ -41,7 +41,6 @@ import app.octocon.app.utils.platformLog
 import app.octocon.app.utils.sortedLocaleAware
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
 import io.ktor.client.call.body
-import io.ktor.client.request.invoke
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpMethod.Companion.Delete
@@ -60,7 +59,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.Month
 import kotlinx.datetime.TimeZone
@@ -102,6 +101,7 @@ interface ApiInterface {
   fun recoverEncryption(recoveryCode: String, settingsInterface: SettingsInterface, onFailure: (error: String) -> Unit)
   /* --------------- RESOURCES --------------- */
   fun reloadAlters(pushLoadingState: Boolean = true): Job
+  fun reloadTags(pushLoadingState: Boolean = true): Job
   fun reloadFronts(pushLoadingState: Boolean = true): Job
   fun loadFrontHistory(
     monthYearPair: MonthYearPair,
@@ -469,7 +469,6 @@ internal class ApiInterfaceImpl(
         }
       }
 
-      is ChannelMessage.FrontingBulk -> TODO()
       is ChannelMessage.FrontingEnded -> {
         if (_fronts.value !is APIState.Success) return
         _fronts.tryEmit(APIState.Success(_fronts.value.ensureData.filter { it.front.alterID != message.alterID }))
@@ -603,6 +602,17 @@ internal class ApiInterfaceImpl(
         _systemMe.tryEmit(
           APIState.Success(
             message.data
+          )
+        )
+      }
+
+      is ChannelMessage.UsernameUpdated -> {
+        if (_systemMe.value !is APIState.Success) return
+        _systemMe.tryEmit(
+          APIState.Success(
+            _systemMe.value.ensureData.copy(
+              username = message.username
+            )
           )
         )
       }
@@ -804,16 +814,6 @@ internal class ApiInterfaceImpl(
         )
       }
 
-      is ChannelMessage.PKImportComplete -> {
-        if (_systemMe.value !is APIState.Success) return
-        platformUtilities.showAlert("Successfully imported from PluralKit!")
-      }
-
-      is ChannelMessage.SPImportComplete -> {
-        if (_systemMe.value !is APIState.Success) return
-        platformUtilities.showAlert("Successfully imported from Simply Plural!")
-      }
-
       is ChannelMessage.DiscordAccountLinked -> {
         if (_systemMe.value !is APIState.Success) return
         _systemMe.tryEmit(
@@ -934,12 +934,22 @@ internal class ApiInterfaceImpl(
         _initComplete.value = true
       }
 
-      is ChannelMessage.Ok -> {}
+      is ChannelMessage.SPImportComplete -> {
+        reloadAlters(true)
+        reloadFronts(true)
+      }
+
+      is ChannelMessage.PKImportComplete -> {
+        reloadAlters(true)
+        reloadFronts(true)
+      }
 
       is ChannelMessage.Error -> {
         // TODO: Snackbar?
         platformLog("Error: ${message.error}")
       }
+
+      else -> {}
     }
   }
 
@@ -949,6 +959,14 @@ internal class ApiInterfaceImpl(
       _alters,
       endpoint = "systems/me/alters",
       pushLoadingState = pushLoadingState
+    )
+
+  override fun reloadTags(pushLoadingState: Boolean) =
+    loadResourceOverSocket(
+      _tags,
+      endpoint = "systems/me/tags",
+      pushLoadingState = pushLoadingState,
+      postProcessorFunction = { it.sortedLocaleAware { tag -> tag.name } }
     )
 
   override fun reloadFronts(pushLoadingState: Boolean) =
@@ -1745,14 +1763,14 @@ internal class ApiInterfaceImpl(
     noinline callback: ((Boolean, APIResponse<ResponseType>) -> Unit)? = null
   ) {
     launchIO {
-      socketSession!!.sendMessage(
+      socketSession?.sendMessage(
         "endpoint",
         buildEndpointPayload(method, path, body)
       ) {
         val (isSuccess, response) = responseFromAdapterMessage<ResponseType>(it)
         callback?.invoke(isSuccess, response)
         if (!isSuccess) {
-          _errorFlow.emit("Error: ${response.error!!}")
+          _errorFlow.emit("Error: ${response.error ?: "Unknown error"}")
         }
       }
     }

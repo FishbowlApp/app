@@ -416,9 +416,8 @@ fun FriendCard(
     }
 
     if (fronting.isEmpty()) return@Card
-
-    if(frontingExpanded) {
-    //AnimatedVisibility(frontingExpanded) {
+    
+    AnimatedVisibility(frontingExpanded) {
       Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
         Column(
           modifier = Modifier.padding(12.dp),

@@ -189,7 +189,7 @@ fun JournalEntryViewScreen(
 
     OctoScaffold(
       hasHoistedBottomBar = true,
-      topBar = { topAppBarState, scrollBehavior, showSnackbar ->
+      topBar = { topAppBarState, scrollBehavior, _ ->
         OctoLargeTopBar(
           navigation = {
             val childPanelsMode = LocalChildPanelsMode.current
@@ -335,7 +335,7 @@ fun JournalEntryViewScreen(
             onDismissRequest = { deleteEntryDialogOpen = false },
             launchDeleteJournalEntry = {
               api.deleteGlobalJournalEntry(it.id)
-              component.navigateBack()
+              component.navigateBack(false)
             }
           )
         }

@@ -151,7 +151,7 @@ fun JournalEntryListScreen(
 
   OctoScaffold(
     hasHoistedBottomBar = true,
-    topBar = { topAppBarState, scrollBehavior, showSnackbar ->
+    topBar = { topAppBarState, scrollBehavior, _ ->
       OctoTopBar(
         titleTextState = TitleTextState(
           title = Res.string.journal.compose,

@@ -277,7 +277,7 @@ fun OctoTopBar(
       fun InnerText() {
         Text(
           text = titleTextState.title,
-          maxLines = if (titleTextState.oneLine) 1 else Int.MAX_VALUE,
+          maxLines = if (titleTextState.oneLine) 1 else 2,
           overflow = TextOverflow.Ellipsis,
           modifier = Modifier.let {
             if (titleTextState.onClick != null) {
@@ -326,7 +326,7 @@ fun OctoLargeTopBar(
       fun InnerText() {
         Text(
           text = titleTextState.title,
-          maxLines = if (titleTextState.oneLine) 1 else Int.MAX_VALUE,
+          maxLines = if (titleTextState.oneLine) 1 else 2,
           overflow = TextOverflow.Ellipsis,
           modifier = Modifier.let {
             if (titleTextState.onClick != null) {

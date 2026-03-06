@@ -37,7 +37,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.buildJsonObject
@@ -57,7 +57,7 @@ interface PollViewComponent : CommonInterface {
   fun commit()
 
   fun navigateToPage(index: Int)
-  fun navigateBack()
+  fun navigateBack(trySave: Boolean = true)
 
   fun updateShowSnackbar(showSnackbar: (String) -> Unit)
 
@@ -207,8 +207,8 @@ class PollViewComponentImpl(
 
   private var pendingSaveEvent: (() -> Unit)? = null
 
-  private fun tryExit(onSave: () -> Unit) {
-    if (model.pollHasChanged.value) {
+  private fun tryExit(trySave: Boolean, onSave: () -> Unit) {
+    if (trySave && model.pollHasChanged.value) {
       pendingSaveEvent = onSave
       commit()
     } else {
@@ -248,7 +248,7 @@ class PollViewComponentImpl(
     )
   }
 
-  override fun navigateBack() = tryExit { popSelf() }
+  override fun navigateBack(trySave: Boolean) = tryExit(trySave) { popSelf() }
 
   private var showSnackbar: ((String) -> Unit)? = null
 

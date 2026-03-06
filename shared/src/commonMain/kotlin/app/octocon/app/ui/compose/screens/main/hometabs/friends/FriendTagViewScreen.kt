@@ -98,7 +98,7 @@ fun FriendTagViewScreen(
   ) {
     OctoScaffold(
       hasHoistedBottomBar = !isSinglet,
-      topBar = { topAppBarState, scrollBehavior, showSnackbar ->
+      topBar = { topAppBarState, scrollBehavior, _ ->
         OctoLargeTopBar(
           navigation = {
             BackNavigationButton(component::navigateBack)

@@ -75,7 +75,7 @@ fun SupportUsScreen(
     remember(colorSchemeParams) { { component.openKofi(colorSchemeParams) } }
 
   OctoScaffold(
-    topBar = { topAppBarState, scrollBehavior, showSnackbar ->
+    topBar = { topAppBarState, scrollBehavior, _ ->
       OctoTopBar(
         titleTextState = TitleTextState(
           Res.string.support_us.compose,

@@ -1,6 +1,5 @@
 package app.octocon.app.ui.compose.screens.main
 
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -49,7 +48,7 @@ import app.octocon.app.ui.compose.components.shared.OctoScaffold
 import app.octocon.app.ui.compose.components.shared.OctoTopBar
 import app.octocon.app.ui.compose.components.shared.OpenDrawerNavigationButton
 import app.octocon.app.ui.compose.components.shared.TitleTextState
-import app.octocon.app.ui.compose.components.shared.rememberCollectPressInteractionSource
+import app.octocon.app.ui.compose.components.shared.onTapUnconsumed
 import app.octocon.app.ui.compose.screens.GLOBAL_PADDING
 import app.octocon.app.ui.compose.theme.squareifyShape
 import app.octocon.app.ui.compose.utils.MarkdownOutlinedTextField
@@ -106,7 +105,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun ProfileScreen(component: ProfileComponent) {
   OctoScaffold(
-    topBar = { topAppBarState, scrollBehavior, showSnackbar ->
+    topBar = { topAppBarState, scrollBehavior, _ ->
       OctoTopBar(
         titleTextState = TitleTextState(
           Res.string.profile.compose,
@@ -350,14 +349,11 @@ private fun ProfileRoot(
           horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
           OutlinedTextField(
-            modifier = Modifier.weight(2f),
+            modifier = Modifier.weight(2f).onTapUnconsumed { usernameDialogOpen = true },
             value = system.ensureData.username ?: Res.string.no_username.compose,
             onValueChange = {},
             readOnly = true,
             singleLine = true,
-            interactionSource = rememberCollectPressInteractionSource {
-              usernameDialogOpen = true
-            },
             label = { Text(Res.string.username.compose) }
           )
           OutlinedTextField(

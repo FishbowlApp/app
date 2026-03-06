@@ -8,7 +8,7 @@ import app.octocon.app.ScreenTransitionType.Companion.FADE_ANIMATOR
 import app.octocon.app.ScreenTransitionType.Companion.ZOOM_ANIMATOR
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.PredictiveBackParams
-import com.arkivanov.decompose.extensions.compose.stack.animation.predictiveback.materialPredictiveBackAnimatable
+import com.arkivanov.decompose.extensions.compose.stack.animation.predictiveback.androidPredictiveBackAnimatableV2
 import com.arkivanov.essenty.backhandler.BackHandler
 
 @OptIn(ExperimentalDecomposeApi::class)
@@ -23,5 +23,5 @@ actual fun predictiveBackParams(
   PredictiveBackParams(
     backHandler = backHandler,
     onBack = onBack,
-    animatable = ::materialPredictiveBackAnimatable
+    animatable = ::androidPredictiveBackAnimatableV2
   )

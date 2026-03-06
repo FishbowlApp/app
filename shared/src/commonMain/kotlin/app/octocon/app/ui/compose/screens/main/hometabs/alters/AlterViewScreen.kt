@@ -114,7 +114,7 @@ fun AlterViewScreen(
   ) {
     OctoScaffold(
       hasHoistedBottomBar = true,
-      topBar = { topAppBarState, scrollBehavior, showSnackbar ->
+      topBar = { topAppBarState, scrollBehavior, _ ->
         OctoLargeTopBar(
           navigation = {
             val childPanelsMode = LocalChildPanelsMode.current
@@ -228,7 +228,7 @@ fun AlterViewScreen(
                   alter = initialAlter!!,
                   onDismissRequest = { deleteAlterDialogOpen = false },
                   launchDeleteAlter = { component.deleteAlter() },
-                  afterDelete = component::navigateBack
+                  afterDelete = { component.navigateBack(false) }
                 )
               }
             } else {

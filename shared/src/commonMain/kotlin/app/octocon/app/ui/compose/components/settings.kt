@@ -45,7 +45,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -457,7 +456,6 @@ inline fun <reified T : Enum<T>> SettingsSliderItem(
         }
 
         Spacer(modifier = Modifier.width(8.dp))
-        SliderDefaults.Track
         Slider(
           value = selectedIndex.toFloat(),
           onValueChange = {

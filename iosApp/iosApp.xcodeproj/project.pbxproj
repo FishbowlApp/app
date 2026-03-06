@@ -12,11 +12,11 @@
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 		D465213B2D28C8DA00437389 /* Pods_iosApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D46521392D28C8D100437389 /* Pods_iosApp.framework */; };
+		D4CE387C2F59378400BD769C /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = D4CE387B2F59378400BD769C /* Sentry */; };
 		D4D6A08B2D1E91080047877A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D4D6A08A2D1E91080047877A /* GoogleService-Info.plist */; };
 		D4D6A08E2D1E91FD0047877A /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = D4D6A08D2D1E91FD0047877A /* FirebaseMessaging */; };
 		D4E36C452D1D757F00D2BFE3 /* SwiftPlatformDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E36C442D1D757D00D2BFE3 /* SwiftPlatformDelegate.swift */; };
 		D4E36C482D1D764300D2BFE3 /* JOSESwift in Frameworks */ = {isa = PBXBuildFile; productRef = D4E36C472D1D764300D2BFE3 /* JOSESwift */; };
-		D4F7EBBD2D28CC47001D1D2B /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = D4F7EBBC2D28CC47001D1D2B /* Sentry */; };
 		D4F7EBF42D28CD19001D1D2B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D6A0942D1EA5EE0047877A /* WidgetKit.framework */; };
 		D4F7EBF52D28CD19001D1D2B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D6A0962D1EA5EE0047877A /* SwiftUI.framework */; };
 		D4F7EC102D28CE79001D1D2B /* OctoconWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D4F7EBF32D28CD19001D1D2B /* OctoconWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -111,8 +111,8 @@
 			files = (
 				D4D6A08E2D1E91FD0047877A /* FirebaseMessaging in Frameworks */,
 				D4E36C482D1D764300D2BFE3 /* JOSESwift in Frameworks */,
-				D4F7EBBD2D28CC47001D1D2B /* Sentry in Frameworks */,
 				D465213B2D28C8DA00437389 /* Pods_iosApp.framework in Frameworks */,
+				D4CE387C2F59378400BD769C /* Sentry in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -603,7 +603,7 @@
 				CODE_SIGN_ENTITLEMENTS = iosApp/iosApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 70;
+				CURRENT_PROJECT_VERSION = 73;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
 				DEVELOPMENT_TEAM = AVJM9TZ9VF;
@@ -618,7 +618,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.3.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -645,7 +645,7 @@
 				CODE_SIGN_ENTITLEMENTS = iosApp/iosApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 70;
+				CURRENT_PROJECT_VERSION = 73;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
 				DEVELOPMENT_TEAM = AVJM9TZ9VF;
@@ -660,7 +660,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.3.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -689,7 +689,7 @@
 				CODE_SIGN_ENTITLEMENTS = OctoconWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 70;
+				CURRENT_PROJECT_VERSION = 73;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = AVJM9TZ9VF;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -705,7 +705,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = app.octocon.OctoconApp.OctoconWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -727,7 +727,7 @@
 				CODE_SIGN_ENTITLEMENTS = OctoconWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 70;
+				CURRENT_PROJECT_VERSION = 73;
 				DEVELOPMENT_TEAM = AVJM9TZ9VF;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
@@ -742,7 +742,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = app.octocon.OctoconApp.OctoconWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -836,6 +836,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D4CE387B2F59378400BD769C /* Sentry */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB430C8DB1EB4375868C52D4 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = Sentry;
+		};
 		D4D6A08D2D1E91FD0047877A /* FirebaseMessaging */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D4D6A08C2D1E91FD0047877A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
@@ -845,11 +850,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D4E36C462D1D764300D2BFE3 /* XCRemoteSwiftPackageReference "JOSESwift" */;
 			productName = JOSESwift;
-		};
-		D4F7EBBC2D28CC47001D1D2B /* Sentry */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = AB430C8DB1EB4375868C52D4 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
-			productName = Sentry;
 		};
 		D4F7EC2F2D28CF97001D1D2B /* KeychainSwift */ = {
 			isa = XCSwiftPackageProductDependency;

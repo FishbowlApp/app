@@ -19,7 +19,7 @@ aboutLibraries {
 
 kotlin {
   val essentyVersion = "2.5.0"
-  val decomposeVersion = "3.5.0-beta01"
+  val decomposeVersion = "3.4.0"
 
   androidTarget()
 

@@ -69,6 +69,7 @@ import app.octocon.app.utils.derive
 import app.octocon.app.utils.description
 import app.octocon.app.utils.ioDispatcher
 import app.octocon.app.utils.nextMonth
+import app.octocon.app.utils.platformLog
 import app.octocon.app.utils.previousMonth
 import app.octocon.app.utils.state
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -195,7 +196,7 @@ fun FrontHistoryScreen(
 
   OctoScaffold(
     hasHoistedBottomBar = true,
-    topBar = { topAppBarState, scrollBehavior, showSnackbar ->
+    topBar = { topAppBarState, scrollBehavior, _ ->
       OctoTopBar(
         titleTextState = TitleTextState(
           title = Res.string.history.compose,
@@ -367,16 +368,21 @@ fun FrontHistoryScreen(
                   frontItems,
                   key = { frontItem -> triple.toString() + frontItem.frontID }
                 ) { frontItem ->
-                  FrontHistoryItemCard(
-                    frontHistoryItem = frontItem,
-                    alter = alters.ensureData.find { alter -> alter.id == frontItem.alterID }!!,
-                    onClick = {
-                      selectedFrontItem = frontItem
-                    },
-                    imageContext = imageScope.coroutineContext + ioDispatcher,
-                    placeholderPainter = placeholderPainter,
-                    settings = settings
-                  )
+                  val alter = remember(frontItem) { alters.ensureData.find { alter -> alter.id == frontItem.alterID } }
+                  if(alter != null) {
+                    FrontHistoryItemCard(
+                      frontHistoryItem = frontItem,
+                      alter = alter,
+                      onClick = {
+                        selectedFrontItem = frontItem
+                      },
+                      imageContext = imageScope.coroutineContext + ioDispatcher,
+                      placeholderPainter = placeholderPainter,
+                      settings = settings
+                    )
+                  } else {
+                    platformLog(frontItem.toString())
+                  }
                 }
               }
             }

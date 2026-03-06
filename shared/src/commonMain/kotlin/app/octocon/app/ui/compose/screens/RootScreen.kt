@@ -29,8 +29,8 @@ import io.kamel.image.config.LocalKamelConfig
 // If only value classes could be `const`...
 val GLOBAL_PADDING = 16.dp
 
-const val VERSION_CODE = "70"
-const val APP_VERSION = "1.3.0 \"Ammonite\""
+const val VERSION_CODE = "73"
+const val APP_VERSION = "1.3.1 \"Ammonite\""
 const val IS_BETA = false
 
 /*@Composable

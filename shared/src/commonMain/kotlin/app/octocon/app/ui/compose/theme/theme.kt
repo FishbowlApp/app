@@ -493,13 +493,17 @@ object SchemeCache {
     dynamicColorType: DynamicColorType,
     colorContrastLevel: ColorContrastLevel,
     isAmoled: Boolean
-  ): Pair<ColorScheme, ColorScheme> {
-    return if (!shouldCache) {
+  ): Pair<ColorScheme, ColorScheme>? {
+    return try { if (!shouldCache) {
       generateColorScheme(color, dynamicColorType, colorContrastLevel, isAmoled)
     } else {
       cache.getOrPut(color + dynamicColorType.ordinal + colorContrastLevel.ordinal + (if (isAmoled) 1 else 0)) {
         generateColorScheme(color, dynamicColorType, colorContrastLevel, isAmoled)
       }
+    }
+  } catch (e: Exception) {
+      e.printStackTrace()
+      null
     }
   }
 
@@ -539,9 +543,9 @@ fun ThemeFromColor(
     else -> {
       val schemes =
         SchemeCache.get(color, shouldCache, dynamicColorType, colorContrastLevel, amoledMode)
-      if (colorMode.shouldUseDarkTheme()) schemes.second else schemes.first
+      if (colorMode.shouldUseDarkTheme()) schemes?.second else schemes?.first
     }
-  }
+  } ?: MaterialTheme.colorScheme
 
   val animationSpec = spring<Color>(stiffness = Spring.StiffnessLow)
 

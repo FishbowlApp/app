@@ -42,6 +42,7 @@ import app.octocon.app.ui.model.main.settings.SettingsSecurityComponent
 import app.octocon.app.utils.compose
 import app.octocon.app.utils.derive
 import app.octocon.app.utils.state
+import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.panels.ChildPanelsMode
 import octoconapp.shared.generated.resources.Res
 import octoconapp.shared.generated.resources.cancel
@@ -60,6 +61,7 @@ import octoconapp.shared.generated.resources.tooltip_lock_app_with_pin_desc
 import octoconapp.shared.generated.resources.tooltip_quick_exit_desc
 import octoconapp.shared.generated.resources.tooltip_stealth_mode_desc
 
+@OptIn(ExperimentalDecomposeApi::class)
 @Composable
 fun SettingsSecurityScreen(
   component: SettingsSecurityComponent
@@ -70,7 +72,7 @@ fun SettingsSecurityScreen(
   val settingsData by component.settings.collectAsState()
 
   OctoScaffold(
-    topBar = { topAppBarState, scrollBehavior, showSnackbar ->
+    topBar = { topAppBarState, scrollBehavior, _ ->
       OctoTopBar(
         navigation = {
           val childPanelsMode = LocalChildPanelsMode.current

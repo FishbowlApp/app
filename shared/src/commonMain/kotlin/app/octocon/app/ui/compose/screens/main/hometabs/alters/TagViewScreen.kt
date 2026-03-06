@@ -2,8 +2,6 @@ package app.octocon.app.ui.compose.screens.main.hometabs.alters
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Column
@@ -134,7 +132,7 @@ fun TagViewScreen(
   ) {
     OctoScaffold(
       hasHoistedBottomBar = true,
-      topBar = { topAppBarState, scrollBehavior, showSnackbar ->
+      topBar = { topAppBarState, scrollBehavior, _ ->
         OctoLargeTopBar(
           navigation = {
             val childPanelsMode = LocalChildPanelsMode.current
@@ -248,7 +246,7 @@ fun TagViewScreen(
                     tag = initialTag!!,
                     launchDeleteTag = {
                       api.deleteTag(it)
-                      component.navigateBack()
+                      component.navigateBack(false)
                     },
                     onDismissRequest = { deleteTagDialogOpen = false }
                   )
