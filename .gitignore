@@ -17,3 +17,4 @@ iosApp/iosApp.xcodeproj/*
 iosApp/Pods
 androidApp/release/androidApp-release.apk
 /androidApp/sentry.properties
+androidApp/release/
