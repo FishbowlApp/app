@@ -44,6 +44,7 @@ import app.octocon.app.ui.compose.theme.ThemeFromColor
 import app.octocon.app.ui.compose.utils.SpotlightTooltip
 import app.octocon.app.ui.model.main.SaveState
 import app.octocon.app.ui.model.main.hometabs.alters.AlterViewComponent
+import app.octocon.app.utils.DevicePlatform
 import app.octocon.app.utils.compose
 import app.octocon.app.utils.derive
 import app.octocon.app.utils.effectsSpec
@@ -139,7 +140,7 @@ fun AlterViewScreen(
       },
       floatingActionButton = {
         AnimatedVisibility(
-          pages.selectedIndex == 2,
+          !DevicePlatform.isWasm && pages.selectedIndex == 2,
           enter = fadeIn(effectsSpec()),
           exit = fadeOut(effectsSpec())
         ) {

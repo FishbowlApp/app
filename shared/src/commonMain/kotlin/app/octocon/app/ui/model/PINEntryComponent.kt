@@ -5,7 +5,6 @@ import app.octocon.app.utils.crypto.CipherPadding
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
 import com.arkivanov.essenty.instancekeeper.retainedInstance
 import com.arkivanov.essenty.lifecycle.coroutines.coroutineScope
-import io.ktor.util.decodeBase64Bytes
 import io.ktor.utils.io.core.toByteArray
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -13,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.io.encoding.Base64
 
 interface PINEntryComponent {
   val currentPIN: StateFlow<String>
@@ -47,7 +47,7 @@ internal class PINEntryComponentImpl(
     coroutineScope.launch(Dispatchers.Default) {
       try {
         val decryptedToken = AES.decryptAesEcb(
-          encryptedToken.decodeBase64Bytes(),
+          Base64.decode(encryptedToken),
           handler.currentPIN.value.toByteArray(),
           CipherPadding.ZeroPadding
         ).decodeToString()

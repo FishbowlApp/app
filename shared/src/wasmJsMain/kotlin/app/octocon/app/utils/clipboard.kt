@@ -1,19 +1,16 @@
 package app.octocon.app.utils
 
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.NativeClipboard
-import androidx.compose.ui.platform.WasmPlatformClipboard
 import androidx.compose.ui.text.AnnotatedString
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
-private val clipboard by lazy { WasmPlatformClipboard() }
+@OptIn(ExperimentalComposeUiApi::class)
+val clipboard by lazy { NativeClipboard() }
 
-@OptIn(DelicateCoroutinesApi::class, ExperimentalComposeUiApi::class)
+@OptIn(DelicateCoroutinesApi::class, ExperimentalComposeUiApi::class,
+  ExperimentalWasmJsInterop::class
+)
 actual fun NativeClipboard.setText(annotatedString: AnnotatedString) {
-  GlobalScope.launch {
-    clipboard.setClipEntry(ClipEntry.withPlainText(annotatedString.text))
-  }
+  clipboard.writeText(annotatedString.text)
 }

@@ -18,10 +18,10 @@ import app.octocon.app.utils.PlatformUtilities
 import app.octocon.app.utils.crypto.AES
 import app.octocon.app.utils.crypto.CipherPadding
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
-import io.ktor.util.encodeBase64
 import io.ktor.utils.io.core.toByteArray
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlin.io.encoding.Base64
 
 interface SettingsReadInterface {
   val data: StateFlow<Settings>
@@ -152,11 +152,13 @@ class SettingsInterfaceImpl(
   override fun enablePINLock(pin: String) =
     updateSettings(updateWidgets = true) {
       it.copy(
-        token = AES.encryptAesEcb(
-          ("tk|" + it.token!!).toByteArray(),
-          pin.toByteArray(),
-          CipherPadding.ZeroPadding
-        ).encodeBase64(),
+        token = Base64.encode(
+          AES.encryptAesEcb(
+            ("tk|" + it.token!!).toByteArray(),
+            pin.toByteArray(),
+            CipherPadding.ZeroPadding
+          )
+        ),
         tokenIsProtected = true,
       )
     }

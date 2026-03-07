@@ -1,6 +1,6 @@
 
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.window.CanvasBasedWindow
+import androidx.compose.ui.window.ComposeViewport
 import app.octocon.app.Settings
 import app.octocon.app.ui.compose.screens.RootScreen
 import app.octocon.app.ui.model.RootComponentImpl
@@ -47,13 +47,15 @@ fun main() {
 
   lifecycle.attachToDocument()
 
-  CanvasBasedWindow(title = "Octocon") {
+  ComposeViewport("composeApp") {
     RootScreen(rootComponent)
   }
 }
 
+@OptIn(ExperimentalWasmJsInterop::class)
 private fun consoleLog(text: String): Unit = js("console.log(text)")
 
+@OptIn(ExperimentalWasmJsInterop::class)
 private fun tryGetToken(): String? {
   consoleLog("Trying to get token")
   val params = URLSearchParams(window.location.search.toJsString())
@@ -67,6 +69,7 @@ private fun tryGetToken(): String? {
   }
 }
 
+@OptIn(ExperimentalWasmJsInterop::class)
 @Suppress("unused")
 @JsFun("(document) => document.visibilityState")
 private external fun visibilityState(document: Document): String

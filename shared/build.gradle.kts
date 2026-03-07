@@ -119,7 +119,7 @@ kotlin {
         implementation("media.kamel:kamel-decoder-image-bitmap:$kamelVersion")
 
         // File picker
-        implementation("io.github.vinceglb:filekit-dialogs-compose:0.13.0")
+        implementation("io.github.vinceglb:filekit-dialogs-compose:0.10.0")
 
         // Material 3 colors
         implementation("com.materialkolor:material-kolor:2.1.1")

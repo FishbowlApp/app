@@ -40,6 +40,7 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.encodeToJsonElement
 import kotlinx.serialization.json.put
 import octoconapp.shared.generated.resources.Res
 import octoconapp.shared.generated.resources.contents
@@ -408,7 +409,7 @@ class TagViewComponentImpl(
         if (_description.value != initialTag.value!!.description)
           put("description", _description.value)
         if (_securityLevel.value != initialTag.value!!.securityLevel)
-          put("security_level", globalSerializer.encodeToString(_securityLevel.value))
+          put("security_level", globalSerializer.encodeToJsonElement(_securityLevel.value))
       }.toString()
   }
 }

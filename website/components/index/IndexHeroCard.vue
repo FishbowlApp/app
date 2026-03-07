@@ -12,7 +12,7 @@
         <div
           class="bg-gradient-to-br from-sky-600 text-center to-violet-600 transition-all hover:brightness-110 block text-gray-100 font-semibold font-display text-lg px-4 py-2 rounded-lg"
         >
-          Launch the web app
+          Launch the web app (BETA)
         </div>
       </NuxtLink>
       <NuxtLink

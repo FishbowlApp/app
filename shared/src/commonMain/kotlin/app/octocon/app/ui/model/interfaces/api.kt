@@ -59,7 +59,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlin.time.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.Month
 import kotlinx.datetime.TimeZone
@@ -70,6 +69,7 @@ import kotlinx.serialization.json.encodeToJsonElement
 import kotlinx.serialization.json.jsonPrimitive
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
+import kotlin.time.Instant
 
 interface ApiInterface {
   val token: StateFlow<String>
@@ -937,11 +937,13 @@ internal class ApiInterfaceImpl(
       is ChannelMessage.SPImportComplete -> {
         reloadAlters(true)
         reloadFronts(true)
+        reloadTags(true)
       }
 
       is ChannelMessage.PKImportComplete -> {
         reloadAlters(true)
         reloadFronts(true)
+        reloadTags(true)
       }
 
       is ChannelMessage.Error -> {

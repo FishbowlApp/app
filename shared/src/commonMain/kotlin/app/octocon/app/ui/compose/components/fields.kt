@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Lock
@@ -63,8 +62,8 @@ import app.octocon.app.utils.state
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.HazeStyle
 import dev.chrisbanes.haze.HazeTint
-import dev.chrisbanes.haze.haze
-import dev.chrisbanes.haze.hazeChild
+import dev.chrisbanes.haze.hazeEffect
+import dev.chrisbanes.haze.hazeSource
 import octoconapp.shared.generated.resources.Res
 import octoconapp.shared.generated.resources.field_locked
 import octoconapp.shared.generated.resources.tap_to_unlock
@@ -144,7 +143,7 @@ fun AlterCustomFieldItem(
         modifier = Modifier.let {
           if (hidden) it
             // .platformBlur(20)
-            .haze(hazeState)
+            .hazeSource(hazeState)
             .clearAndSetSemantics {
               hideFromAccessibility()
             } else it
@@ -163,7 +162,7 @@ fun AlterCustomFieldItem(
           modifier = Modifier
             .matchParentSize()
             .padding(horizontal = GLOBAL_PADDING)
-            .hazeChild(
+            .hazeEffect(
               hazeState,
               style = HazeStyle(
                 backgroundColor = MaterialTheme.colorScheme.surface,

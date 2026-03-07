@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div class="relative overflow-hidden">
     <div class="absolute z--1 w-screen h-screen grid place-items-center">
       <div class="flex flex-col gap-4 items-center text-center">
         <NuxtPicture
@@ -39,9 +39,9 @@
           <p class="text-lg text-gray-400">
             An error occurred while running the app. Please report this to the
             Octocon developers
-            <NuxtLink to="https://octocon.app/discord" class="text-violet-400"
-              >on Discord</NuxtLink
-            >
+            <NuxtLink to="https://octocon.app/discord" class="text-violet-400">
+              on Discord
+            </NuxtLink>
             !
           </p>
           <p class="text-lg text-gray-400">
@@ -54,11 +54,34 @@
         </div>
       </div>
     </div>
-    <canvas class="z-98 w-screen h-screen" id="ComposeTarget" />
+    <div v-if="!popupDismissed" class="absolute z-99 w-screen h-screen">
+      <div class="bg-black/60 h-full w-full grid place-items-center">
+        <div
+          class="bg-gray-950 p-8 rounded-xl max-w-xl flex flex-col gap-4"
+        >
+          <h1 class="text-3xl font-display text-gray-300 text-center">
+            ⚠️ Warning! ⚠️
+          </h1>
+          <p class="text-lg text-gray-400">
+            Octocon's web app is currently in beta! The app is VERY likely to break. For a more stable
+            and fully featured experience, we recommend using our Android or iOS app.
+          </p>
+          <button
+            class="self-center px-4 py-2 rounded-xl bg-red-500 text-gray-100 font-display font-medium hover:bg-red-600 transition ease-in-out duration-300"
+            @click="popupDismissed = true"
+          >
+            I understand, show me the app!
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="composeApp" class="z-98 w-screen h-screen" />
   </div>
 </template>
 <script setup lang="ts">
 const error = ref<Error | null>(null)
+const popupDismissed = ref(false)
+
 onMounted(() => {
   // Ugly hack to get Kotlin/Wasm to not implode because Nuxt simulates `window.process`
   if (window.process) {
@@ -73,7 +96,7 @@ onMounted(() => {
     console.log(event)
   })
 
-  // Load app Wasm script outside of the Vue context
+  // Load app Wasm script outside the Vue context
   const script = document.createElement('script')
   script.src = '/priv/app/octocon-app.js'
   script.async = true
@@ -93,6 +116,7 @@ onMounted(() => {
 
 declare namespace window {
   let lastWasError: boolean
+  let process: any
 }
 
 definePageMeta({

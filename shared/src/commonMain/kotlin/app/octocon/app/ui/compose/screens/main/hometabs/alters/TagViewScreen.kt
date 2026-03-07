@@ -98,6 +98,14 @@ fun TagViewScreen(
   val amoledMode by derive { settings.amoledMode }
   val reduceMotion by derive { settings.reduceMotion }
 
+  val initialColor by derive {
+    if(tags.isSuccess) {
+      tags.ensureData.firstOrNull { it.id == model.id }?.color
+    } else {
+      null
+    }
+  }
+
   val color by model.color.collectAsState()
   val updateLazyListState = LocalUpdateLazyListState.current
 
@@ -123,7 +131,7 @@ fun TagViewScreen(
   }
 
   ThemeFromColor(
-    color,
+    color ?: initialColor,
     colorMode = colorMode,
     dynamicColorType = dynamicColorType,
     colorContrastLevel = colorContrastLevel,

@@ -1,6 +1,6 @@
 <template>
   <NuxtLink
-    to="#"
+    to="https://apps.apple.com/app/octocon/id6739808368"
     class="flex items-center justify-center gap-4 w-48 text-white bg-gray-950/75 h-14 rounded-xl px-4 reset decoration-none"
   >
     <div>

@@ -10,20 +10,16 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-
     "app:clean": "shx rm -rf \"./public/priv/app/*\" && shx rm -rf \"./public/composeResources\" && shx rm -rf \"./public/app/composeResources/*\"",
-
     "app:gradle:windows": "..\\gradlew.bat webApp:wasmJsBrowserDistribution -p ..\\",
     "app:gradle:unix": "../gradlew webApp:wasmJsBrowserDistribution -p ../",
-
-    "app:copy": "shx cp -r \"../webApp/build/dist/wasmJs/productionExecutable/*\" \"./public/priv/app\" && shx rm \"./public/priv/app/index.html\" && shx rm \"./public/priv/app/octocon-app.js.LICENSE.txt\"",
-    "app:move-resources": "shx mv \"./public/priv/app/composeResources\" \"./public/\" && shx cp -r \"./public/composeResources/*\" \"./public/app/composeResources\"",
-
+    "app:copy": "shx cp -r \"../webApp/build/dist/wasmJs/productionExecutable/*\" \"./public/priv/app\" && shx rm \"./public/priv/app/index.html\" && shx rm \"./public/priv/app/*.LICENSE.txt\"",
+    "app:move-resources": "shx mv \"./public/priv/app/composeResources\" \"./public/app/\"",
     "app:build:windows": "run-s app:clean app:gradle:windows app:copy app:move-resources",
     "app:build:unix": "run-s app:clean app:gradle:unix app:copy app:move-resources"
   },
   "dependencies": {
-    "nuxt": "^3.10.1",
+    "nuxt": "^4.3.1",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5"
   },

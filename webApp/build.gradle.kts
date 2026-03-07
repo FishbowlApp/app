@@ -24,8 +24,8 @@ kotlin {
       dependencies {
         implementation(project(":shared"))
 
-        implementation(compose.ui)
-        implementation(compose.foundation)
+        implementation("org.jetbrains.compose.ui:ui:1.11.0-alpha03")
+        implementation("org.jetbrains.compose.foundation:foundation:1.11.0-alpha03")
 
         implementation("org.jetbrains.kotlinx:kotlinx-browser-wasm-js:0.5.0")
       }
