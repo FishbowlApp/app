@@ -39,6 +39,9 @@ class KtorWebSocketTransport(
       try {
         session = client.webSocketSession {
           url(this@KtorWebSocketTransport.url)
+//          headers {
+//            append("fly-prefer-region", "fra")
+//          }
         }
         readyState = Transport.ReadyState.OPEN
         socketFlow.tryEmit(SocketEvent.OpenEvent(wasReconnect = isReconnect))
