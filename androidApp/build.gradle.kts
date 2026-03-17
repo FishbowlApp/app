@@ -58,12 +58,12 @@ kotlin {
 
 android {
   compileSdk = (findProperty("android.compileSdk") as String).toInt()
-  namespace = "app.octocon"
+  namespace = "app.attiplayz"
 
   sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
   defaultConfig {
-    applicationId = "app.octocon.OctoconApp"
+    applicationId = "app.attiplayz.NeoconApp"
     minSdk = (findProperty("android.minSdk") as String).toInt()
     targetSdk = (findProperty("android.targetSdk") as String).toInt()
     versionCode = (findProperty("android.versionCode") as String).toInt()

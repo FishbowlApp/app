@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "656294235106",
-    "project_id": "octocon-fb",
-    "storage_bucket": "octocon-fb.appspot.com"
+    "project_number": "478579688986",
+    "project_id": "neocon-5cbaf",
+    "storage_bucket": "neocon-5cbaf.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:656294235106:android:cce65ec689ee951358c7bb",
+        "mobilesdk_app_id": "1:478579688986:android:0c9f9214601db3c76a73a3",
         "android_client_info": {
-          "package_name": "app.octocon.OctoconApp"
+          "package_name": "app.attiplayz.NeoconApp"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBLyRHYbM7bfscAHZOyttG--vq7wt78k8s"
+          "current_key": "AIzaSyAyeSBK1VGcWiP07EseBIlFbn7ynEBrh7I"
         }
       ],
       "services": {
