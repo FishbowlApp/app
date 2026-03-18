@@ -63,7 +63,7 @@ android {
   sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
   defaultConfig {
-    applicationId = "app.octocon.OctoconApp"
+    applicationId = "app.octocon.OctoconApp2"
     minSdk = (findProperty("android.minSdk") as String).toInt()
     targetSdk = (findProperty("android.targetSdk") as String).toInt()
     versionCode = (findProperty("android.versionCode") as String).toInt()

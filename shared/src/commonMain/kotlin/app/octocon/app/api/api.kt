@@ -312,7 +312,7 @@ sealed interface ChannelMessage {
   }
 }
 
-const val endpoint = "https://api.octocon.app/api"
+const val endpoint = "https://api.neocon.attiplayz.dev/api"
 
 fun parseAmbiguousID(id: String): String = id.trim().let {
   when {

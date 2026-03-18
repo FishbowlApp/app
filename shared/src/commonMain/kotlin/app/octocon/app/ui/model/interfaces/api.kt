@@ -1613,7 +1613,7 @@ internal class ApiInterfaceImpl(
         if (isSuccess) {
           val linkToken = response.data!!.token
 
-          openUri("https://api.octocon.app/auth/link/discord?link_token=$linkToken")
+          openUri("https://api.neocon.attiplayz.dev/auth/link/discord?link_token=$linkToken")
         }
       }
     )
@@ -1636,7 +1636,7 @@ internal class ApiInterfaceImpl(
         if (isSuccess) {
           val linkToken = response.data!!.token
 
-          openUri("https://api.octocon.app/auth/link/google?link_token=$linkToken")
+          openUri("https://api.neocon.attiplayz.dev/auth/link/google?link_token=$linkToken")
         }
       }
     )
@@ -1659,7 +1659,7 @@ internal class ApiInterfaceImpl(
         if (isSuccess) {
           val linkToken = response.data!!.token
 
-          openUri("https://api.octocon.app/auth/link/apple?link_token=$linkToken")
+          openUri("https://api.neocon.attiplayz.dev/auth/link/apple?link_token=$linkToken")
         }
       }
     )

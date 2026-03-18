@@ -35,7 +35,7 @@ interface LoginComponent {
 private const val DIRECT_TOKEN_PRESSES_REQUIRED = 5
 
 private fun buildLoginUrl(provider: String): String =
-  "https://api.octocon.app/auth/${provider}" +
+  "https://api.neocon.attiplayz.dev/auth/${provider}" +
       "?platform=${DevicePlatform.internalName}" +
       "&version_code=${VERSION_CODE}" +
       "&is_beta=${IS_BETA}"
