@@ -30,7 +30,7 @@
       </h1>
       <OctoCard>
         <p class="lg:text-lg text-gray-300 text-center">
-          It looks like you're trying to access a link that leads to the Octocon
+          It looks like you're trying to access a link that leads to the Neocon
           app. Your browser isn't detecting this properly, so you're seeing this
           page instead.
         </p>
@@ -68,7 +68,7 @@
       </h2>
       <OctoCard>
         <p class="lg:text-lg text-gray-300 text-center">
-          Click the small Octocon icon in the top right of your screen by the
+          Click the small Neocon icon in the top right of your screen by the
           address bar. If you do not see it, try using a different browser.
         </p>
         <div class="w-full grid place-items-center">

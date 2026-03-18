@@ -109,13 +109,18 @@ export default defineNuxtConfig({
   },
 
   site: {
-    url: 'https://octocon.app',
-    name: 'Octocon',
+    url: 'https://neocon.attiplayz.dev',
+    name: 'Neocon',
     description:
       'The modern, all-in-one toolkit for people with DID and OSDD to manage their disorder and express themselves.',
     defaultLocale: 'en'
   },
-
+  
+  vite: {
+    server: {
+      allowedHosts: ['neocon.attiplayz.dev'],
+    },
+  },
   sitemap: {
     strictNuxtContentPaths: true
   },

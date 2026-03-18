@@ -18,3 +18,5 @@ iosApp/Pods
 androidApp/release/androidApp-release.apk
 /androidApp/sentry.properties
 androidApp/release/
+node_modules
+website/node-compile-cache

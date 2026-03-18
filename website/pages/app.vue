@@ -12,7 +12,7 @@
           quality="90"
         />
         <div class="text-3xl font-display text-gray-300">
-          Loading Octocon app...
+          Loading Neocon app...
         </div>
         <div class="font-body text-xl text-gray-400 font-medium">
           This may take a minute!
@@ -38,8 +38,8 @@
           </h1>
           <p class="text-lg text-gray-400">
             An error occurred while running the app. Please report this to the
-            Octocon developers
-            <NuxtLink to="https://octocon.app/discord" class="text-violet-400">
+            Neocon developers
+            <NuxtLink to="https://neocon.app/discord" class="text-violet-400">
               on Discord
             </NuxtLink>
             !
@@ -63,7 +63,7 @@
             ⚠️ Warning! ⚠️
           </h1>
           <p class="text-lg text-gray-400">
-            Octocon's web app is currently in beta! The app is VERY likely to break. For a more stable
+            Neocon's web app is currently in beta! The app is VERY likely to break. For a more stable
             and fully featured experience, we recommend using our Android or iOS app.
           </p>
           <button
@@ -108,7 +108,7 @@ onMounted(() => {
   setInterval(() => {
     const fun = window.lastWasError ? console.warn : console.error
     fun(
-      `⚠️ DO NOT copy or paste anything here! If someone told you to access this screen, they are trying to scam you and/or gain access to your Octocon account. ${Math.random()}`
+      `⚠️ DO NOT copy or paste anything here! If someone told you to access this screen, they are trying to scam you and/or gain access to your  Neocon account. ${Math.random()}`
     )
     window.lastWasError = !window.lastWasError
   }, 3000)

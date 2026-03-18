@@ -3,9 +3,9 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "app.octocon.OctoconApp",
+      "package_name": "app.neocon.NeoconApp",
       "sha256_cert_fingerprints": [
-        "F4:F7:2E:58:8A:08:17:0C:3E:09:74:43:5D:82:AB:50:85:E6:AE:D9:4F:06:D8:19:F3:8F:5B:A4:42:5C:A5:C1"
+        "BB:BB:CA:8C:32:10:CB:EF:BE:3E:AC:58:F8:48:BD:5E:EE:0B:A9:3E:11:60:90:08:BA:23:2E:29:FE:08:D3:0A"
       ]
     }
   }
