@@ -112,7 +112,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="https" />
-                <data android:host="api.octocon.app" />
+                <data android:host="api.neocon.attiplayz.dev" />
                 <data android:pathPattern="/auth/token" />
             </intent-filter>
             -->

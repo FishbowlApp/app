@@ -20,3 +20,6 @@ androidApp/release/androidApp-release.apk
 androidApp/release/
 node_modules
 website/node-compile-cache
+androidApp/src/google-services.json
+androidApp/build
+androidApp/src/debug/google-services.json
