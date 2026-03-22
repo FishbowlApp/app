@@ -14,7 +14,7 @@
       <div class="relative h-[128px] w-[128px]">
         <NuxtPicture
           src="/img/octocon-logo.png"
-          alt="Octocon logo"
+          alt="Fishbowl logo"
           format="avif,webp"
           width="128"
           height="128"
@@ -28,7 +28,7 @@
       <h1
         class="font-bold font-display text-4xl md:text-5xl lg:text-6xl 2xl:text-7xl pt-4 pb-8 text-gray-200"
       >
-        Octocon
+        Fishbowl
       </h1>
       <IndexHeroCard />
     </div>

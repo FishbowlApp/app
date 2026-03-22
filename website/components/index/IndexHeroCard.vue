@@ -1,7 +1,7 @@
 <template>
   <OctoCard>
     <p class="lg:text-lg text-gray-300 text-center">
-      Octocon is the modern, all-in-one toolkit for people with DID and OSDD to
+      Fishbowl is the modern, all-in-one toolkit for people with DID and OSDD to
       manage their disorder and express themselves.
     </p>
     <div class="flex flex-col-reverse lg:flex-row justify-center gap-4">

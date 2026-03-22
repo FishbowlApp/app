@@ -23,3 +23,4 @@ website/node-compile-cache
 androidApp/src/google-services.json
 androidApp/build
 androidApp/src/debug/google-services.json
+website/node_modules

@@ -4,7 +4,7 @@
       <div class="flex flex-col gap-4 items-center text-center">
         <NuxtPicture
           src="/img/octocon-logo.png"
-          alt="Octocon logo"
+          alt="Fishbowl logo"
           format="avif,webp"
           width="96"
           height="96"
@@ -39,7 +39,7 @@
           <p class="text-lg text-gray-400">
             An error occurred while running the app. Please report this to the
             Neocon developers
-            <NuxtLink to="https://neocon.app/discord" class="text-violet-400">
+            <NuxtLink to="https://fishbowl.systems/discord" class="text-violet-400">
               on Discord
             </NuxtLink>
             !
