@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">Octocon</string>
+    <string name="app_name">Fishbowl</string>
     <string name="app_logo">Octocon logo</string>
-    <string name="welcome_title">Welcome to Octocon!</string>
-    <string name="welcome_body">Octocon is the all-in-one solution for people with dissociative disorders (like DID or OSDD) to manage their alters, find resources, and express themselves.</string>
+    <string name="welcome_title">Welcome to Fishbowl!</string>
+    <string name="welcome_body">Fishbowl is the all-in-one solution for people with dissociative disorders (like DID or OSDD) to manage their alters, find resources, and express themselves.</string>
 
     <string name="system_or_singlet_title">Are you a system?</string>
     <string name="system_or_singlet_body">If not, tap "I'm a singlet" below to hide all system-specific features. You will only be able to add friends to get updates on their front status.\n\nThis can be changed later in the app's settings!</string>
@@ -15,7 +15,7 @@
     <string name="login">Log in</string>
     <string name="login_google">Log in with Google</string>
     <string name="login_discord">Log in with Discord</string>
-    <string name="login_apple">Log in with Apple</string>
+    <string name="login_apple">Log in with Apple (NONFUNCTIONAL)</string>
     <string name="or_lowercase">or</string>
 
     <string name="direct_token_login_title">Direct token login</string>
@@ -51,17 +51,17 @@
     <string name="support_us">Support us</string>
 
     <string name="support_us_patreon_card_title">Patreon</string>
-    <string name="support_us_patreon_card_body">Join our Patreon to support Octocon's server costs and keep it free for everyone!\n\nYou'll also receive access to cool Discord perks like a special role, priority support, and access to a private Minecraft server.</string>
+    <string name="support_us_patreon_card_body">Join our Patreon to support Fishbowl's server costs and keep it free for everyone!\n\nYou'll also receive access to cool Discord perks like a special role, priority support, and access to a private Minecraft server.</string>
 
     <string name="support_us_kofi_card_title">Ko-fi</string>
-    <string name="support_us_kofi_card_body">Support our developer on Ko-fi to help fund their cappuccino addiction!\n\nDonations here go directly to the developer, not the Octocon business.</string>
+    <string name="support_us_kofi_card_body">Support our developer on Ko-fi to help fund their cappuccino addiction!\n\nDonations here go directly to the developer, not the Fishbowl business.</string>
 
     <string name="transparency">Transparency</string>
-    <string name="transparency_text">Octocon will always be free for everyone; we'll **never** introduce features that require payment to use. However, running the app and its servers costs money, so we rely on donations to keep the lights on.\n\nAll Patreon donations beyond the server costs are donated to a rotating list of mental health charities.\n\nIf you're financially able, please consider supporting us; even the smallest donation means a lot. Thank you.</string>
+    <string name="transparency_text">Fishbowl will always be free for everyone; we'll **never** introduce features that require payment to use. However, running the app and its servers costs money, so we rely on donations to keep the lights on.\n\nAll Patreon donations beyond the server costs are donated to a rotating list of mental health charities.\n\nIf you're financially able, please consider supporting us; even the smallest donation means a lot. Thank you.</string>
 
     <string name="pin">PIN</string>
     <string name="enter_pin">Enter your PIN</string>
-    <string name="pin_hint">Your Octocon account on this device is protected with a numerical PIN between 4 and 8 digits. Enter it to continue.</string>
+    <string name="pin_hint">Your Fishbowl account on this device is protected with a numerical PIN between 4 and 8 digits. Enter it to continue.</string>
     <string name="invalid_pin">Invalid PIN! Please try again.</string>
 
     <string name="stealth_app_subtitle">News beyond Earth</string>
@@ -74,7 +74,7 @@
     <string name="create_subtag">Create a subtag</string>
 
     <string name="what_does_this_mean">What does this mean?</string>
-    <string name="discord_help_dialog_body">These are settings that only apply to the Octocon Discord bot.\n\n"Alias" is an alternative to this alter's number ID that you specify and can be used in slash commands.\n\n"Proxy name" is an alternative name used when proxying as this alter.</string>
+    <string name="discord_help_dialog_body">These are settings that only apply to the Fishbowl Discord bot.\n\n"Alias" is an alternative to this alter's number ID that you specify and can be used in slash commands.\n\n"Proxy name" is an alternative name used when proxying as this alter.</string>
 
     <string name="set_main_front">Set as main front</string>
     <string name="unset_main_front">Unset as main front</string>
@@ -126,8 +126,8 @@
     <string name="no_journal_entries_body">Write one now to keep track of your day:</string>
     <string name="no_journal_entries_button">Create journal entry</string>
 
-    <string name="new_user_card_title">New to Octocon?</string>
-    <string name="new_user_card_body">Octocon is an all-in-one toolkit for systems: it lets you manage your alters, set who's fronting, connect with other systems, keep a journal, and much more.</string>
+    <string name="new_user_card_title">New to Fishbowl?</string>
+    <string name="new_user_card_body">Fishbowl is an all-in-one toolkit for systems: it lets you manage your alters, set who's fronting, connect with other systems, keep a journal, and much more.</string>
     <string name="new_user_card_button">Learn more</string>
 
     <string name="confirm_unlock_journal_entry_title">Journal entry is locked</string>
@@ -264,13 +264,13 @@
     <string name="our_community">Our community</string>
 
     <string name="discord_card_title">Our Discord</string>
-    <string name="discord_card_body">Join our Discord community to get support for the Octocon app.</string>
+    <string name="discord_card_body">Join our Discord community to get support for the Fishbowl app.</string>
 
     <string name="invite_bot_card_title">Invite the bot</string>
-    <string name="invite_bot_card_body">Invite the Octocon bot to your Discord server to use features such as sending messages as your alters. Everything syncs with the app automatically!</string>
+    <string name="invite_bot_card_body">Invite the Fishbowl bot to your Discord server to use features such as sending messages as your alters. Everything syncs with the app automatically!</string>
 
     <string name="website_card_title">Website</string>
-    <string name="website_card_body">Visit our website to learn more about the Octocon platform and its features.</string>
+    <string name="website_card_body">Visit our website to learn more about the Fishbowl platform and its features.</string>
 
     <string name="hotlines">Hotlines</string>
 
@@ -297,7 +297,7 @@
     <string name="did_research_org_treatment_title">Treatment</string>
     <string name="did_research_org_treatment_body">Learn about the treatment options available for systems, including suggestions for finding a therapist and managing symptoms.</string>
 
-    <string name="external_resources_disclaimer">The external resources listed here are not a substitute for professional medical advice, nor are they affiliated with Octocon.</string>
+    <string name="external_resources_disclaimer">The external resources listed here are not a substitute for professional medical advice, nor are they affiliated with Fishbowl.</string>
 
     <string name="appearance">Appearance</string>
 
@@ -334,28 +334,28 @@
     <string name="change_front_mode_button">Button</string>
 
     <string name="onboarding_card_what_can_it_do_title">What can it do?</string>
-    <string name="onboarding_card_what_can_it_do_body">Octocon offers a variety of features to help you manage your dissociative disorder, including logging fronts, in-app journaling, and front push notifications for your friends.</string>
+    <string name="onboarding_card_what_can_it_do_body">Fishbowl offers a variety of features to help you manage your dissociative disorder, including logging fronts, in-app journaling, and front push notifications for your friends.</string>
 
     <string name="onboarding_card_get_started_title">How do I get started?</string>
     <string name="onboarding_card_get_started_body">To get started, we'll have to set a few things up first! Tap the "Next" button below to continue.</string>
 
     <string name="onboarding_card_front_setting_title">Adding alters to front</string>
-    <string name="onboarding_card_front_setting_body">Octocon provides a few different methods for managing your front status. Choose the one that works best for you.</string>
+    <string name="onboarding_card_front_setting_body">Fishbowl provides a few different methods for managing your front status. Choose the one that works best for you.</string>
 
     <string name="front_setting_swipe_description">Swipe left on an alter to start/stop fronting. Swipe further on a fronting alter to set them as main front.</string>
     <string name="front_setting_bidirectional_swipe_description">Swipe left on an alter to start/stop fronting. Swipe right on a fronting alter to set them as main front.</string>
     <string name="front_setting_button_description">Tap on an alter's arrow button to start/stop fronting. Tap and hold on a fronting alter's button to set them as main front.</string>
 
     <string name="onboarding_card_finish_title">You're all set!</string>
-    <string name="onboarding_card_finish_body">Once you start using Octocon, take a look at the Settings page to customize the app to your liking. Tap the button below to join our Discord community if you need help!</string>
+    <string name="onboarding_card_finish_body">Once you start using Fishbowl, take a look at the Settings page to customize the app to your liking. Tap the button below to join our Discord community if you need help!</string>
     <string name="onboarding_card_finish_button">Join our community</string>
 
     <string name="onboarding_card_discord_title">Use Discord?</string>
-    <string name="onboarding_card_discord_body">If you use Discord, you can invite the Octocon bot to your Discord server to send messages as your alters. Everything syncs with the app automatically!</string>
+    <string name="onboarding_card_discord_body">If you use Discord, you can invite the Fishbowl bot to your Discord server to send messages as your alters. Everything syncs with the app automatically!</string>
     <string name="onboarding_card_discord_button">Invite the bot</string>
 
     <string name="onboarding_card_import_title">Use Simply Plural or PluralKit?</string>
-    <string name="onboarding_card_import_body">If you use the Simply Plural app or PluralKit Discord bot, you can import your data (including alters) into Octocon to get started quickly. Just follow the instructions on the Settings page!</string>
+    <string name="onboarding_card_import_body">If you use the Simply Plural app or PluralKit Discord bot, you can import your data (including alters) into Fishbowl to get started quickly. Just follow the instructions on the Settings page!</string>
 
     <string name="front_setting_try_it_out">Try it out on the alters below!</string>
 
@@ -397,10 +397,10 @@
 
     <string name="lock_app_with_pin">Lock app with PIN</string>
     <string name="create_pin_title">Create a PIN</string>
-    <string name="create_pin_body">Enter a PIN between 4 and 8 digits below.\n\nThis must be entered every time you open Octocon on this device. If you forget your PIN, you will have to log out!</string>
+    <string name="create_pin_body">Enter a PIN between 4 and 8 digits below.\n\nThis must be entered every time you open Fishbowl on this device. If you forget your PIN, you will have to log out!</string>
 
     <string name="stealth_mode">Stealth mode</string>
-    <string name="stealth_mode_body">Stealth mode is now enabled. When you launch the app, you will see a "fake" app that looks like a news aggregator.\n\nTo access the real app, tap the "Octocon" logo at the top of the screen twice.</string>
+    <string name="stealth_mode_body">Stealth mode is now enabled. When you launch the app, you will see a "fake" app that looks like a news aggregator.\n\nTo access the real app, tap the "Fishbowl" logo at the top of the screen twice.</string>
 
     <string name="quick_exit">Quick exit</string>
     <string name="quick_exit_body">Quick exit is now enabled. Double-tap anywhere that isn't already interactive (like a button) to immediately exit the app.</string>
@@ -447,22 +447,22 @@
     <string name="discord_info">Discord info</string>
 
     <string name="link_google_account_title">Link Google account</string>
-    <string name="link_google_account_body">Are you sure you want to link a Google account to Octocon? You will be redirected to Google's sign-in page.</string>
+    <string name="link_google_account_body">Are you sure you want to link a Google account to Fishbowl? You will be redirected to Google's sign-in page.</string>
 
     <string name="unlink_google_account_title">Unlink Google account</string>
-    <string name="unlink_google_account_body">Are you sure you want to unlink your Google account from Octocon?</string>
+    <string name="unlink_google_account_body">Are you sure you want to unlink your Google account from Fishbowl?</string>
 
     <string name="link_discord_account_title">Link Discord account</string>
-    <string name="link_discord_account_body">Are you sure you want to link a Discord account to Octocon? You will be redirected to Discord's sign-in page.</string>
+    <string name="link_discord_account_body">Are you sure you want to link a Discord account to Fishbowl? You will be redirected to Discord's sign-in page.</string>
 
     <string name="unlink_discord_account_title">Unlink Discord account</string>
-    <string name="unlink_discord_account_body">Are you sure you want to unlink your Discord account from Octocon?</string>
+    <string name="unlink_discord_account_body">Are you sure you want to unlink your Discord account from Fishbowl?</string>
 
-    <string name="link_apple_account_title">Link Apple account</string>
-    <string name="link_apple_account_body">Are you sure you want to link an Apple account to Octocon? You will be redirected to Apple's sign-in page.</string>
+    <string name="link_apple_account_title">Link Apple account (NONFUNCTIONAL)</string>
+    <string name="link_apple_account_body">Are you sure you want to link an Apple account to Fishbowl? This does not currently work.</string>
 
     <string name="unlink_apple_account_title">Unlink Apple account</string>
-    <string name="unlink_apple_account_body">Are you sure you want to unlink your Apple account from Octocon?</string>
+    <string name="unlink_apple_account_body">Are you sure you want to unlink your Apple account from Fishbowl?</string>
 
     <string name="logout">Log out</string>
     <string name="logout_body">Are you sure you want to log out? This will also reset all of your local device settings.</string>
@@ -567,7 +567,7 @@
     <string name="cast_vote">Cast vote</string>
 
     <string name="encryption_not_initialized_card_title">Set up encryption</string>
-    <string name="encryption_not_initialized_card_body_1">Octocon protects your journal entries with end-to-end encryption for maximum security. To use the journaling feature, you must set up encryption first.</string>
+    <string name="encryption_not_initialized_card_body_1">Fishbowl protects your journal entries with end-to-end encryption for maximum security. To use the journaling feature, you must set up encryption first.</string>
     <string name="encryption_not_initialized_card_body_2">When you tap the button below, you will be shown a recovery code. Write this down and keep it in a safe place!</string>
     <string name="encryption_not_initialized_card_button">Set up</string>
 
@@ -581,7 +581,7 @@
     <string name="encryption_recovery_needed_card_button">Recover</string>
 
     <string name="unencrypted_warning_title">Unencrypted journal entry</string>
-    <string name="unencrypted_warning_body">This journal entry was created in a previous version of Octocon and is not end-to-end encrypted. It will be encrypted the next time you save it.</string>
+    <string name="unencrypted_warning_body">This journal entry was created in a previous version of Fishbowl and is not end-to-end encrypted. It will be encrypted the next time you save it.</string>
 
     <string name="reset_encryption_card_title">Lost your recovery code?</string>
     <string name="reset_encryption_card_body">If you've lost your recovery code, you can reset your encryption key. This will permanently delete all of your journal entries, and you will have to start over.</string>
@@ -657,10 +657,10 @@
 
     <string name="tooltip_polls_desc">"Polls" are questions you can ask the alters in your system to vote on. There are two types: "vote polls," which represent a simple yes/no question, and "choice polls," which have custom choices for alters to pick from.\n\nPolls can be used to make decisions, gather opinions, or just for fun!</string>
     <string name="tooltip_profile_desc">The "Profile" screen is where you can view and edit information about your entire system, such as your username, profile picture, and alter count.</string>
-    <string name="tooltip_resources_desc">The "Resources" screen is where you can find a variety of external resources related to DID, mental health, and other topics. You can also access the Octocon website and Discord server from here.</string>
+    <string name="tooltip_resources_desc">The "Resources" screen is where you can find a variety of external resources related to DID, mental health, and other topics. You can also access the Fishbowl website and Discord server from here.</string>
     <string name="tooltip_settings_desc">The "Settings" screen is where you can customize the app to your liking. You can change the app's appearance, enable accessibility features, and set up security options.\n\nYou can also import alters from other apps, link your Google or Discord account, and miscellaneous information about the app.</string>
 
-    <string name="tooltip_support_us_desc">If you enjoy using Octocon, consider supporting us by leaving a review on the app store, sharing the app with friends, or donating to our Patreon or Ko-fi. Your support helps us continue to improve the app and provide new features!</string>
+    <string name="tooltip_support_us_desc">If you enjoy using Fishbowl, consider supporting us by leaving a review on the app store, sharing the app with friends, or donating to our Patreon or Ko-fi. Your support helps us continue to improve the app and provide new features!</string>
 
     <string name="tooltip_basic_info_desc">This tab contains this alter's basic information, such as their name, pronouns, and profile picture.</string>
     <string name="tooltip_custom_fields_desc">Custom fields are additional pieces of information you can add to alters. These can be used to track arbitrary information of your choosing, such as system role, age, and boundaries.</string>
@@ -704,23 +704,23 @@
     <string name="tooltip_settings_accessibility_desc">This category contains settings that can help make the app easier to use for those with disabilities or impairments.</string>
     <string name="tooltip_settings_security_desc">This category contains settings that help keep your data secure and private. These settings are especially useful for those in abusive environments.</string>
 
-    <string name="tooltip_notifications_desc">When enabled, you will receive push notifications from Octocon. These notifications currently alert you when the front status of a friend has changed.</string>
+    <string name="tooltip_notifications_desc">When enabled, you will receive push notifications from Fishbowl. These notifications currently alert you when the front status of a friend has changed.</string>
 
-    <string name="tooltip_google_account_desc">You can link your Google account to Octocon to allow signing in with Google. Octocon cannot access your Google account data; it only collects your email address.\n\nYou must have your account linked to at least one sign-in method (Google, Apple, or Discord) at all times.</string>
-    <string name="tooltip_apple_account_desc">You can link your Apple account to Octocon to allow signing in with Apple. Octocon cannot access your Apple account data.\n\nYou must have your account linked to at least one sign-in method (Google, Apple, or Discord) at all times.</string>
-    <string name="tooltip_discord_account_desc">You can link your Discord account to Octocon to allow signing in with Discord and link your system with the Octocon Discord bot. Octocon cannot access your Discord account data; it only collects your Discord user ID.\n\nYou must have your account linked to at least one sign-in method (Google, Apple, or Discord) at all times.</string>
+    <string name="tooltip_google_account_desc">You can link your Google account to Fishbowl to allow signing in with Google. Fishbowl cannot access your Google account data; it only collects your email address.\n\nYou must have your account linked to at least one sign-in method (Google, Apple, or Discord) at all times.</string>
+    <string name="tooltip_apple_account_desc">You can link your Apple account to Fishbowl to allow signing in with Apple. Fishbowl cannot access your Apple account data.\n\nYou must have your account linked to at least one sign-in method (Google, Apple, or Discord) at all times.</string>
+    <string name="tooltip_discord_account_desc">You can link your Discord account to Fishbowl to allow signing in with Discord and link your system with the Fishbowl Discord bot. Fishbowl cannot access your Discord account data; it only collects your Discord user ID.\n\nYou must have your account linked to at least one sign-in method (Google, Apple, or Discord) at all times.</string>
 
     <string name="tooltip_simply_plural_import_title">Simply Plural import</string>
-    <string name="tooltip_simply_plural_import_desc">You can import your alters from the Simply Plural app into Octocon. To do this, you will need a "token" from Simply Plural, which you can get from the app's settings.\n\nThis will import all of your alters, including their names, pronouns, and profile pictures.</string>
+    <string name="tooltip_simply_plural_import_desc">You can import your alters from the Simply Plural app into Fishbowl. To do this, you will need a "token" from Simply Plural, which you can get from the app's settings.\n\nThis will import all of your alters, including their names, pronouns, and profile pictures.</string>
     <string name="tooltip_plural_kit_import_title">PluralKit import</string>
-    <string name="tooltip_plural_kit_import_desc">You can import your alters from the PluralKit Discord bot into Octocon. To do this, you will need a "token" from PluralKit, which you can get by DMing the PluralKit bot with the command `pk;token`.\n\nThis will import all of your alters, including their names, pronouns, and profile pictures.</string>
+    <string name="tooltip_plural_kit_import_desc">You can import your alters from the PluralKit Discord bot into Fishbowl. To do this, you will need a "token" from PluralKit, which you can get by DMing the PluralKit bot with the command `pk;token`.\n\nThis will import all of your alters, including their names, pronouns, and profile pictures.</string>
 
     <string name="tooltip_reset_device_settings_desc">This action will reset all of your device settings to their default values. This will not log you out of the app, or reset any settings that are synced across devices (such as custom fields).</string>
     <string name="tooltip_delete_account_desc">This action will permanently delete your account and all associated data. You will be logged out of the app and all data will be permanently lost.</string>
     <string name="tooltip_wipe_alters_desc">This action will permanently delete all of your alters from your system. This will not delete any other data, only the alters themselves.</string>
 
-    <string name="tooltip_open_source_licenses_desc">This screen contains a list of all open source libraries and software used by the Octocon app.</string>
-    <string name="tooltip_server_status_desc">This button opens a link to the Octocon server status page. If the app is misbehaving, you can check here to see if our servers are down or under maintenance!</string>
+    <string name="tooltip_open_source_licenses_desc">This screen contains a list of all open source libraries and software used by the Fishbowl app.</string>
+    <string name="tooltip_server_status_desc">This button opens a link to the Fishbowl server status page. If the app is misbehaving, you can check here to see if our servers are down or under maintenance!</string>
 
     <string name="tooltip_color_mode_desc">This setting controls the color mode of the app. "Same as device" will match the setting on your device, while "Light" and "Dark" will force the app to use those modes.</string>
     <string name="tooltip_theme_color_desc">This setting controls the primary color of the app. Choose a color that you like, and the app will change its color to match.\n\nIf "Dynamic color type" is not "None," alters, tags, and journal entries will override this color with their own.</string>
@@ -736,7 +736,7 @@
     <string name="tooltip_use_small_avatars_desc">When enabled, the app will slightly shrink the avatars of alters in the alter list. Alters in the pinned alters carousel will also be smaller.\n\nThis can assist those with visual impairments by simplifying the UI.</string>
 
     <string name="tooltip_show_permanent_tips_desc">When enabled, most screens in the app will show a small, permanent tooltip at the top of the screen.\n\nThese tooltips provide helpful information about the screen you're currently viewing and how to interact with it, and are especially useful for those with heavy dissociative amnesia.</string>
-    <string name="tooltip_font_choice_desc">This setting controls the font used throughout the app. "Default" will use Octocon's built-in fonts, while "Lexie Readable" and "OpenDyslexic" will use those fonts instead.\n\nThese alternate fonts are designed to be more legible for those with dyslexia; users have reported better success with Lexie Readable in particular.</string>
+    <string name="tooltip_font_choice_desc">This setting controls the font used throughout the app. "Default" will use Fishbowl's built-in fonts, while "Lexie Readable" and "OpenDyslexic" will use those fonts instead.\n\nThese alternate fonts are designed to be more legible for those with dyslexia; users have reported better success with Lexie Readable in particular.</string>
     <string name="tooltip_font_size_desc">This setting controls the size of the font used throughout the app. Try adjusting this if you find text difficult to read.</string>
     <string name="tooltip_color_contrast_level_desc">This setting controls the contrast level of the app. The app was designed with "Normal" contrast in mind, so some UI elements may not look as intended.</string>
     <string name="tooltip_reduce_motion_desc">This setting controls the amount of motion &amp; animations used in the app. When enabled, the app will use less intense screen transitions, and disable certain types of animations.\n\nThis can help reduce motion sickness for some users.</string>
@@ -745,7 +745,7 @@
     <string name="tooltip_spotlight_long_press_timeout_desc">This setting controls how long you need to hold tap on an item to access a Spotlight tooltip. The duration ranges from 500 milliseconds ("Shorter") to 2 seconds ("Longer").</string>
 
     <string name="tooltip_lock_app_with_pin_desc">When enabled, the app will require you to enter a PIN every time you open it. This can help keep your data secure from prying eyes.\n\nIf you forget your PIN, you will have no choice but to log out of the app.</string>
-    <string name="tooltip_stealth_mode_desc">When enabled, the app will disguise itself as a "fake" news aggregator when launched. To access the real app, tap the Octocon logo at the top of the screen twice.\n\nThis can help keep your system's existence private from others who may use or confiscate your device, and provide plausible deniability.</string>
+    <string name="tooltip_stealth_mode_desc">When enabled, the app will disguise itself as a "fake" news aggregator when launched. To access the real app, tap the Fishbowl logo at the top of the screen twice.\n\nThis can help keep your system's existence private from others who may use or confiscate your device, and provide plausible deniability.</string>
     <string name="tooltip_quick_exit_desc">When enabled, you can quickly exit the app by double-tapping anywhere that isn't already interactive (like a button). This can help you quickly exit the app in an emergency, such as if you realize someone is looking over your shoulder.</string>
 
     <string name="tooltip_singlet_mode_desc">When enabled, the app will hide all system-specific features, such as alters, tags, front history, and polls. You will only be able to edit your profile and view your friends' profiles.</string>

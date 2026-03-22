@@ -58,7 +58,7 @@ kotlin {
 
 android {
   compileSdk = (findProperty("android.compileSdk") as String).toInt()
-  namespace = "app.fishbowl"
+  namespace = "app.octocon"
 
   sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
