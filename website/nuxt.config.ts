@@ -109,8 +109,8 @@ export default defineNuxtConfig({
   },
 
   site: {
-    url: 'https://neocon.attiplayz.dev',
-    name: 'Neocon',
+    url: 'https://fishbowl.systems',
+    name: 'Fishbowl',
     description:
       'The modern, all-in-one toolkit for people with DID and OSDD to manage their disorder and express themselves.',
     defaultLocale: 'en'
