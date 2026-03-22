@@ -118,7 +118,7 @@ export default defineNuxtConfig({
   
   vite: {
     server: {
-      allowedHosts: ['neocon.attiplayz.dev'],
+      allowedHosts: ['fishbowl.systems'],
     },
   },
   sitemap: {
