@@ -56,7 +56,7 @@ fun OnboardingFinishedScreen(
             style = MaterialTheme.typography.bodyMedium.merge(lineHeight = 1.5.em)
           )
           Button(
-            onClick = { component.openURL("https://octocon.app/discord", colorSchemeParams) }
+            onClick = { component.openURL("https://fishbowl.systems/discord", colorSchemeParams) }
           ) {
             Text(Res.string.onboarding_card_finish_button.compose)
           }
@@ -79,7 +79,7 @@ fun OnboardingFinishedScreen(
             style = MaterialTheme.typography.bodyMedium.merge(lineHeight = 1.5.em)
           )
           Button(
-            onClick = { component.openURL("https://octocon.app/invite", colorSchemeParams) }
+            onClick = { component.openURL("https://fishbowl.systems/invite", colorSchemeParams) }
           ) {
             Text(Res.string.onboarding_card_discord_button.compose)
           }

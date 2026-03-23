@@ -337,7 +337,7 @@ fun AlterListScreen(
                   )
                   Spacer(modifier = Modifier.height(12.dp))
                   val colorSchemeParams = composeColorSchemeParams
-                  FilledTonalButton(onClick = { component.platformUtilities.openURL("https://octocon.app/docs/introduction", colorSchemeParams) }) {
+                  FilledTonalButton(onClick = { component.platformUtilities.openURL("https://fishbowl.systems/docs/introduction", colorSchemeParams) }) {
                     Text(Res.string.new_user_card_button.compose)
                   }
                 }

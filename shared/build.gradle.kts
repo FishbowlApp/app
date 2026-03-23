@@ -47,8 +47,8 @@ kotlin {
   applyDefaultHierarchyTemplate()
 
   cocoapods {
-    summary = "Octocon shared module"
-    homepage = "https://octocon.app"
+    summary = "Fishbowl shared module"
+    homepage = "https://fishbowl.systems"
     version = "1.0"
     ios.deploymentTarget = "16.0"
     podfile = project.file("../iosApp/Podfile")

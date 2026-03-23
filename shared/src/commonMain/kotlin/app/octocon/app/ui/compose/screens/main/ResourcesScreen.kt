@@ -297,7 +297,7 @@ private fun OctoconDiscordCard(openURL: (String) -> Unit) =
   BasicResourceCard(
     title = Res.string.discord_card_title.compose,
     description = Res.string.discord_card_body.compose,
-    uri = "https://octocon.app/discord",
+    uri = "https://fishbowl.systems/discord",
     iconContent = {
       Image(
         painter = painterResource(Res.drawable.discord_logo),
@@ -313,7 +313,7 @@ private fun OctoconInviteBotCard(openURL: (String) -> Unit) =
   BasicResourceCard(
     title = Res.string.invite_bot_card_title.compose,
     description = Res.string.invite_bot_card_body.compose,
-    uri = "https://octocon.app/invite",
+    uri = "https://fishbowl.systems/invite",
     iconContent = {
       Image(
         painter = painterResource(Res.drawable.discord_logo),
@@ -329,7 +329,7 @@ private fun OctoconWebsiteCard(openURL: (String) -> Unit) =
   BasicResourceCard(
     title = Res.string.website_card_title.compose,
     description = Res.string.website_card_body.compose,
-    uri = "https://octocon.app",
+    uri = "https://fishbowl.systems",
     iconContent = {
       Image(
         painter = octoconLogoVectorPainter(),
