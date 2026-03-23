@@ -26,3 +26,15 @@ androidApp/src/debug/google-services.json
 website/node_modules
 
 package.json
+
+iosApp/build
+
+shared/build
+
+multiplatform-markdown-renderer/build
+
+krop/build
+
+kotlix/build
+
+color_picker/build
