@@ -161,3 +161,5 @@ Locally preview the production build:
 ```bash
 pnpm run preview
 ```
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/V7V8ZXACG)
