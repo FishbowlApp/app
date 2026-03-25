@@ -1,5 +1,5 @@
 [{
   "relation": ["delegate_permission/common.handle_all_urls"],
-  "target" : { "namespace": "android_app", "package_name": "app.neocon.NeoconApp",
-               "sha256_cert_fingerprints": ["BB:BB:CA:8C:32:10:CB:EF:BE:3E:AC:58:F8:48:BD:5E:EE:0B:A9:3E:11:60:90:08:BA:23:2E:29:FE:08:D3:0A", "90:AB:B5:98:8F:E3:5B:2C:FA:81:6F:3E:02:D0:D1:91:2B:21:D3:56:B4:B7:B4:1C:5C:E2:0F:F8:7B:85:59:7D"] }
+  "target" : { "namespace": "android_app", "package_name": "app.fishbowl.FishbowlApp",
+               "sha256_cert_fingerprints": ["BB:BB:CA:8C:32:10:CB:EF:BE:3E:AC:58:F8:48:BD:5E:EE:0B:A9:3E:11:60:90:08:BA:23:2E:29:FE:08:D3:0A", "C0:5D:00:21:C1:3F:6B:9B:1B:83:2C:43:CA:D2:FA:F9:DB:29:95:2D:0C:0E:49:6C:DD:1B:A6:69:47:29:F6:95"] }
 }]
