@@ -1,9 +1,6 @@
 package app.octocon.app.ui.compose.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -49,7 +46,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
-import app.octocon.app.ui.compose.components.octoconLogoVectorPainter
 import app.octocon.app.ui.model.LoginComponent
 import app.octocon.app.utils.ColorSchemeParams
 import app.octocon.app.utils.compose
@@ -57,7 +53,6 @@ import app.octocon.app.utils.composeColorSchemeParams
 import app.octocon.app.utils.derive
 import app.octocon.app.utils.state
 import octoconapp.shared.generated.resources.Res
-import octoconapp.shared.generated.resources.app_logo
 import octoconapp.shared.generated.resources.apple_logo
 import octoconapp.shared.generated.resources.cancel
 import octoconapp.shared.generated.resources.direct_token_login_body
@@ -131,16 +126,6 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
           ) {
-            Image(
-              painter = octoconLogoVectorPainter(animate = !reduceMotion),
-              contentDescription = Res.string.app_logo.compose,
-              modifier = Modifier.size(128.dp).clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null,
-                onClick = component::incrementDirectTokenLoginTimesPressed
-              )
-            )
-            Spacer(modifier = Modifier.height(24.dp))
             Card(
               colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
             ) {
