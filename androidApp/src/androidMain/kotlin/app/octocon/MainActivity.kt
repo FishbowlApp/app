@@ -33,7 +33,6 @@ import app.octocon.glance.FrontWidgetWorker
 import app.octocon.util.createSharedPreferences
 import app.octocon.util.getSavedSettings
 import com.arkivanov.decompose.defaultComponentContext
-import com.google.firebase.messaging.FirebaseMessaging
 import com.nimbusds.jose.EncryptionMethod
 import com.nimbusds.jose.JWEAlgorithm
 import com.nimbusds.jose.JWEHeader
@@ -45,7 +44,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withTimeout
 import java.security.GeneralSecurityException
 import java.security.KeyFactory
@@ -313,16 +311,6 @@ class MainActivity : AppCompatActivity() {
 
     BuildConfig.applicationContext = context
 
-    GlobalScope.launch {
-      try {
-        withTimeout(10_000L) {
-          val token = FirebaseMessaging.getInstance().token.await()
-          platformEventFlow.emit(PlatformEvent.PushNotificationTokenReceived(token))
-        }
-      } catch (e: Exception) {
-        Log.e("OCTOCON", "Failed to get Firebase token: $e")
-      }
-    }
 
     val rootComponent = RootComponentImpl(
       componentContext = defaultComponentContext(),

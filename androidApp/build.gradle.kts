@@ -21,7 +21,6 @@ plugins {
   // id("io.sentry.android.gradle").version("4.5.1")
   id("org.jetbrains.compose")
   id("org.jetbrains.kotlin.plugin.compose")
-  id("com.google.gms.google-services")
   id("androidx.baselineprofile")
   id("kotlin-parcelize")
 }
@@ -39,8 +38,6 @@ kotlin {
 
   dependencies {
     val decomposeVersion = "3.4.0"
-    implementation(platform("com.google.firebase:firebase-bom:34.10.0"))
-    implementation("com.google.firebase:firebase-messaging")
     implementation("androidx.browser:browser:1.9.0")
     implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
 
