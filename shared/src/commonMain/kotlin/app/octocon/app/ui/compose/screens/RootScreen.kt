@@ -30,7 +30,7 @@ import io.kamel.image.config.LocalKamelConfig
 val GLOBAL_PADDING = 16.dp
 
 const val VERSION_CODE = "77"
-const val APP_VERSION = "2.1.0 \"Aquamarine\""
+const val APP_VERSION = "2.3.0 \"Ruby\""
 val IS_BETA = DevicePlatform.isWasm
 
 /*@Composable
