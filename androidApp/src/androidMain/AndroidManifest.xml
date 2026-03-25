@@ -16,9 +16,8 @@
     <application
         android:allowBackup="false"
         android:enableOnBackInvokedCallback="true"
-        android:icon="@mipmap/octo_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:label="Fishbowl"
-        android:roundIcon="@mipmap/octo_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Octocon.Main"
         tools:ignore="DataExtractionRules,UnusedAttribute">
