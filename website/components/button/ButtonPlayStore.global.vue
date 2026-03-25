@@ -1,6 +1,6 @@
 <template>
   <NuxtLink
-    to="https://play.google.com/store/apps/details?id=app.octocon.OctoconApp"
+    to="https://fishbowl.systems/notyet.md"
     class="flex items-center justify-center gap-4 w-48 text-white bg-gray-950/75 h-14 rounded-xl px-4 reset decoration-none"
   >
     <div>
