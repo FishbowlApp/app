@@ -54,7 +54,7 @@
     <string name="support_us_patreon_card_body">Join our Patreon to support Fishbowl's server costs and keep it free for everyone!\n\nYou'll also receive access to cool Discord perks like a special role, priority support, and access to a private Minecraft server.</string>
 
     <string name="support_us_kofi_card_title">Ko-fi</string>
-    <string name="support_us_kofi_card_body">Support our developer on Ko-fi to help fund their cappuccino addiction!\n\nDonations here go directly to the developer, not the Fishbowl business.</string>
+    <string name="support_us_kofi_card_body">Support our developer on Ko-fi to help fund his self-hosting hobby!\n\nDonations here go directly to the developer, not the Fishbowl business. Note that the interestes of both often align so this will still probably end up in better Fishbowl stuff</string>
 
     <string name="transparency">Transparency</string>
     <string name="transparency_text">Fishbowl will always be free for everyone; we'll **never** introduce features that require payment to use. However, running the app and its servers costs money, so we rely on donations to keep the lights on.\n\nAll Patreon donations beyond the server costs are donated to a rotating list of mental health charities.\n\nIf you're financially able, please consider supporting us; even the smallest donation means a lot. Thank you.</string>
