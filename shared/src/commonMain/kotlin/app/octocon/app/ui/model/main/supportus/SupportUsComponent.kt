@@ -13,8 +13,8 @@ interface SupportUsComponent {
   fun navigateBack()
 }
 
-const val PATREON_URL = "https://www.patreon.com/octocon"
-const val KOFI_URL = "https://ko-fi.com/atlasoc"
+const val PATREON_URL = "https://www.patreon.com/attiplayz"
+const val KOFI_URL = "https://ko-fi.com/atti"
 
 class SupportUsComponentImpl(
   componentContext: MainComponentContext,
