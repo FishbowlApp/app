@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyAQk_WwDfQHS5b2tRy0zqD7QGfpP4ww7kY</string>
+	<string>AIzaSyAOSSEFEfSXu9Qe-CEJHww4DDsrGhKWziw</string>
 	<key>GCM_SENDER_ID</key>
-	<string>656294235106</string>
+	<string>478579688986</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>app.octocon.OctoconApp</string>
+	<string>app.fishbowl.FishbowlApp</string>
 	<key>PROJECT_ID</key>
-	<string>octocon-fb</string>
+	<string>neocon-5cbaf</string>
 	<key>STORAGE_BUCKET</key>
-	<string>octocon-fb.firebasestorage.app</string>
+	<string>neocon-5cbaf.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:656294235106:ios:a66a4ef87a69925b58c7bb</string>
+	<string>1:478579688986:ios:ad4f2f87cbbb0dcd6a73a3</string>
 </dict>
 </plist>
