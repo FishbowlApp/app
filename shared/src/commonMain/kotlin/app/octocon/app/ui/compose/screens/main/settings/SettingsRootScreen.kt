@@ -1074,6 +1074,6 @@ private fun SettingsServerStatus(cardGroupPosition: CardGroupPosition, openURL: 
     text = Res.string.server_status.compose,
     spotlightDescription = Res.string.tooltip_server_status_desc.compose,
     cardGroupPosition = cardGroupPosition,
-    url = "https://status.octocon.app",
+    url = "https://status.attiplayz.dev/status/fishbowl",
     openURL = openURL
   )

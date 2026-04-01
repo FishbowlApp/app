@@ -1,5 +1,8 @@
 package app.octocon.app.ui.compose.screens
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -67,7 +70,9 @@ import octoconapp.shared.generated.resources.or_lowercase
 import octoconapp.shared.generated.resources.token
 import octoconapp.shared.generated.resources.welcome_body
 import octoconapp.shared.generated.resources.welcome_title
+import octoconapp.shared.generated.resources.octocon_logo
 import org.jetbrains.compose.resources.painterResource
+
 
 @Composable
 fun LoginScreen(
@@ -126,6 +131,16 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
           ) {
+             Image(
+               painter = painterResource(Res.drawable.octocon_logo),
+               contentDescription = "Fishbowl Logo",
+               modifier = Modifier.size(128.dp).clickable(
+                 interactionSource = remember { MutableInteractionSource() },
+                 indication = null,
+                 onClick = component::incrementDirectTokenLoginTimesPressed
+              )
+            )
+            Spacer(modifier = Modifier.height(24.dp))
             Card(
               colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
             ) {

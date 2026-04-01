@@ -67,6 +67,7 @@ import octoconapp.shared.generated.resources.did_research_org_what_is_did_title
 import octoconapp.shared.generated.resources.discord_card_body
 import octoconapp.shared.generated.resources.discord_card_title
 import octoconapp.shared.generated.resources.discord_logo
+import octoconapp.shared.generated.resources.octocon_logo
 import octoconapp.shared.generated.resources.emergency_crisis_hotlines_body
 import octoconapp.shared.generated.resources.emergency_crisis_hotlines_title
 import octoconapp.shared.generated.resources.external_resources_disclaimer
@@ -332,8 +333,8 @@ private fun OctoconWebsiteCard(openURL: (String) -> Unit) =
     uri = "https://fishbowl.systems",
     iconContent = {
       Image(
-        painter = octoconLogoVectorPainter(),
-        // painter = painterResource(Res.drawable.octocon_logo),
+        // painter = octoconLogoVectorPainter(),
+        painter = painterResource(Res.drawable.octocon_logo),
         contentDescription = null,
         modifier = Modifier.size(24.dp)
       )

@@ -81,6 +81,9 @@ import octoconapp.shared.generated.resources.tooltip_profile_desc
 import octoconapp.shared.generated.resources.tooltip_resources_desc
 import octoconapp.shared.generated.resources.tooltip_settings_desc
 import octoconapp.shared.generated.resources.tooltip_support_us_desc
+import octoconapp.shared.generated.resources.octocon_logo
+import org.jetbrains.compose.resources.painterResource
+
 
 @Composable
 fun NavigationItem(
@@ -328,7 +331,7 @@ fun CommonNavigationDrawer(
       horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
       Image(
-        painter = octoconLogoVectorPainter(),
+        painter = painterResource(Res.drawable.octocon_logo),
         contentDescription = null,
         modifier = Modifier.size(24.dp)
       )
